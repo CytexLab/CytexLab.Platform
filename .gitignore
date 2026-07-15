@@ -1,0 +1,13 @@
+Dist
+Lib
+Build
+*.o
+*.a
+*.lib
+*.exe
+*.exec
+.vscode
+.cache
+.vs
+*.txt
+compile_commands.json
