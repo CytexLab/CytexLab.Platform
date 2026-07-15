@@ -9,5 +9,4 @@ Build
 .vscode
 .cache
 .vs
-*.txt
 compile_commands.json
