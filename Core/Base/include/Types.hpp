@@ -36,9 +36,9 @@ typedef const UINT16* LPCUINT16;
 typedef const UINT32* LPCUINT32;
 typedef const UINT64* LPCUINT64;
 
-typedef UINT8 CHAR;
-typedef UINT16 WCHAR;
-typedef UINT32 ECHAR;
+typedef char CHAR;
+typedef wchar_t WCHAR;
+typedef char32_t ECHAR;
 
 typedef CHAR* LPCHAR;
 typedef WCHAR* LPWCHAR;
