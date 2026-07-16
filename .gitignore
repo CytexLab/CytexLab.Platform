@@ -1,6 +1,7 @@
 Dist
 Lib
 Build
+Temp
 *.o
 *.a
 *.lib
