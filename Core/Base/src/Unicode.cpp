@@ -479,6 +479,8 @@ Unicode::ConvertStringResult Unicode::ToUTF32String(LPCCHAR From, LPECHAR To)
         From += result.CountBytes;
     }
 
+    *To = U'\0';
+
     return {
         TRUE, 
         Unicode::ConvertError::None, 
@@ -514,6 +516,8 @@ Unicode::ConvertStringResult Unicode::ToUTF32String(LPCWCHAR From, LPECHAR To)
         To++;
         From += result.CountBytes / 2;
     }
+
+    *To = U'\0';
 
     return {
         TRUE, 
@@ -551,6 +555,8 @@ Unicode::ConvertStringResult Unicode::ToUTF16String(LPCECHAR From, LPWCHAR To)
         From++;
     }
 
+    *To = L'\0';
+
     return {
         TRUE, 
         Unicode::ConvertError::None, 
@@ -586,6 +592,8 @@ Unicode::ConvertStringResult Unicode::ToUTF8String(LPCECHAR From, LPCHAR To)
         To += result.CountBytes;
         From++;
     }
+
+    *To = '\0';
 
     return {
         TRUE, 

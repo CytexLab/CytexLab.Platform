@@ -15,6 +15,7 @@
 #include "IPool.hpp"
 #include "IThread.hpp"
 #include "IMutex.hpp"
+#include "IPipe.hpp"
 
 namespace CytexLab
 {
@@ -43,6 +44,7 @@ namespace CytexLab
         public:
             virtual ISystemResult CreateConsole(IConsole*& Out) = 0;
             virtual ISystemResult RedirectConsole(IConsole* Console, IFile* Out, IFile* In) = 0;
+            virtual ISystemResult RedirectConsole(IConsole* Console, IPipe* Pipe) = 0;
             virtual ISystemResult DestroyConsole(IConsole* Console) = 0;
 
             virtual ISystemResult OpenFile(IFile*& Out, LPCECHAR Path, IFileOpenMode Mode) = 0;
@@ -56,6 +58,10 @@ namespace CytexLab
 
             virtual ISystemResult CreateMutex(IMutex*& Out) = 0;
             virtual ISystemResult DestroyMutex(IMutex* Mutex) = 0;
+
+            virtual ISystemResult CreatePipe(IPipe*& Out, LPCECHAR Name) = 0;
+            virtual ISystemResult OpenPipe(IPipe*& Out, LPCECHAR Name) = 0;
+            virtual ISystemResult DestroyPipe(IPipe* Pipe) = 0;
 
             virtual void ExitProcess(UINT32 Code) = 0;
         };
