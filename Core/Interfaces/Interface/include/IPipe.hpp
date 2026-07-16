@@ -18,7 +18,8 @@ namespace CytexLab
         {
             None,
             NullPointer,
-            SystemError
+            SystemError,
+            RequiredOwner
         };
 
         struct IPipeResult
@@ -36,6 +37,8 @@ namespace CytexLab
 
             virtual IPipeResult Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed) = 0;
             virtual IPipeResult Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed) = 0;
+
+            virtual IPipeResult Connect() = 0;
         };
     }
 }
