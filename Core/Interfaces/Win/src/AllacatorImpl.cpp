@@ -22,16 +22,28 @@ AllacatorImpl::AllacatorImpl()
 
 AllacatorImpl::~AllacatorImpl()
 {
-    HANDLE heap = ::GetProcessHeap();
-
-    for (UINT64 i = 0; i < this->total_block; i++)
-        ::HeapFree(heap, 0, this->blocks[i].base);
+    this->DeInit();
 }
 
 CytexLab::Interface::IAllacatorResult AllacatorImpl::Init()
 {
     UINT64 index;
     return this->AddBlock(INITIAL_SIZE, index);
+}
+
+void AllacatorImpl::DeInit()
+{
+    HANDLE heap = ::GetProcessHeap();
+
+    for (UINT64 i = 0; i < this->total_block; i++)
+        ::HeapFree(heap, 0, this->blocks[i].base);
+
+    this->total_block = 0;
+    this->total_size = 0;
+    this->total_used = 0;
+    this->total_free = 0;
+    this->total_allocates = 0;
+    this->next_id = 0;
 }
 
 UINT64 AllacatorImpl::GetFree()

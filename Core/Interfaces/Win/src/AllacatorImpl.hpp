@@ -54,6 +54,7 @@ public:
     ~AllacatorImpl();
 
     CytexLab::Interface::IAllacatorResult Init();
+    void DeInit();
 
     CytexLab::Interface::IAllacatorResult Allocate(CytexLab::Interface::IAllacatorHandle& Out, UINT64 Size) override;
     CytexLab::Interface::IAllacatorResult Free(CytexLab::Interface::IAllacatorHandle Handle) override;
