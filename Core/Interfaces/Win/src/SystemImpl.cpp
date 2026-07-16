@@ -16,6 +16,7 @@
 #include "ThreadImpl.hpp"
 #include "MutexImpl.hpp"
 #include "PipeImpl.hpp"
+#include "AllacatorImpl.hpp"
 #include "Mem.hpp"
 
 SystemImpl::SystemImpl()
@@ -1252,6 +1253,144 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyPipe(CytexLab::Interface::
 
     HANDLE heap = ::GetProcessHeap();
     result = ::HeapFree(heap, 0, pi);
+
+    if (!result)
+    {
+        UINT32 error = ::GetLastError();
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            error
+        };
+    }
+
+    return {
+        TRUE,
+        CytexLab::Interface::ISystemError::None,
+        {
+            TRUE,
+            Unicode::ConvertError::None,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                0
+            },
+            0,
+            0
+        },
+        0
+    };
+}
+
+CytexLab::Interface::ISystemResult SystemImpl::CreateAllacator(CytexLab::Interface::IAllacator*& Out)
+{
+    HANDLE heap = ::GetProcessHeap();
+    LPVOID mem = ::HeapAlloc(heap, 0, sizeof(AllacatorImpl));
+
+    if (!mem)
+    {
+        UINT32 error = ::GetLastError();
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            error
+        };
+    }
+
+    AllacatorImpl* ai = new (mem) AllacatorImpl();
+    CytexLab::Interface::IAllacatorResult init_result = ai->Init();
+
+    if (!init_result.Success)
+    {
+        // Init мог упасть только из-за HeapAlloc внутри AddBlock -
+        // блоков нет, чистить нечего, просто освобождаем сам объект
+        ::HeapFree(heap, 0, ai);
+
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            init_result.SystemError
+        };
+    }
+
+    Out = (CytexLab::Interface::IAllacator*) ai;
+
+    return {
+        TRUE,
+        CytexLab::Interface::ISystemError::None,
+        {
+            TRUE,
+            Unicode::ConvertError::None,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                0
+            },
+            0,
+            0
+        },
+        0
+    };
+}
+
+CytexLab::Interface::ISystemResult SystemImpl::DestroyAllacator(CytexLab::Interface::IAllacator* Allacator)
+{
+    if (!Allacator)
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::NullPointer,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            0
+        };
+    
+    AllacatorImpl* ai = (AllacatorImpl*) Allacator;
+    ai->DeInit();
+
+    HANDLE heap = ::GetProcessHeap();
+    BOOL result = ::HeapFree(heap, 0, ai);
 
     if (!result)
     {
