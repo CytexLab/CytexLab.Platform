@@ -20,6 +20,8 @@ set(files
     "src/ThreadImpl.cpp"
     "src/MutexImpl.hpp"
     "src/MutexImpl.cpp"
+    "src/PipeImpl.hpp"
+    "src/PipeImpl.cpp"
 )
 set(deps "Base" "Interface")
 

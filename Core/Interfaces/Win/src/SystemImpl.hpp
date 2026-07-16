@@ -20,6 +20,7 @@ public:
 
     CytexLab::Interface::ISystemResult CreateConsole(CytexLab::Interface::IConsole*& Out) override;
     CytexLab::Interface::ISystemResult RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLab::Interface::IFile* Out, CytexLab::Interface::IFile* In) override;
+    CytexLab::Interface::ISystemResult RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLab::Interface::IPipe* Pipe) override;
     CytexLab::Interface::ISystemResult DestroyConsole(CytexLab::Interface::IConsole* Console) override;
 
     CytexLab::Interface::ISystemResult OpenFile(CytexLab::Interface::IFile*& Out, LPCECHAR Path, CytexLab::Interface::IFileOpenMode Mode) override;
@@ -33,6 +34,10 @@ public:
 
     CytexLab::Interface::ISystemResult CreateMutex(CytexLab::Interface::IMutex*& Out) override;
     CytexLab::Interface::ISystemResult DestroyMutex(CytexLab::Interface::IMutex* Mutex) override;
+
+    CytexLab::Interface::ISystemResult CreatePipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name) override;
+    CytexLab::Interface::ISystemResult OpenPipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name) override;
+    CytexLab::Interface::ISystemResult DestroyPipe(CytexLab::Interface::IPipe* Pipe) override;
 
     void ExitProcess(UINT32 Code) override;
 };
