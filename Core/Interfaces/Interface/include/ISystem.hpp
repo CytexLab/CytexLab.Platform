@@ -59,6 +59,7 @@ namespace CytexLab
             virtual ISystemResult DestroyMutex(IMutex* Mutex) = 0;
 
             virtual ISystemResult CreatePipe(IPipe*& Out, LPCECHAR Name) = 0;
+            virtual ISystemResult OpenPipe(IPipe*& Out, LPCECHAR Name) = 0;
             virtual ISystemResult DestroyPipe(IPipe* Pipe) = 0;
 
             virtual void ExitProcess(UINT32 Code) = 0;
