@@ -950,7 +950,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreatePipe(CytexLab::Interface::I
         };
     }
 
-    memcpy(buf, L"\\.\\\\pipe\\", 9 * sizeof(WCHAR));
+    memcpy(buf, L"\\\\.\\pipe\\", 9 * sizeof(WCHAR));
 
     Unicode::ConvertStringResult convert_result = Unicode::ToUTF16String(Name, buf + 9);
 
@@ -1047,7 +1047,7 @@ CytexLab::Interface::ISystemResult SystemImpl::OpenPipe(CytexLab::Interface::IPi
         };
     }
 
-    memcpy(buf, L"\\.\\\\pipe\\", 9 * sizeof(WCHAR));
+    memcpy(buf, L"\\\\.\\pipe\\", 9 * sizeof(WCHAR));
 
     Unicode::ConvertStringResult convert_result = Unicode::ToUTF16String(Name, buf + 9);
 

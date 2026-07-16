@@ -51,7 +51,7 @@ CytexLab::Interface::IPipeResult PipeImpl::Write(LPCECHAR Str)
             write = (UINT32)-1;
 
         UINT32 _written = 0;
-        BOOL result = ::WriteFile(this->handle, Str, write / sizeof(ECHAR), &_written, NULLPTR);
+        BOOL result = ::WriteFile(this->handle, Str, write * sizeof(ECHAR), &_written, NULLPTR);
         
         if (!result || _written == 0)
         {
