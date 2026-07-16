@@ -234,3 +234,37 @@ CytexLab::Interface::IPipeResult PipeImpl::Read(LPVOID Buffer, UINT64 BufferSize
         0
     };
 }
+
+CytexLab::Interface::IPipeResult PipeImpl::Connect()
+{
+    if (this->owner)
+    {
+        BOOL connected = ::ConnectNamedPipe(this->handle, NULLPTR);
+        
+        if (!connected)
+        {
+            UINT32 error = ::GetLastError();
+            return {
+                FALSE,
+                CytexLab::Interface::IPipeError::SystemError,
+                error
+            };
+        }
+        else
+        {
+            return {
+                TRUE,
+                CytexLab::Interface::IPipeError::None,
+                0
+            };
+        }
+    }
+    else 
+    {
+        return {
+            FALSE,
+            CytexLab::Interface::IPipeError::RequiredOwner,
+            0
+        };
+    }
+}
