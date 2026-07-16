@@ -15,32 +15,11 @@ extern "C" void startup()
 {
 	ISystem* system = Fabric::WinFabric::Create();
 
-	IConsole* console1;
-	system->CreateConsole(console1);
+	IConsole* console;
+	system->CreateConsole(console);
 
-	IConsole* console2;
-	system->CreateConsole(console2);
+	console->WriteLine(U"Hello, World!");
 
-	IPipe* server;
-	ISystemResult result = system->CreatePipe(server, (LPCECHAR) U"MyTestPipe");
-
-	IPipe* client;
-	result = system->OpenPipe(client, (LPCECHAR) U"MyTestPipe");
-
-	server->Connect();
-
-	system->RedirectConsole(console1, server);
-	system->RedirectConsole(console2, client);
-
-	console1->WriteLine((LPCECHAR) U"Hello, World! Привет, мир! 🪟😁");
-
-	ECHAR buf[128];
-
-	console2->ReadLine(buf, 128, NULLPTR);
-
-	system->RedirectConsole(console1, NULLPTR);
-
-	console1->WriteLine(buf);
-
+	system->DestroyConsole(console);
 	system->ExitProcess(0);
 }
