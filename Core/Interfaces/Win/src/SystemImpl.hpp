@@ -34,5 +34,9 @@ public:
     CytexLab::Interface::ISystemResult CreateMutex(CytexLab::Interface::IMutex*& Out) override;
     CytexLab::Interface::ISystemResult DestroyMutex(CytexLab::Interface::IMutex* Mutex) override;
 
+    CytexLab::Interface::ISystemResult CreatePipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name) override;
+    CytexLab::Interface::ISystemResult OpenPipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name) override;
+    CytexLab::Interface::ISystemResult DestroyPipe(CytexLab::Interface::IPipe* Pipe) override;
+
     void ExitProcess(UINT32 Code) override;
 };
