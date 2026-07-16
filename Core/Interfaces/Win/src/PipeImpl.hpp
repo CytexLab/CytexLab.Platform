@@ -26,6 +26,8 @@ public:
     CytexLab::Interface::IPipeResult Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
     CytexLab::Interface::IPipeResult Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
 
+    CytexLab::Interface::IPipeResult Connect() override;
+
     HANDLE GetHandle();
     BOOL IsOwner();
 };
