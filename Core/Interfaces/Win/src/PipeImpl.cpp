@@ -10,9 +10,10 @@
 #include "PipeImpl.hpp"
 #include "Unicode.hpp"
 
-PipeImpl::PipeImpl(HANDLE Handle)
+PipeImpl::PipeImpl(HANDLE Handle, BOOL Owner)
 {
     this->handle = Handle;
+    this->owner = Owner;
 }
 
 PipeImpl::~PipeImpl()
@@ -23,6 +24,11 @@ PipeImpl::~PipeImpl()
 HANDLE PipeImpl::GetHandle()
 {
     return this->handle;
+}
+
+BOOL PipeImpl::IsOwner()
+{
+    return this->owner;
 }
 
 CytexLab::Interface::IPipeResult PipeImpl::Write(LPCECHAR Str)

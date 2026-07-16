@@ -14,9 +14,10 @@ class PipeImpl : public CytexLab::Interface::IPipe
 {
 private:
     HANDLE handle;
+    BOOL owner;
 
 public:
-    PipeImpl(HANDLE Handle);
+    PipeImpl(HANDLE Handle, BOOL Owner);
     ~PipeImpl();
 
     CytexLab::Interface::IPipeResult Write(LPCECHAR Str) override;
@@ -26,4 +27,5 @@ public:
     CytexLab::Interface::IPipeResult Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
 
     HANDLE GetHandle();
+    BOOL IsOwner();
 };
