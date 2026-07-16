@@ -44,6 +44,7 @@ namespace CytexLab
         public:
             virtual ISystemResult CreateConsole(IConsole*& Out) = 0;
             virtual ISystemResult RedirectConsole(IConsole* Console, IFile* Out, IFile* In) = 0;
+            virtual ISystemResult RedirectConsole(IConsole* Console, IPipe* Pipe) = 0;
             virtual ISystemResult DestroyConsole(IConsole* Console) = 0;
 
             virtual ISystemResult OpenFile(IFile*& Out, LPCECHAR Path, IFileOpenMode Mode) = 0;
