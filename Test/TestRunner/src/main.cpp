@@ -11,56 +11,33 @@
 
 using namespace CytexLab::Interface;
 
-IConsole* console;
-IMutex* mutex;
-
-UINT32 thread(LPVOID Arg)
-{
-	for (UINT8 i = 0; i < 10; i++)
-	{
-		mutex->Lock();
-		console->WriteLine((LPCECHAR) Arg);
-		mutex->UnLock();
-	}
-		
-
-	return 0;
-}
-
 extern "C" void startup()
 {
 	ISystem* system = Fabric::WinFabric::Create();
-	
 
+	IConsole* console;
 	system->CreateConsole(console);
-	system->CreateMutex(mutex);
 
-	IThread* th1;
-	IThread* th2;
-	IThread* th3;
-	IThread* th4;
-	
-	system->CreateThread(th1, thread, (LPVOID) U"Thread 1");
-	system->CreateThread(th2, thread, (LPVOID) U"Thread 2");
-	system->CreateThread(th3, thread, (LPVOID) U"Thread 3");
-	system->CreateThread(th4, thread, (LPVOID) U"Thread 4");
+	IPipe* server;
+	ISystemResult result = system->CreatePipe(server, (LPCECHAR) U"MyTestPipe");
 
-	th1->Start();
-	th2->Start();
-	th3->Start();
-	th4->Start();
+	if (!result.Success)
+		system->ExitProcess(1);
 
-	th1->Join();
-	th2->Join();
-	th3->Join();
-	th4->Join();
+	IPipe* client;
+	result = system->OpenPipe(client, (LPCECHAR) U"MyTestPipe");
 
-	system->DestroyConsole(console);
-	system->DestroyMutex(mutex);
-	system->DestroyThread(th1);
-	system->DestroyThread(th2);
-	system->DestroyThread(th3);
-	system->DestroyThread(th4);
+	if (!result.Success)
+		system->ExitProcess(2);
+
+	server->Connect();
+
+	server->Write((LPCECHAR) U"Hello, World!");
+
+	ECHAR buf[128];
+	client->Read(buf, 128, NULLPTR);
+
+	console->WriteLine(buf);
 
 	system->ExitProcess(0);
 }
