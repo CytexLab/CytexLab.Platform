@@ -20,6 +20,7 @@ public:
 
     CytexLab::Interface::ISystemResult CreateConsole(CytexLab::Interface::IConsole*& Out) override;
     CytexLab::Interface::ISystemResult RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLab::Interface::IFile* Out, CytexLab::Interface::IFile* In) override;
+    CytexLab::Interface::ISystemResult RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLab::Interface::IPipe* Pipe) override;
     CytexLab::Interface::ISystemResult DestroyConsole(CytexLab::Interface::IConsole* Console) override;
 
     CytexLab::Interface::ISystemResult OpenFile(CytexLab::Interface::IFile*& Out, LPCECHAR Path, CytexLab::Interface::IFileOpenMode Mode) override;

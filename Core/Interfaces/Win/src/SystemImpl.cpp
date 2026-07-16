@@ -162,6 +162,71 @@ CytexLab::Interface::ISystemResult SystemImpl::RedirectConsole(CytexLab::Interfa
     };
 }
 
+CytexLab::Interface::ISystemResult SystemImpl::RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLab::Interface::IPipe* Pipe)
+{
+    if (!Console)
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::NullPointer,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            0
+        };
+
+    CytexLab::Interface::IConsoleSettings s;
+    CytexLab::Interface::IConsoleHandle h;
+
+    if (!Pipe)
+    {
+        s.hOutIsFile = FALSE;
+        s.hInIsFile = FALSE;
+
+        h.hIn = ::GetStdHandle(STD_INPUT_HANDLE);
+        h.hOut = ::GetStdHandle(STD_OUTPUT_HANDLE);
+    }
+    else
+    {
+        PipeImpl* pi = (PipeImpl*) Pipe;
+
+        s.hOutIsFile = TRUE;
+        s.hInIsFile = TRUE;
+
+        h.hIn = pi->GetHandle();
+        h.hOut = pi->GetHandle();
+    }
+
+    CytexLab::Interface::IConsoleLink l = {s, h};
+
+    ConsoleImpl* ci = (ConsoleImpl*) Console;
+    ci->SetLink(l);
+
+    return {
+        TRUE,
+        CytexLab::Interface::ISystemError::None,
+        {
+            TRUE,
+            Unicode::ConvertError::None,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                0
+            },
+            0,
+            0
+        },
+        0
+    };
+}
+
 CytexLab::Interface::ISystemResult SystemImpl::DestroyConsole(CytexLab::Interface::IConsole* Console)
 {
     if (!Console)
