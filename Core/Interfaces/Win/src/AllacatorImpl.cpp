@@ -12,47 +12,26 @@
 
 AllacatorImpl::AllacatorImpl()
 {
-
+    this->total_block = 0;
+    this->total_size = 0;
+    this->total_used = 0;
+    this->total_free = 0;
+    this->total_allocates = 0;
+    this->next_id = 0;
 }
 
 AllacatorImpl::~AllacatorImpl()
 {
+    HANDLE heap = ::GetProcessHeap();
 
+    for (UINT64 i = 0; i < this->total_block; i++)
+        ::HeapFree(heap, 0, this->blocks[i].base);
 }
 
 CytexLab::Interface::IAllacatorResult AllacatorImpl::Init()
 {
-    HANDLE heap = ::GetProcessHeap();
-    LPVOID mem = ::HeapAlloc(heap, 0, INITIAL_SIZE);
-
-    if (!mem)
-    {
-        UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::IAllacatorError::SystemError,
-            error
-        };
-    }
-
-    this->blocks[0].base = mem;
-    this->blocks[0].allocated = 0;
-    this->blocks[0].total = INITIAL_SIZE;
-    this->blocks[0].used = 0;
-    this->blocks[0].free = INITIAL_SIZE;
-
-    this->total_block = 1;
-    this->total_size = INITIAL_SIZE;
-    this->total_used = 0;
-    this->total_free = INITIAL_SIZE;
-    this->total_allocates = 0;
-    this->next_id = 0;
-
-    return {
-        TRUE,
-        CytexLab::Interface::IAllacatorError::None,
-        0
-    };
+    UINT64 index;
+    return this->AddBlock(INITIAL_SIZE, index);
 }
 
 UINT64 AllacatorImpl::GetFree()
@@ -84,11 +63,59 @@ UINT64 AllacatorImpl::GetFreeBlock(UINT64 Size)
 {
     for (UINT64 i = 0; i < this->total_block; i++)
     {
-        if (this->blocks[i].free >= Size)
+        if (this->blocks[i].free >= Size && this->blocks[i].allocated < MAX_ALLOCATED_ITEMS)
             return i;
     }
 
     return UNSET;
+}
+
+CytexLab::Interface::IAllacatorResult AllacatorImpl::AddBlock(UINT64 MinSize, UINT64& OutBlock)
+{
+    if (this->total_block >= MAX_ALLOCATED_BLOCK)
+        return {
+            FALSE,
+            CytexLab::Interface::IAllacatorError::OutOfMemory,
+            0
+        };
+
+    UINT64 size = MinSize * 2;
+
+    if (size < INITIAL_SIZE)
+        size = INITIAL_SIZE;
+
+    HANDLE heap = ::GetProcessHeap();
+    LPVOID mem = ::HeapAlloc(heap, 0, size);
+
+    if (!mem)
+    {
+        UINT32 error = ::GetLastError();
+        return {
+            FALSE,
+            CytexLab::Interface::IAllacatorError::SystemError,
+            error
+        };
+    }
+
+    UINT64 index = this->total_block;
+
+    this->blocks[index].base = mem;
+    this->blocks[index].allocated = 0;
+    this->blocks[index].total = size;
+    this->blocks[index].used = 0;
+    this->blocks[index].free = size;
+
+    this->total_block++;
+    this->total_size += size;
+    this->total_free += size;
+
+    OutBlock = index;
+
+    return {
+        TRUE,
+        CytexLab::Interface::IAllacatorError::None,
+        0
+    };
 }
 
 UINT64 AllacatorImpl::FindHole(UINT64 Block, UINT64 Size)
@@ -199,11 +226,12 @@ CytexLab::Interface::IAllacatorResult AllacatorImpl::Allocate(CytexLab::Interfac
     UINT64 block = this->GetFreeBlock(Size);
 
     if (block == UNSET)
-        return {
-            FALSE,
-            CytexLab::Interface::IAllacatorError::OutOfMemory,
-            0
-        };
+    {
+        CytexLab::Interface::IAllacatorResult growResult = this->AddBlock(Size, block);
+
+        if (!growResult.Success)
+            return growResult;
+    }
 
     UINT64 offset = this->FindHole(block, Size);
 
@@ -327,11 +355,12 @@ CytexLab::Interface::IAllacatorResult AllacatorImpl::Reallocate(CytexLab::Interf
     UINT64 newBlockIdx = this->GetFreeBlock(NewSize);
 
     if (newBlockIdx == UNSET)
-        return {
-            FALSE,
-            CytexLab::Interface::IAllacatorError::OutOfMemory,
-            0
-        };
+    {
+        CytexLab::Interface::IAllacatorResult growResult = this->AddBlock(NewSize, newBlockIdx);
+
+        if (!growResult.Success)
+            return growResult;
+    }
 
     UINT64 newOffset = this->FindHole(newBlockIdx, NewSize);
 

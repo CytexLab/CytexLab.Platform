@@ -47,6 +47,7 @@ private:
     void DefragmentBlock(UINT64 Block);
     UINT64 AllocateAt(UINT64 Block, UINT64 Offset, UINT64 Size);
     BOOL FindItemById(UINT64 Id, UINT64& OutBlock, UINT64& OutIndex);
+    CytexLab::Interface::IAllacatorResult AddBlock(UINT64 MinSize, UINT64& OutBlock);
 
 public:
     AllacatorImpl();
