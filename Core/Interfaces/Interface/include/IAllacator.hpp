@@ -23,6 +23,7 @@ namespace CytexLab
             None,
             NullPointer,
             InvalidHandle,
+            InvalidSize,
             OutOfMemory,
             SystemError
         };
@@ -37,8 +38,11 @@ namespace CytexLab
         class IAllacator
         {
         public:
-            virtual IAllacatorResult Allocate(UINT64 Size, IAllacatorHandle& Out) = 0;
+            virtual IAllacatorResult Allocate(IAllacatorHandle& Out, UINT64 Size)= 0;
             virtual IAllacatorResult Free(IAllacatorHandle Handle) = 0;
+            virtual IAllacatorResult Reallocate(IAllacatorHandle Handle, UINT64 NewSize) = 0;
+
+            virtual LPVOID Resolve(CytexLab::Interface::IAllacatorHandle Handle) = 0;
 
             virtual UINT64 GetTotalSize() = 0;
             virtual UINT64 GetFree() = 0;

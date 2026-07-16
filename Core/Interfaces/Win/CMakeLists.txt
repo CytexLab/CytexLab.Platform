@@ -22,6 +22,8 @@ set(files
     "src/MutexImpl.cpp"
     "src/PipeImpl.hpp"
     "src/PipeImpl.cpp"
+    "src/AllacatorImpl.hpp"
+    "src/AllacatorImpl.cpp"
 )
 set(deps "Base" "Interface")
 
