@@ -10,20 +10,13 @@
 
 #include "IPipe.hpp"
 
-struct PipeLinkImpl
-{
-    HANDLE Write;
-    HANDLE Read;
-};
-
 class PipeImpl : public CytexLab::Interface::IPipe
 {
 private:
-    HANDLE write;
-    HANDLE read;
+    HANDLE handle;
 
 public:
-    PipeImpl(HANDLE Write, HANDLE Read);
+    PipeImpl(HANDLE Handle);
     ~PipeImpl();
 
     CytexLab::Interface::IPipeResult Write(LPCECHAR Str) override;
@@ -32,5 +25,5 @@ public:
     CytexLab::Interface::IPipeResult Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
     CytexLab::Interface::IPipeResult Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
 
-    PipeLinkImpl GetHandles();
+    HANDLE GetHandle();
 };
