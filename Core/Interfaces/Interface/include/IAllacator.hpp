@@ -6,6 +6,8 @@
  * CytexLab (c) 2026
  */
 
+#pragma once
+
 #include "Types.hpp"
 
 namespace CytexLab
