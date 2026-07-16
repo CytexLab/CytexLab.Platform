@@ -166,6 +166,9 @@ CytexLab::Interface::IPipeResult PipeImpl::Read(LPECHAR Buffer, UINT64 BufferSiz
 
         Buffer += _readed / sizeof(ECHAR);
         readed += _readed / sizeof(ECHAR);
+
+        if (_readed < read)
+            break;
     }
 
     *Buffer = U'\0';
