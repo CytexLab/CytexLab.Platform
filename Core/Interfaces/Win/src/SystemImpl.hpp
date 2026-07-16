@@ -39,5 +39,8 @@ public:
     CytexLab::Interface::ISystemResult OpenPipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name) override;
     CytexLab::Interface::ISystemResult DestroyPipe(CytexLab::Interface::IPipe* Pipe) override;
 
+    CytexLab::Interface::ISystemResult CreateAllacator(CytexLab::Interface::IAllacator*& Allacator) override;
+    CytexLab::Interface::ISystemResult DestroyAllacator(CytexLab::Interface::IAllacator* Allacator) override;
+
     void ExitProcess(UINT32 Code) override;
 };
