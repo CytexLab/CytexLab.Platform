@@ -45,6 +45,10 @@ extern "C"
   __declspec(dllimport) UINT32 WaitForSingleObject(HANDLE hHandle, UINT32 dwMilliseconds); 
   __declspec(dllimport) HANDLE CreateMutexW(LPVOID lpMutexAttributes, BOOL bInitialOwner, LPCWCHAR lpName);
   __declspec(dllimport) BOOL ReleaseMutex(HANDLE hMutex);
+  __declspec(dllimport) HANDLE CreateNamedPipeW(LPCWCHAR lpName, UINT32 dwOpenMode, UINT32 dwPipeMode, UINT32 nMaxInstances, UINT32 nOutBufferSize, UINT32 nInBufferSize, UINT32 nDefaultTimeOut, LPVOID lpSecurityAttributes);
+  __declspec(dllimport) BOOL ConnectNamedPipe(HANDLE hNamedPipe, LPVOID lpOverlapped);
+  __declspec(dllimport) BOOL DisconnectNamedPipe(HANDLE hNamedPipe);
+  __declspec(dllimport) BOOL WaitNamedPipeW(LPCWCHAR lpNamedPipeName, UINT32 nTimeOut);
 }
 
 #define STD_INPUT_HANDLE ((UINT32)-10)
@@ -62,3 +66,6 @@ extern "C"
 #define WAIT_OBJECT_0 0x000000000L
 #define WAIT_FAILED (UINT32)0xFFFFFFFF
 #define WAIT_TIMEOUT 0x00000102L
+#define PIPE_ACCESS_DUPLEX 0x00000003
+#define PIPE_TYPE_BYTE 0x00000000
+#define PIPE_WAIT 0x00000000
