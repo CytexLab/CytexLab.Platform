@@ -1061,6 +1061,19 @@ CytexLab::Interface::ISystemResult SystemImpl::OpenPipe(CytexLab::Interface::IPi
         };
     }
 
+    BOOL result = ::WaitNamedPipeW(buf, 0);
+
+    if (!result)
+    {
+        UINT32 error = ::GetLastError();
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
+            convert_result,
+            error
+        };
+    }
+
     HANDLE hPipe = ::CreateFileW(buf, GENERIC_READ | GENERIC_WRITE, 0, NULLPTR, OPEN_EXISTING, 0, NULLPTR);
 
     if (!hPipe || hPipe == (HANDLE) UNSET)
