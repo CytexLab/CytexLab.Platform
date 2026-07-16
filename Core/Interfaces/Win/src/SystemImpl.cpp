@@ -1061,7 +1061,7 @@ CytexLab::Interface::ISystemResult SystemImpl::OpenPipe(CytexLab::Interface::IPi
         };
     }
 
-    BOOL result = ::WaitNamedPipeW(buf, 0);
+    BOOL result = ::WaitNamedPipeW(buf, NMPWAIT_WAIT_FOREVER);
 
     if (!result)
     {
