@@ -8,7 +8,6 @@ set(include "include")
 set(files 
     "src/WinFabric.cpp"
     "src/SystemImpl.hpp"
-    "src/SystemImpl.cpp"
     "src/WinImports.hpp"
     "src/ConsoleImpl.hpp"
     "src/ConsoleImpl.cpp"
@@ -24,6 +23,14 @@ set(files
     "src/PipeImpl.cpp"
     "src/AllacatorImpl.hpp"
     "src/AllacatorImpl.cpp"
+    "src/SystemImpl.Base.cpp"
+    "src/SystemImpl.Console.cpp"
+    "src/SystemImpl.File.cpp"
+    "src/SystemImpl.Pool.cpp"
+    "src/SystemImpl.Thread.cpp"
+    "src/SystemImpl.Pipe.cpp"
+    "src/SystemImpl.Allacator.cpp"
+    "src/SystemImpl.Args.cpp"
 )
 set(deps "Base" "Interface")
 
