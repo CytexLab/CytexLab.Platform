@@ -67,6 +67,9 @@ namespace CytexLab
             virtual ISystemResult CreateAllacator(IAllacator*& Out) = 0;
             virtual ISystemResult DestroyAllacator(IAllacator* Allacator) = 0;
 
+            virtual ISystemResult GetArgs(LPUINT64 Out) = 0;
+            virtual ISystemResult GetArgv(LPECHAR* Buffer) = 0;
+
             virtual void ExitProcess(UINT32 Code) = 0;
         };
     }
