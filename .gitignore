@@ -10,4 +10,5 @@ Temp
 .vscode
 .cache
 .vs
+.idea
 compile_commands.json
