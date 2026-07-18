@@ -49,6 +49,9 @@ extern "C"
   __declspec(dllimport) BOOL ConnectNamedPipe(HANDLE hNamedPipe, LPVOID lpOverlapped);
   __declspec(dllimport) BOOL DisconnectNamedPipe(HANDLE hNamedPipe);
   __declspec(dllimport) BOOL WaitNamedPipeW(LPCWCHAR lpNamedPipeName, UINT32 nTimeOut);
+  __declspec(dllimport) LPVOID LocalFree(LPVOID hMem);
+  __declspec(dllimport) LPWCHAR GetCommandLineW();
+  __declspec(dllimport) LPWCHAR* CommandLineToArgvW(LPWCHAR lpCmdLine, LPINT32 pNumArgs);
 }
 
 #define STD_INPUT_HANDLE ((UINT32)-10)
