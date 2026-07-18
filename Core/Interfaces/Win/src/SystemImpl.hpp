@@ -42,5 +42,8 @@ public:
     CytexLab::Interface::ISystemResult CreateAllacator(CytexLab::Interface::IAllacator*& Allacator) override;
     CytexLab::Interface::ISystemResult DestroyAllacator(CytexLab::Interface::IAllacator* Allacator) override;
 
+    CytexLab::Interface::ISystemResult GetArgs(LPUINT64 Out) override;
+    CytexLab::Interface::ISystemResult GetArgv(LPECHAR* Out) override;
+
     void ExitProcess(UINT32 Code) override;
 };
