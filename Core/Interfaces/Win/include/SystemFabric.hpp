@@ -17,7 +17,7 @@ namespace CytexLab
     {
         namespace Fabric
         {
-            class WinFabric
+            class SystemFabric
             {
             public:
                 static ISystem* Create();

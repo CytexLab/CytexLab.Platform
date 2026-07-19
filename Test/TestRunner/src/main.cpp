@@ -6,14 +6,14 @@
  * CytexLab (c) 2026
  */
 
-#include "WinFabric.hpp"
+#include "SystemFabric.hpp"
 #include "ISystem.hpp"
 
 using namespace CytexLab::Interface;
 
 extern "C" void startup()
 {
-    ISystem* system = Fabric::WinFabric::Create();
+    ISystem* system = Fabric::SystemFabric::Create();
     IConsole* console;
 	system->CreateConsole(console);
 
