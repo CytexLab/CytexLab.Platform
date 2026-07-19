@@ -7,4 +7,4 @@
 set(files "src/main.cpp")
 set(deps "Base" "Interface" "WinInterface")
 
-platform_add_module("SubProcess" "${files}" "" "${deps}")
+platform_add_executable("SubProcess" "${files}" "" "${deps}")

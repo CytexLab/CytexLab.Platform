@@ -5,3 +5,21 @@
  * 
  * CytexLab (c) 2026
  */
+
+#include "SystemFabric.hpp"
+#include "ISystem.hpp"
+
+using namespace CytexLab::Interface;
+
+extern "C" void startup()
+{
+    ISystem* system = Fabric::SystemFabric::Create();
+
+    IPipe* pipe;
+    system->OpenPipe(pipe, U"MyTestPipe");
+
+    pipe->Write(U"Hello, World! Subprocess.");
+
+    system->DestroyPipe(pipe);
+    system->ExitProcess(0);
+}
