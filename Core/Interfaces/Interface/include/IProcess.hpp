@@ -31,6 +31,7 @@ namespace CytexLab
         {
         public:
             virtual IProcessResult Terminate(UINT32 Code) = 0;
+            virtual IProcessResult Join() = 0;
         };
     }
 }
