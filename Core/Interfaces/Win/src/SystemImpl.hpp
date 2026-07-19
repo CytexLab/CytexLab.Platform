@@ -45,5 +45,8 @@ public:
     CytexLab::Interface::ISystemResult GetArgs(LPUINT64 Out) override;
     CytexLab::Interface::ISystemResult GetArgv(LPECHAR* Out) override;
 
+    CytexLab::Interface::ISystemResult CreateProcess(CytexLab::Interface::IProcess*& Out, LPCECHAR CmdLine) override;
+    CytexLab::Interface::ISystemResult DestroyProcess(CytexLab::Interface::IProcess* Process) override;
+
     void ExitProcess(UINT32 Code) override;
 };

@@ -23,6 +23,13 @@ typedef union _LARGE_INTEGER {
   INT64 QuadPart;
 } LARGE_INTEGER, *PLARGE_INTEGER;
 
+typedef struct _PROCESS_INFORMATION {
+    HANDLE hProcess;
+    HANDLE hThread;
+    UINT32  dwProcessId;
+    UINT32  dwThreadId;
+} PROCESS_INFORMATION, *PPROCESS_INFORMATION, *LPPROCESS_INFORMATION;
+
 extern "C"
 {
   __declspec(dllimport) HANDLE GetProcessHeap();
@@ -52,6 +59,8 @@ extern "C"
   __declspec(dllimport) LPVOID LocalFree(LPVOID hMem);
   __declspec(dllimport) LPWCHAR GetCommandLineW();
   __declspec(dllimport) LPWCHAR* CommandLineToArgvW(LPWCHAR lpCmdLine, LPINT32 pNumArgs);
+  __declspec(dllimport) BOOL TerminateProcess(HANDLE hProcess, UINT32 uExitCode);
+  __declspec(dllimport) BOOL CreateProcessW(LPCWCHAR lpApplicationName, LPWCHAR lpCommandLine, LPVOID lpProcessAttributes, LPVOID lpThreadAttributes, BOOL bInheritHandles, UINT32 dwCreationFlags, LPVOID lpEnvironment, LPCWCHAR lpCurrentDirectory, LPVOID lpStartupInfo, LPVOID lpProcessInformation);
 }
 
 #define STD_INPUT_HANDLE ((UINT32)-10)

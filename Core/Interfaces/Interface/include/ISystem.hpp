@@ -17,6 +17,7 @@
 #include "IMutex.hpp"
 #include "IPipe.hpp"
 #include "IAllacator.hpp"
+#include "IProcess.hpp"
 
 namespace CytexLab
 {
@@ -69,6 +70,9 @@ namespace CytexLab
 
             virtual ISystemResult GetArgs(LPUINT64 Out) = 0;
             virtual ISystemResult GetArgv(LPECHAR* Buffer) = 0;
+
+            virtual ISystemResult CreateProcess(IProcess*& Out, LPCECHAR CmdLine) = 0;
+            virtual ISystemResult DestroyProcess(IProcess* Process) = 0;
 
             virtual void ExitProcess(UINT32 Code) = 0;
         };
