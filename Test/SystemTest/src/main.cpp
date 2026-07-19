@@ -6,7 +6,7 @@
  * CytexLab (c) 2026
  */
 
-#include "WinFabric.hpp"
+#include "SystemFabric.hpp"
 #include "ISystem.hpp"
 #include "Unicode.hpp"
 
@@ -36,7 +36,7 @@ UINT32 ThreadWorker(LPVOID Arg)
 
 extern "C" void startup()
 {
-    ISystem* system = Fabric::WinFabric::Create();
+    ISystem* system = Fabric::SystemFabric::Create();
 
     // === 1. Консоль ===
     system->CreateConsole(console);
