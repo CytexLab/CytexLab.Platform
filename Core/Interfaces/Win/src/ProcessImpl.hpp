@@ -23,4 +23,5 @@ public:
     PROCESS_INFORMATION  GetPi();
 
     CytexLab::Interface::IProcessResult Terminate(UINT32 Code) override;
+    CytexLab::Interface::IProcessResult Join() override;
 };
