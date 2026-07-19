@@ -31,6 +31,8 @@ extern "C" void startup()
 
     console->WriteLine(buf);
 
+    process->Join();
+
     system->DestroyProcess(process);
     system->DestroyPipe(pipe);
     system->DestroyConsole(console);
