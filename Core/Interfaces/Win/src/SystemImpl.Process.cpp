@@ -5,3 +5,172 @@
  * 
  * CytexLab (c) 2026
  */
+
+#include "SystemImpl.hpp"
+#include "Unicode.hpp"
+#include "WinImports.hpp"
+#include "Placement.hpp"
+#include "ProcessImpl.hpp"
+
+CytexLab::Interface::ISystemResult SystemImpl::CreateProcess(CytexLab::Interface::IProcess *&Out, LPCECHAR CmdLine)
+{
+    if (!CmdLine)
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::NullPointer,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            0
+        };
+
+    UINT64 len = Unicode::StrLen(CmdLine);
+
+    HANDLE heap = ::GetProcessHeap();
+    LPVOID mem = ::HeapAlloc(heap, 0, len * 2 * sizeof(WCHAR));
+
+    if (!mem)
+    {
+        UINT32 error = ::GetLastError();
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            error
+        };
+    }
+
+    Unicode::ConvertStringResult result_convert = Unicode::ToUTF16String(CmdLine, (LPWCHAR) mem);
+
+    if (!result_convert.Success)
+    {
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::FailConvert,
+            result_convert,
+            0
+        };
+    }
+
+    PROCESS_INFORMATION pi = { 0 };
+    STARTUPINFOW si = { sizeof(si) };
+
+    BOOL result = ::CreateProcessW(
+        NULLPTR,
+        (LPWCHAR) mem,
+        NULLPTR,
+        NULLPTR,
+        FALSE,
+        CREATE_NO_WINDOW | DETACHED_PROCESS,
+        NULLPTR,
+        NULLPTR,
+        &si,
+        &pi
+    );
+
+    if (!result)
+    {
+        UINT32 error = ::GetLastError();
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
+            result_convert,
+            error
+        };
+    }
+
+    LPVOID mem_obj = ::HeapAlloc(heap, 0, sizeof(ProcessImpl));
+
+    if (!mem_obj)
+    {
+        UINT32 error = ::GetLastError();
+
+        ::TerminateProcess(pi.hProcess, -1);
+        ::CloseHandle(pi.hProcess);
+        ::CloseHandle(pi.hThread);
+
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
+            result_convert,
+            error
+        };
+    }
+
+    ProcessImpl* pi_obj = (ProcessImpl*) new (mem_obj) ProcessImpl(pi);
+    Out = (CytexLab::Interface::IProcess*) pi_obj;
+
+    return {
+        TRUE,
+        CytexLab::Interface::ISystemError::None,
+        result_convert,
+        0
+    };
+}
+
+CytexLab::Interface::ISystemResult SystemImpl::DestroyProcess(CytexLab::Interface::IProcess *Process)
+{
+    ProcessImpl* pi_obj = (ProcessImpl*) Process;
+    PROCESS_INFORMATION pi = pi_obj->GetPi();
+
+    HANDLE heap = ::GetProcessHeap();
+    BOOL result = ::HeapFree(heap, 0, pi_obj);
+
+    if (!result)
+    {
+        UINT32 error = ::GetLastError();
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            error
+        };
+    }
+    else
+    {
+        return {
+            TRUE,
+            CytexLab::Interface::ISystemError::None,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            0
+        };
+    }
+}

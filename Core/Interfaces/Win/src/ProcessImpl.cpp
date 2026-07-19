@@ -18,6 +18,11 @@ ProcessImpl::~ProcessImpl()
 
 }
 
+PROCESS_INFORMATION ProcessImpl::GetPi()
+{
+    return this->pi;
+}
+
 CytexLab::Interface::IProcessResult ProcessImpl::Terminate(UINT32 Code)
 {
     BOOL result = ::TerminateProcess(this->pi.hProcess, Code);
