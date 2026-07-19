@@ -154,11 +154,15 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyProcess(CytexLab::Interfac
             error
         };
     }
-    else
+
+    result = ::CloseHandle(pi.hThread);
+
+    if (!result)
     {
+        UINT32 error = ::GetLastError();
         return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
             {
                 TRUE,
                 Unicode::ConvertError::None,
@@ -170,7 +174,47 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyProcess(CytexLab::Interfac
                 0,
                 0
             },
-            0
+            error
         };
     }
+
+    result = ::CloseHandle(pi.hProcess);
+
+    if (!result)
+    {
+        UINT32 error = ::GetLastError();
+        return {
+            FALSE,
+            CytexLab::Interface::ISystemError::SystemError,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                {
+                    TRUE,
+                    Unicode::ConvertError::None,
+                    0
+                },
+                0,
+                0
+            },
+            error
+        };
+    }
+
+    return {
+        TRUE,
+        CytexLab::Interface::ISystemError::None,
+        {
+            TRUE,
+            Unicode::ConvertError::None,
+            {
+                TRUE,
+                Unicode::ConvertError::None,
+                0
+            },
+            0,
+            0
+        },
+        0
+    };
 }
