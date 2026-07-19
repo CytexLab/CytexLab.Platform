@@ -45,3 +45,26 @@ CytexLab::Interface::IProcessResult ProcessImpl::Terminate(UINT32 Code)
         };
     }
 }
+
+CytexLab::Interface::IProcessResult ProcessImpl::Join()
+{
+    UINT32 result = ::WaitForSingleObject(this->pi.hProcess, (UINT32)-1);
+
+    if (result == WAIT_OBJECT_0)
+    {
+        return {
+            TRUE,
+            CytexLab::Interface::IProcessError::None,
+            0
+        };
+    }
+    else
+    {
+        UINT32 error = ::GetLastError();
+        return {
+            FALSE,
+            CytexLab::Interface::IProcessError::SystemError,
+            error
+        };
+    }
+}
