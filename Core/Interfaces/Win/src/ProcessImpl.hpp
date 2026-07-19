@@ -20,5 +20,7 @@ public:
     ProcessImpl(PROCESS_INFORMATION PI);
     ~ProcessImpl();
 
+    PROCESS_INFORMATION  GetPi();
+
     CytexLab::Interface::IProcessResult Terminate(UINT32 Code) override;
 };
