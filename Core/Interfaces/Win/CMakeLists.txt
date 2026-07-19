@@ -31,7 +31,11 @@ set(files
     "src/SystemImpl.Pipe.cpp"
     "src/SystemImpl.Allacator.cpp"
     "src/SystemImpl.Args.cpp"
+    "src/SystemImpl.Process.cpp"
+    "src/ProcessImpl.hpp"
+    "src/ProcessImpl.cpp"
 )
+
 set(deps "Base" "Interface")
 
 platform_add_module("WinInterface" "${files}" "${include}" "${deps}")
