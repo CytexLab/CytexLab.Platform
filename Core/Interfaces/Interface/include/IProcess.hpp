@@ -30,7 +30,7 @@ namespace CytexLab
         class IProcess
         {
         public:
-            virtual IProcessResult Terminate() = 0;
+            virtual IProcessResult Terminate(UINT32 Code) = 0;
         };
     }
 }
