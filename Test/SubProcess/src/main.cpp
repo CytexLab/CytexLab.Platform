@@ -15,26 +15,11 @@ extern "C" void startup()
 {
     ISystem* system = Fabric::SystemFabric::Create();
 
-    IConsole* console;
-	system->CreateConsole(console);
-
     IPipe* pipe;
-    system->CreatePipe(pipe, U"MyTestPipe");
+    system->OpenPipe(pipe, U"MyTestPipe");
 
-    IProcess* process;
-    system->CreateProcess(process, U"F:\\CytexLab.Platform\\Dist\\Windows.Debug\\SubProcess.exe");
+    pipe->Write(U"Hello, World! Subprocess.");
 
-    pipe->Connect();
-
-    ECHAR buf[128];
-    pipe->Read(buf, 128, NULLPTR);
-
-    console->WriteLine(buf);
-
-    process->Join();
-
-    system->DestroyProcess(process);
     system->DestroyPipe(pipe);
-    system->DestroyConsole(console);
     system->ExitProcess(0);
 }
