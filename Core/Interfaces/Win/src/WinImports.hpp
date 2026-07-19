@@ -30,6 +30,27 @@ typedef struct _PROCESS_INFORMATION {
     UINT32  dwThreadId;
 } PROCESS_INFORMATION, *PPROCESS_INFORMATION, *LPPROCESS_INFORMATION;
 
+typedef struct _STARTUPINFOW {
+    UINT32  cb;
+    LPWCHAR lpReserved;
+    LPWCHAR lpDesktop;
+    LPWCHAR lpTitle;
+    UINT32  dwX;
+    UINT32  dwY;
+    UINT32  dwXSize;
+    UINT32  dwYSize;
+    UINT32  dwXCountChars;
+    UINT32  dwYCountChars;
+    UINT32  dwFillAttribute;
+    UINT32  dwFlags;
+    INT32   wShowWindow;
+    INT32   cbReserved2;
+    LPUINT8 lpReserved2;
+    HANDLE hStdInput;
+    HANDLE hStdOutput;
+    HANDLE hStdError;
+} STARTUPINFOW, *LPSTARTUPINFOW;
+
 extern "C"
 {
   __declspec(dllimport) HANDLE GetProcessHeap();
@@ -82,3 +103,5 @@ extern "C"
 #define PIPE_TYPE_BYTE 0x00000000
 #define PIPE_WAIT 0x00000000
 #define NMPWAIT_WAIT_FOREVER 0xffffffff
+#define CREATE_NO_WINDOW 0x08000000
+#define DETACHED_PROCESS 0x00000008
