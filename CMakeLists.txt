@@ -148,3 +148,4 @@ add_subdirectory(${CYTEXLAB_ROOT}/Core/Interfaces/Win)
 
 add_subdirectory(${CYTEXLAB_ROOT}/Test/TestRunner)
 add_subdirectory(${CYTEXLAB_ROOT}/Test/SystemTest)
+add_subdirectory(${CYTEXLAB_ROOT}/Test/SubProcess)
