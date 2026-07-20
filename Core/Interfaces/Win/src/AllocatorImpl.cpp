@@ -153,6 +153,11 @@ void AllocatorImpl::defragmentBlock(UINT64 Block)
 
         currentOffset += item->size;
     }
+
+    for (UINT64 i = 0; i < CACHE_SIZE; i++)
+    {
+        this->cache[i] = {UNSET, NULLPTR};
+    }
 }
 
 UINT64 AllocatorImpl::insertItem(UINT64 Block, UINT64 Size, UINT64 Offset)
@@ -226,6 +231,12 @@ UINT64 AllocatorImpl::GetTotalAllocatedBlocks()
 
 LPVOID AllocatorImpl::Resolve(CytexLab::Interface::IAllocatorHandle Handle)
 {
+    for (UINT64 i = 0; i < CACHE_SIZE; i++)
+    {
+        if (this->cache[i].id == Handle.id)
+            return this->cache[i].ptr;
+    }
+
     for (UINT64 i = 0; i < this->total_block; i++)
     {
         AllocatorBlock* block = &this->blocks[i];
@@ -236,7 +247,16 @@ LPVOID AllocatorImpl::Resolve(CytexLab::Interface::IAllocatorHandle Handle)
 
             if (item->id == Handle.id)
             {
-                return (LPVOID)((LPUINT8)block->base + item->offset);
+                LPVOID ptr = (LPVOID)((LPUINT8)block->base + item->offset);
+
+                for (UINT64 i = CACHE_SIZE-1; i > 0; i--)
+                {
+                    this->cache[i] = this->cache[i-1];
+                }
+                this->cache[0].id = Handle.id;
+                this->cache[0].ptr = ptr;
+
+                return ptr;
             }
         }
     }
@@ -272,6 +292,13 @@ BOOL AllocatorImpl::freeItem(UINT64 Id)
 
                 return TRUE;
             }
+        }
+    }
+
+    for (UINT64 c = 0; c < CACHE_SIZE; c++) {
+        if (this->cache[c].id == Id) {
+            this->cache[c] = {UNSET, NULLPTR};
+            break;
         }
     }
 
