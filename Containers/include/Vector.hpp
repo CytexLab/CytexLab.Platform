@@ -112,6 +112,14 @@ namespace CytexLab
                 return mem[Index];
             }
 
+            T* GetData() {
+                return (T*)this->allocator->Resolve(this->mem);
+            }
+
+            const T* GetData() const {
+                return (const T*)this->allocator->Resolve(this->mem);
+            }
+
             UINT64 GetSize() const
             {
                 return this->size;
