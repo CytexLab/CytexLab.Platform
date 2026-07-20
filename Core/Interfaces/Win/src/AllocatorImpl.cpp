@@ -94,7 +94,7 @@ UINT64 AllocatorImpl::findHole(UINT64 Block, UINT64 Size)
         if (item->offset - currentOffset >= Size)
             return currentOffset;
 
-        currentOffset += item->offset + item->size;
+        currentOffset = item->offset + item->size;
     }
 
     if (block->free - currentOffset >= Size)
@@ -241,4 +241,25 @@ LPVOID AllocatorImpl::Resolve(CytexLab::Interface::IAllocatorHandle Handle)
     }
 
     return NULLPTR;
+}
+
+void AllocatorImpl::freeItem(UINT64 Id)
+{
+    for (UINT64 i = 0; i < this->total_block; i++)
+    {
+        AllocatorBlock* block = &this->blocks[i];
+
+        for (UINT64 j = 0; j < block->allocated; j++)
+        {
+            AllocatorItem* item = &block->items[j];
+
+            if (item->id == Id)
+            {
+                for (UINT64 k = j; k < block->allocated - 1; k++) {
+                    block->items[k] = block->items[k + 1];
+                }
+                return;
+            }
+        }
+    }
 }

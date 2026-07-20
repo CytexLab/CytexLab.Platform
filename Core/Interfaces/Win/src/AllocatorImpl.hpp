@@ -47,6 +47,7 @@ private:
     BOOL allocateNewBlock(UINT64 MinSize);
     void defragmentBlock(UINT64 Block);
     UINT64 insertItem(UINT64 Block, UINT64 Size, UINT64 Offset);
+    void freeItem(UINT64 Id);
 public:
     AllocatorImpl();
     ~AllocatorImpl();
