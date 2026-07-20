@@ -19,20 +19,25 @@ void SystemImpl::CreateConsole(CytexLab::Interface::IConsole*& Out)
     LPVOID mem = ::HeapAlloc(heap, 0, sizeof(ConsoleImpl));
 
     if (!mem)
-    {
-        UINT32 error = ::GetLastError();
         ::ExitProcess(-1);
-    }
 
     ConsoleImpl* ci = new (mem) ConsoleImpl();
 
     CytexLab::Interface::IConsoleSettings s;
-    s = {FALSE, FALSE};
+    s.hInIsFile = FALSE;
+    s.hOutIsFile = FALSE;
+
+    HANDLE hIn = ::GetStdHandle(STD_INPUT_HANDLE);
+    HANDLE hOut = ::GetStdHandle(STD_OUTPUT_HANDLE);
+
+    UINT32 mode;
+    if (!::GetConsoleMode(hIn, &mode))
+        s.hInIsFile = TRUE;
+    if (!::GetConsoleMode(hOut, &mode))
+        s.hOutIsFile = TRUE;
 
     CytexLab::Interface::IConsoleHandle h;
-    h = {::GetStdHandle(STD_INPUT_HANDLE),
-         ::GetStdHandle(STD_OUTPUT_HANDLE)
-    };
+    h = {hIn, hOut};
 
     CytexLab::Interface::IConsoleLink l;
     l = {s, h};
@@ -59,8 +64,13 @@ void SystemImpl::RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLa
     }
     else
     {
-        s.hOutIsFile = FALSE;
         h.hOut = ::GetStdHandle(STD_OUTPUT_HANDLE);
+
+        UINT32 mode;
+        if (!::GetConsoleMode(h.hOut, &mode))
+            s.hOutIsFile = TRUE;
+        else
+            s.hOutIsFile = FALSE;
     }
 
     if (In)
@@ -72,8 +82,13 @@ void SystemImpl::RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLa
     }
     else
     {
-        s.hInIsFile = FALSE;
         h.hIn = ::GetStdHandle(STD_INPUT_HANDLE);
+
+        UINT32 mode;
+        if (!::GetConsoleMode(h.hIn, &mode))
+            s.hInIsFile = TRUE;
+        else
+            s.hInIsFile = FALSE;
     }
 
     CytexLab::Interface::IConsoleLink l = {s, h};
