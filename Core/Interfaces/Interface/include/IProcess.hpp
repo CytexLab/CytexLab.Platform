@@ -14,24 +14,11 @@ namespace CytexLab
 {
     namespace Interface
     {
-        enum class IProcessError : UINT8
-        {
-            None,
-            SystemError
-        };
-
-        struct IProcessResult
-        {
-            BOOL Success;
-            IProcessError Error;
-            UINT32 SystemError;
-        };
-
         class IProcess
         {
         public:
-            virtual IProcessResult Terminate(UINT32 Code) = 0;
-            virtual IProcessResult Join() = 0;
+            virtual void Terminate(UINT32 Code) = 0;
+            virtual void Join() = 0;
         };
     }
 }
