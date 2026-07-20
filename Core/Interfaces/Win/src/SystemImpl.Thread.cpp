@@ -12,25 +12,10 @@
 #include "WinImports.hpp"
 #include "Placement.hpp"
 
-CytexLab::Interface::ISystemResult SystemImpl::CreateThread(CytexLab::Interface::IThread*& Thread, CytexLab::Interface::IThreadFunc Function, LPVOID Arg)
+void SystemImpl::CreateThread(CytexLab::Interface::IThread*& Thread, CytexLab::Interface::IThreadFunc Function, LPVOID Arg)
 {
     if (!Function)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     UINT32 id;
     HANDLE hThread = ::CreateThread(NULLPTR, 1*1024*1024, Function, Arg, CREATE_SUSPENDED, &id);
@@ -38,22 +23,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateThread(CytexLab::Interface:
     if (!hThread || hThread == (HANDLE) UNSET)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     HANDLE heap = ::GetProcessHeap();
@@ -62,43 +32,12 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateThread(CytexLab::Interface:
     ThreadImpl* th = new (mem) ThreadImpl(hThread, id);
 
     Thread = (CytexLab::Interface::IThread*) th;
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            }
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::DestroyThread(CytexLab::Interface::IThread* Thread)
+void SystemImpl::DestroyThread(CytexLab::Interface::IThread* Thread)
 {
     if (!Thread)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     ThreadImpl* ti = (ThreadImpl*) Thread;
 
@@ -107,22 +46,7 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyThread(CytexLab::Interface
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     HANDLE heap = ::GetProcessHeap();
@@ -131,67 +55,18 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyThread(CytexLab::Interface
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
-    }
-    else
-    {
-        return {
-                TRUE,
-                CytexLab::Interface::ISystemError::None,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
     }
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::CreateMutex(CytexLab::Interface::IMutex*& Out)
+void SystemImpl::CreateMutex(CytexLab::Interface::IMutex*& Out)
 {
     HANDLE hMutex = ::CreateMutexW(NULLPTR, FALSE, NULLPTR);
 
     if (!hMutex || hMutex == (HANDLE) UNSET)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     HANDLE heap = ::GetProcessHeap();
@@ -200,64 +75,17 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateMutex(CytexLab::Interface::
     if (!mem)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     MutexImpl* mi = new (mem) MutexImpl(hMutex);
     Out = (CytexLab::Interface::IMutex*) mi;
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::DestroyMutex(CytexLab::Interface::IMutex* Mutex)
+void SystemImpl::DestroyMutex(CytexLab::Interface::IMutex* Mutex)
 {
     if (!Mutex)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     MutexImpl* mi = (MutexImpl*) Mutex;
     HANDLE hMutex = mi->GetHandle();
@@ -267,22 +95,7 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyMutex(CytexLab::Interface:
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     HANDLE heap = ::GetProcessHeap();
@@ -291,40 +104,6 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyMutex(CytexLab::Interface:
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
-    }
-    else
-    {
-        return {
-                TRUE,
-                CytexLab::Interface::ISystemError::None,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
     }
 }

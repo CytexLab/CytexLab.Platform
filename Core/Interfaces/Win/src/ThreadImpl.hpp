@@ -23,9 +23,9 @@ public:
 
     HANDLE GetHandle();
 
-    CytexLab::Interface::IThreadResult Start() override;
-    CytexLab::Interface::IThreadResult Join() override;
-    CytexLab::Interface::IThreadResult Terminate() override;
-    CytexLab::Interface::IThreadResult IsRunning(BOOL& Out) override;
+    void Start() override;
+    void Join() override;
+    void Terminate() override;
+    void IsRunning(BOOL& Out) override;
     UINT64 GetID() override;
 };

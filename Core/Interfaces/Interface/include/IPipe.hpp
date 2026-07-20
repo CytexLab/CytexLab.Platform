@@ -14,31 +14,16 @@ namespace CytexLab
 {
     namespace Interface
     {
-        enum class IPipeError : UINT8
-        {
-            None,
-            NullPointer,
-            SystemError,
-            RequiredOwner
-        };
-
-        struct IPipeResult
-        {
-            BOOL Success;
-            IPipeError Error;
-            UINT32 SystemError;
-        };
-
         class IPipe
         {
         public:
-            virtual IPipeResult Write(LPCECHAR Str) = 0;
-            virtual IPipeResult Write(LPCVOID Data, UINT64 Size) = 0;
+            virtual void Write(LPCECHAR Str) = 0;
+            virtual void Write(LPCVOID Data, UINT64 Size) = 0;
 
-            virtual IPipeResult Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed) = 0;
-            virtual IPipeResult Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed) = 0;
+            virtual void Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed) = 0;
+            virtual void Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed) = 0;
 
-            virtual IPipeResult Connect() = 0;
+            virtual void Connect() = 0;
         };
     }
 }
