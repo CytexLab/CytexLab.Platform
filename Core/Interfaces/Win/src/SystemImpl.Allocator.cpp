@@ -38,7 +38,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateAllocator(CytexLab::Interfa
     }
 
     AllocatorImpl* ai = new (mem) AllocatorImpl();
-    CytexLab::Interface::IAllacatorResult init_result = ai->Init();
+    CytexLab::Interface::IAllocatorResult init_result = ai->Init();
 
     if (!init_result.Success)
     {
