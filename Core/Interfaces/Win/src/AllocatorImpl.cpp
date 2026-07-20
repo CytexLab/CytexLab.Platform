@@ -222,3 +222,23 @@ UINT64 AllocatorImpl::GetTotalAllocatedBlocks()
 {
     return this->total_block;
 }
+
+LPVOID AllocatorImpl::Resolve(CytexLab::Interface::IAllocatorHandle Handle)
+{
+    for (UINT64 i = 0; i < this->total_block; i++)
+    {
+        AllocatorBlock* block = &this->blocks[i];
+
+        for (UINT64 j = 0; j < block->allocated; j++)
+        {
+            AllocatorItem* item = &block->items[j];
+
+            if (item->id == Handle.id)
+            {
+                return (LPVOID)((LPUINT8)block->base + item->offset);
+            }
+        }
+    }
+
+    return NULLPTR;
+}
