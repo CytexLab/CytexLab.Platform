@@ -39,8 +39,8 @@ public:
     CytexLab::Interface::ISystemResult OpenPipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name) override;
     CytexLab::Interface::ISystemResult DestroyPipe(CytexLab::Interface::IPipe* Pipe) override;
 
-    CytexLab::Interface::ISystemResult CreateAllacator(CytexLab::Interface::IAllocator*& Allacator) override;
-    CytexLab::Interface::ISystemResult DestroyAllacator(CytexLab::Interface::IAllocator* Allacator) override;
+    CytexLab::Interface::ISystemResult CreateAllocator(CytexLab::Interface::IAllocator *&Allacator) override;
+    CytexLab::Interface::ISystemResult DestroyAllocator(CytexLab::Interface::IAllocator *Allacator) override;
 
     CytexLab::Interface::ISystemResult GetArgs(LPUINT64 Out) override;
     CytexLab::Interface::ISystemResult GetArgv(LPECHAR* Out) override;
