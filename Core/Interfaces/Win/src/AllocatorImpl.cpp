@@ -341,3 +341,13 @@ CytexLab::Interface::IAllocatorResult AllocatorImpl::Free(CytexLab::Interface::I
         0
     };
 }
+
+CytexLab::Interface::IAllocatorResult AllocatorImpl::Reallocate(CytexLab::Interface::IAllocatorHandle& Handle, UINT64 NewSize)
+{
+    CytexLab::Interface::IAllocatorResult result = this->Free(Handle);
+
+    if (!result.Success)
+        return result;
+
+    return this->Allocate(Handle, NewSize);
+}
