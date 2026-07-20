@@ -42,7 +42,7 @@ namespace CytexLab
         public:
             virtual IAllocatorResult Allocate(IAllocatorHandle& Out, UINT64 Size)= 0;
             virtual IAllocatorResult Free(IAllocatorHandle Handle) = 0;
-            virtual IAllocatorResult Reallocate(IAllocatorHandle Handle, UINT64 NewSize) = 0;
+            virtual IAllocatorResult Reallocate(IAllocatorHandle& Handle, UINT64 NewSize) = 0;
 
             virtual LPVOID Resolve(CytexLab::Interface::IAllocatorHandle Handle) = 0;
 
