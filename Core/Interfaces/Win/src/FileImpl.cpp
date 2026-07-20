@@ -26,33 +26,15 @@ HANDLE FileImpl::GetHandle()
     return this->handle;
 }
 
-CytexLab::Interface::IFileResult FileImpl::Write(LPCECHAR Str)
+void FileImpl::Write(LPCECHAR Str)
 {
     if (!Str)
-        return {
-            FALSE, 
-            CytexLab::Interface::IFileError::NullPointer, 
-            {
-                FALSE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
     
     UINT64 len = Unicode::StrLen(Str);
 
     if (len == 0)
-        return {
-            TRUE,
-            CytexLab::Interface::IFileError::None,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        return;
     
     while (*Str)
     {
@@ -68,73 +50,33 @@ CytexLab::Interface::IFileResult FileImpl::Write(LPCECHAR Str)
         Unicode::ConvertResult result = Unicode::ToUTF8(Str, &buf[0]);
 
         if (!result.Success)
-            return {
-                FALSE,
-                CytexLab::Interface::IFileError::FailConvert,
-                result,
-                0
-            };
+            ::ExitProcess(-1);
         
         BOOL w_result = ::WriteFile(this->handle, &buf[0], result.CountBytes, NULLPTR, NULLPTR);
         
         if (!w_result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IFileError::SystemError,
-                result,
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         Str++;
     }
-
-    return {
-        TRUE,
-        CytexLab::Interface::IFileError::None,
-        {
-            TRUE,
-            Unicode::ConvertError::None,
-            0
-        }
-    };
 }
 
-CytexLab::Interface::IFileResult FileImpl::WriteLine(LPCECHAR Str)
+void FileImpl::WriteLine(LPCECHAR Str)
 {
-    CytexLab::Interface::IFileResult result = this->Write(Str);
-
-    if (!result.Success)
-        return result;
-
-    return this->Write((LPCECHAR) U"\r\n");
+    this->Write(Str);
+    this->Write((LPCECHAR) U"\r\n");
 }
 
-CytexLab::Interface::IFileResult FileImpl::Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
+void FileImpl::Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
 {
     if (!Buffer)
-        return {
-            FALSE,
-            CytexLab::Interface::IFileError::NullPointer,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            }
-        };
+        ::ExitProcess(-1);
     
     if (BufferSize == 0)
-        return {
-            TRUE,
-            CytexLab::Interface::IFileError::None,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            }
-        };
+        return;
     
     UINT64 readed = 0;
     UINT8 bufPos = 0;
@@ -150,16 +92,7 @@ CytexLab::Interface::IFileResult FileImpl::Read(LPECHAR Buffer, UINT64 BufferSiz
         if (!w_result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IFileError::SystemError,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         if (_ == 0)
@@ -171,12 +104,7 @@ CytexLab::Interface::IFileResult FileImpl::Read(LPECHAR Buffer, UINT64 BufferSiz
         {
             if (bufPos < 3) bufPos++;
             else
-                return {
-                    FALSE,
-                    CytexLab::Interface::IFileError::FailConvert,
-                    result,
-                    0
-                };
+                ::ExitProcess(-1);
         }
         else
         {
@@ -192,32 +120,12 @@ CytexLab::Interface::IFileResult FileImpl::Read(LPECHAR Buffer, UINT64 BufferSiz
 
     if (Readed)
         *Readed = readed;
-
-    return {
-        TRUE,
-        CytexLab::Interface::IFileError::None,
-        {
-            TRUE,
-            Unicode::ConvertError::None,
-            0
-        },
-        0
-    };
 }
 
-CytexLab::Interface::IFileResult FileImpl::Write(LPCVOID Data, UINT64 Size)
+void FileImpl::Write(LPCVOID Data, UINT64 Size)
 {
     if (!Data)
-        return {
-            FALSE,
-            CytexLab::Interface::IFileError::NullPointer,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
     
     UINT64 written = 0;
 
@@ -234,16 +142,7 @@ CytexLab::Interface::IFileResult FileImpl::Write(LPCVOID Data, UINT64 Size)
         if (!result_w)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IFileError::SystemError,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         if (_written == 0) // Мы больше не можем писать??? Не должно быть, но оставим
@@ -251,32 +150,12 @@ CytexLab::Interface::IFileResult FileImpl::Write(LPCVOID Data, UINT64 Size)
         
         written += _written;
     }
-
-    return {
-        TRUE,
-        CytexLab::Interface::IFileError::None,
-        {
-            TRUE,
-            Unicode::ConvertError::None,
-            0
-        },
-        0
-    };
 }
 
-CytexLab::Interface::IFileResult FileImpl::Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed)
+void FileImpl::Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed)
 {
     if (!Buffer)
-        return {
-            FALSE,
-            CytexLab::Interface::IFileError::NullPointer,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
 
     UINT64 readed = 0;
 
@@ -293,16 +172,7 @@ CytexLab::Interface::IFileResult FileImpl::Read(LPVOID Buffer, UINT64 BufferSize
         if (!result_w)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IFileError::SystemError,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         if (_readed == 0) // Конец файла?
@@ -313,32 +183,12 @@ CytexLab::Interface::IFileResult FileImpl::Read(LPVOID Buffer, UINT64 BufferSize
 
     if (Readed)
         *Readed = readed;
-
-    return {
-        TRUE,
-        CytexLab::Interface::IFileError::None,
-        {
-            TRUE,
-            Unicode::ConvertError::None,
-            0
-        },
-        0
-    };
 }
 
-CytexLab::Interface::IFileResult FileImpl::GetFileSize(LPUINT64 Out)
+void FileImpl::GetFileSize(LPUINT64 Out)
 {
     if (!Out)
-        return {
-            FALSE,
-            CytexLab::Interface::IFileError::NullPointer,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
     
     LARGE_INTEGER li;
     BOOL result = ::GetFileSizeEx(this->handle, &li);
@@ -346,47 +196,18 @@ CytexLab::Interface::IFileResult FileImpl::GetFileSize(LPUINT64 Out)
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::IFileError::SystemError,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            error
-        };
+        ::ExitProcess(-1);
     }
     else
     {
         *Out = (UINT64)li.QuadPart;
-
-        return {
-            TRUE,
-            CytexLab::Interface::IFileError::None,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
     }
 }
 
-CytexLab::Interface::IFileResult FileImpl::Seek(CytexLab::Interface::IFileSeekMode Mode, INT64 Offset, LPUINT64 NewPos)
+void FileImpl::Seek(CytexLab::Interface::IFileSeekMode Mode, INT64 Offset, LPUINT64 NewPos)
 {
     if (!NewPos)
-        return {
-            FALSE,
-            CytexLab::Interface::IFileError::NullPointer,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
 
     UINT32 dwMoveMethod;
 
@@ -402,16 +223,7 @@ CytexLab::Interface::IFileResult FileImpl::Seek(CytexLab::Interface::IFileSeekMo
             dwMoveMethod = FILE_END;
             break;
         default:
-            return { // Хер знает как такое возможно, но пусть будет
-                FALSE,
-                CytexLab::Interface::IFileError::InvalidMoveMethod,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                0
-            };
+            ::ExitProcess(-1);
             break;
     }
 
@@ -425,29 +237,10 @@ CytexLab::Interface::IFileResult FileImpl::Seek(CytexLab::Interface::IFileSeekMo
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::IFileError::SystemError,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            error
-        };
+        ::ExitProcess(-1);
     }
     else
     {
         *NewPos = (UINT64) new_pos.QuadPart;
-        return {
-            TRUE,
-            CytexLab::Interface::IFileError::None,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
     }
 }

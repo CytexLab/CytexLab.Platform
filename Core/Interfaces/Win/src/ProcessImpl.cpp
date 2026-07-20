@@ -23,48 +23,28 @@ PROCESS_INFORMATION ProcessImpl::GetPi()
     return this->pi;
 }
 
-CytexLab::Interface::IProcessResult ProcessImpl::Terminate(UINT32 Code)
+void ProcessImpl::Terminate(UINT32 Code)
 {
     BOOL result = ::TerminateProcess(this->pi.hProcess, Code);
 
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::IProcessError::SystemError,
-            error
-        };
-    }
-    else
-    {
-        return {
-            TRUE,
-            CytexLab::Interface::IProcessError::None,
-            0
-        };
+        ::ExitProcess(-1);
     }
 }
 
-CytexLab::Interface::IProcessResult ProcessImpl::Join()
+void ProcessImpl::Join()
 {
     UINT32 result = ::WaitForSingleObject(this->pi.hProcess, (UINT32)-1);
 
     if (result == WAIT_OBJECT_0)
     {
-        return {
-            TRUE,
-            CytexLab::Interface::IProcessError::None,
-            0
-        };
+        return;
     }
     else
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::IProcessError::SystemError,
-            error
-        };
+        ::ExitProcess(-1);
     }
 }
