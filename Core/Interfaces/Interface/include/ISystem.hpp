@@ -65,8 +65,8 @@ namespace CytexLab
             virtual ISystemResult OpenPipe(IPipe*& Out, LPCECHAR Name) = 0;
             virtual ISystemResult DestroyPipe(IPipe* Pipe) = 0;
 
-            virtual ISystemResult CreateAllacator(IAllocator*& Out) = 0;
-            virtual ISystemResult DestroyAllacator(IAllocator* Allacator) = 0;
+            virtual ISystemResult CreateAllocator(IAllocator*& Out) = 0;
+            virtual ISystemResult DestroyAllocator(IAllocator* Allocator) = 0;
 
             virtual ISystemResult GetArgs(LPUINT64 Out) = 0;
             virtual ISystemResult GetArgv(LPECHAR* Buffer) = 0;
