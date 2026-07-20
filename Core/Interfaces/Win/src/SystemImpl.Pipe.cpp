@@ -12,25 +12,10 @@
 #include "Placement.hpp"
 #include "Mem.hpp"
 
-CytexLab::Interface::ISystemResult SystemImpl::CreatePipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name)
+void SystemImpl::CreatePipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name)
 {
     if (!Name)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     UINT64 size = (Unicode::StrLen(Name) * 2 + 9) * sizeof(WCHAR);
 
@@ -40,22 +25,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreatePipe(CytexLab::Interface::I
     if (!buf)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     memcpy(buf, L"\\\\.\\pipe\\", 9 * sizeof(WCHAR));
@@ -64,12 +34,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreatePipe(CytexLab::Interface::I
 
     if (!convert_result.Success)
     {
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::FailConvert,
-                convert_result,
-                0
-        };
+        ::ExitProcess(-1);
     }
 
     HANDLE hPipe = ::CreateNamedPipeW(buf, PIPE_ACCESS_DUPLEX, PIPE_TYPE_BYTE | PIPE_WAIT, 2, 4096, 4096, 0, NULLPTR);
@@ -77,12 +42,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreatePipe(CytexLab::Interface::I
     if (!hPipe || hPipe == (HANDLE) UNSET)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                convert_result,
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     LPVOID mem = ::HeapAlloc(heap, 0, sizeof(PipeImpl));
@@ -90,44 +50,17 @@ CytexLab::Interface::ISystemResult SystemImpl::CreatePipe(CytexLab::Interface::I
     if (!mem)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                convert_result,
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     PipeImpl* pi = new (mem) PipeImpl(hPipe, TRUE);
     Out = (CytexLab::Interface::IPipe*) pi;
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            convert_result,
-            0
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::OpenPipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name)
+void SystemImpl::OpenPipe(CytexLab::Interface::IPipe*& Out, LPCECHAR Name)
 {
     if (!Name)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     UINT64 size = (Unicode::StrLen(Name) * 2 + 9) * sizeof(WCHAR);
 
@@ -137,22 +70,7 @@ CytexLab::Interface::ISystemResult SystemImpl::OpenPipe(CytexLab::Interface::IPi
     if (!buf)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     memcpy(buf, L"\\\\.\\pipe\\", 9 * sizeof(WCHAR));
@@ -161,12 +79,7 @@ CytexLab::Interface::ISystemResult SystemImpl::OpenPipe(CytexLab::Interface::IPi
 
     if (!convert_result.Success)
     {
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::FailConvert,
-                convert_result,
-                0
-        };
+        ::ExitProcess(-1);
     }
 
     BOOL result = ::WaitNamedPipeW(buf, NMPWAIT_WAIT_FOREVER);
@@ -174,12 +87,7 @@ CytexLab::Interface::ISystemResult SystemImpl::OpenPipe(CytexLab::Interface::IPi
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                convert_result,
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     HANDLE hPipe = ::CreateFileW(buf, GENERIC_READ | GENERIC_WRITE, 0, NULLPTR, OPEN_EXISTING, 0, NULLPTR);
@@ -187,12 +95,7 @@ CytexLab::Interface::ISystemResult SystemImpl::OpenPipe(CytexLab::Interface::IPi
     if (!hPipe || hPipe == (HANDLE) UNSET)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                convert_result,
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     LPVOID mem = ::HeapAlloc(heap, 0, sizeof(PipeImpl));
@@ -200,44 +103,17 @@ CytexLab::Interface::ISystemResult SystemImpl::OpenPipe(CytexLab::Interface::IPi
     if (!mem)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                convert_result,
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     PipeImpl* pi = new (mem) PipeImpl(hPipe, FALSE);
     Out = (CytexLab::Interface::IPipe*) pi;
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            convert_result,
-            0
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::DestroyPipe(CytexLab::Interface::IPipe* Pipe)
+void SystemImpl::DestroyPipe(CytexLab::Interface::IPipe* Pipe)
 {
     if (!Pipe)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     PipeImpl* pi = (PipeImpl*) Pipe;
 
@@ -251,22 +127,7 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyPipe(CytexLab::Interface::
         if (!result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                    FALSE,
-                    CytexLab::Interface::ISystemError::SystemError,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            {
-                                    TRUE,
-                                    Unicode::ConvertError::None,
-                                    0
-                            },
-                            0,
-                            0
-                    },
-                    error
-            };
+            ::ExitProcess(-1);
         }
     }
 
@@ -275,22 +136,7 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyPipe(CytexLab::Interface::
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     HANDLE heap = ::GetProcessHeap();
@@ -299,38 +145,6 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyPipe(CytexLab::Interface::
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }

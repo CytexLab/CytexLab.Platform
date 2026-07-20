@@ -12,25 +12,10 @@
 #include "Placement.hpp"
 #include "ProcessImpl.hpp"
 
-CytexLab::Interface::ISystemResult SystemImpl::CreateProcess(CytexLab::Interface::IProcess *&Out, LPCECHAR CmdLine)
+void SystemImpl::CreateProcess(CytexLab::Interface::IProcess *&Out, LPCECHAR CmdLine)
 {
     if (!CmdLine)
-        return {
-            FALSE,
-            CytexLab::Interface::ISystemError::NullPointer,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                0,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
 
     UINT64 len = Unicode::StrLen(CmdLine);
 
@@ -40,34 +25,14 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateProcess(CytexLab::Interface
     if (!mem)
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::ISystemError::SystemError,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                0,
-                0
-            },
-            error
-        };
+        ::ExitProcess(-1);
     }
 
     Unicode::ConvertStringResult result_convert = Unicode::ToUTF16String(CmdLine, (LPWCHAR) mem);
 
     if (!result_convert.Success)
     {
-        return {
-            FALSE,
-            CytexLab::Interface::ISystemError::FailConvert,
-            result_convert,
-            0
-        };
+        ::ExitProcess(-1);
     }
 
     PROCESS_INFORMATION pi = { 0 };
@@ -89,12 +54,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateProcess(CytexLab::Interface
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::ISystemError::SystemError,
-            result_convert,
-            error
-        };
+        ::ExitProcess(-1);
     }
 
     LPVOID mem_obj = ::HeapAlloc(heap, 0, sizeof(ProcessImpl));
@@ -107,26 +67,14 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateProcess(CytexLab::Interface
         ::CloseHandle(pi.hProcess);
         ::CloseHandle(pi.hThread);
 
-        return {
-            FALSE,
-            CytexLab::Interface::ISystemError::SystemError,
-            result_convert,
-            error
-        };
+        ::ExitProcess(-1);
     }
 
     ProcessImpl* pi_obj = (ProcessImpl*) new (mem_obj) ProcessImpl(pi);
     Out = (CytexLab::Interface::IProcess*) pi_obj;
-
-    return {
-        TRUE,
-        CytexLab::Interface::ISystemError::None,
-        result_convert,
-        0
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::DestroyProcess(CytexLab::Interface::IProcess *Process)
+void SystemImpl::DestroyProcess(CytexLab::Interface::IProcess *Process)
 {
     ProcessImpl* pi_obj = (ProcessImpl*) Process;
     PROCESS_INFORMATION pi = pi_obj->GetPi();
@@ -137,22 +85,7 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyProcess(CytexLab::Interfac
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::ISystemError::SystemError,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                0,
-                0
-            },
-            error
-        };
+        ::ExitProcess(-1);
     }
 
     result = ::CloseHandle(pi.hThread);
@@ -160,22 +93,7 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyProcess(CytexLab::Interfac
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::ISystemError::SystemError,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                0,
-                0
-            },
-            error
-        };
+        ::ExitProcess(-1);
     }
 
     result = ::CloseHandle(pi.hProcess);
@@ -183,38 +101,6 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyProcess(CytexLab::Interfac
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::ISystemError::SystemError,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                0,
-                0
-            },
-            error
-        };
+        ::ExitProcess(-1);
     }
-
-    return {
-        TRUE,
-        CytexLab::Interface::ISystemError::None,
-        {
-            TRUE,
-            Unicode::ConvertError::None,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0,
-            0
-        },
-        0
-    };
 }

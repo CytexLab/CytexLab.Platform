@@ -19,12 +19,12 @@ private:
 public:
     void SetLink(CytexLab::Interface::IConsoleLink Link);
 
-    CytexLab::Interface::IConsoleResult WriteConsole(LPCECHAR Str);
-    CytexLab::Interface::IConsoleResult WriteFile(LPCECHAR Str);
-    CytexLab::Interface::IConsoleResult ReadConsole(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed);
-    CytexLab::Interface::IConsoleResult ReadFile(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed);
+    void WriteConsole(LPCECHAR Str);
+    void WriteFile(LPCECHAR Str);
+    void ReadConsole(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed);
+    void ReadFile(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed);
 
-    CytexLab::Interface::IConsoleResult Write(LPCECHAR Str) override;
-    CytexLab::Interface::IConsoleResult WriteLine(LPCECHAR Str) override;
-    CytexLab::Interface::IConsoleResult ReadLine(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
+    void Write(LPCECHAR Str) override;
+    void WriteLine(LPCECHAR Str) override;
+    void ReadLine(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
 };
