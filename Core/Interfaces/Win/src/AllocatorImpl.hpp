@@ -57,7 +57,7 @@ public:
 
     CytexLab::Interface::IAllocatorResult Allocate(CytexLab::Interface::IAllocatorHandle& Out, UINT64 Size) override;
     CytexLab::Interface::IAllocatorResult Free(CytexLab::Interface::IAllocatorHandle Handle) override;
-    CytexLab::Interface::IAllocatorResult Reallocate(CytexLab::Interface::IAllocatorHandle Handle, UINT64 NewSize) override;
+    CytexLab::Interface::IAllocatorResult Reallocate(CytexLab::Interface::IAllocatorHandle& Handle, UINT64 NewSize) override;
 
     LPVOID Resolve(CytexLab::Interface::IAllocatorHandle Handle) override;
 
