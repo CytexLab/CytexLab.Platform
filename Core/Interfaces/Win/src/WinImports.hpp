@@ -82,6 +82,7 @@ extern "C"
   __declspec(dllimport) LPWCHAR* CommandLineToArgvW(LPWCHAR lpCmdLine, LPINT32 pNumArgs);
   __declspec(dllimport) BOOL TerminateProcess(HANDLE hProcess, UINT32 uExitCode);
   __declspec(dllimport) BOOL CreateProcessW(LPCWCHAR lpApplicationName, LPWCHAR lpCommandLine, LPVOID lpProcessAttributes, LPVOID lpThreadAttributes, BOOL bInheritHandles, UINT32 dwCreationFlags, LPVOID lpEnvironment, LPCWCHAR lpCurrentDirectory, LPVOID lpStartupInfo, LPVOID lpProcessInformation);
+  __declspec(dllimport) BOOL GetConsoleMode(HANDLE hConsoleHandle, LPUINT32 lpMode);
 }
 
 #define STD_INPUT_HANDLE ((UINT32)-10)
