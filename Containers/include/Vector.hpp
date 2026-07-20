@@ -10,6 +10,7 @@
 
 #include "IAllocator.hpp"
 #include "Mem.hpp"
+#include "Placement.hpp"
 
 namespace CytexLab
 {
@@ -24,6 +25,15 @@ namespace CytexLab
 
             UINT64 size;
             UINT64 capacity;
+
+            void DestroyElements()
+            {
+                T* data = (T*)this->allocator->Resolve(this->mem);
+                for (UINT64 i = 0; i < this->size; i++)
+                {
+                    data[i].~T();
+                }
+            }
 
         public:
             static const UINT64 DefaultCapacity = 2;
@@ -40,32 +50,75 @@ namespace CytexLab
 
             ~Vector()
             {
+                this->DestroyElements();
                 this->allocator->Free(this->mem);
             }
 
-            Vector(const Vector&) = delete;
-            Vector& operator=(const Vector&) = delete;
+            Vector(const Vector& other)
+            {
+                this->allocator = other.allocator;
+                this->size = other.size;
+                this->capacity = other.capacity;
 
-            void PushBack(T Obj)
+                this->allocator->Allocate(this->mem, sizeof(T) * this->capacity);
+
+                T* src = (T*)this->allocator->Resolve(other.mem);
+                T* dst = (T*)this->allocator->Resolve(this->mem);
+
+                for (UINT64 i = 0; i < this->size; i++)
+                {
+                    new (&dst[i]) T(src[i]);
+                }
+            }
+
+            Vector& operator=(const Vector& other)
+            {
+                if (this == &other)
+                    return *this;
+
+                this->DestroyElements();
+                this->allocator->Free(this->mem);
+
+                this->allocator = other.allocator;
+                this->size = other.size;
+                this->capacity = other.capacity;
+
+                this->allocator->Allocate(this->mem, sizeof(T) * this->capacity);
+
+                T* src = (T*)this->allocator->Resolve(other.mem);
+                T* dst = (T*)this->allocator->Resolve(this->mem);
+
+                for (UINT64 i = 0; i < this->size; i++)
+                {
+                    new (&dst[i]) T(src[i]);
+                }
+
+                return *this;
+            }
+
+            void PushBack(const T& obj)
             {
                 if (this->size == this->capacity)
                 {
                     CytexLab::Interface::IAllocatorHandle new_mem;
                     this->allocator->Allocate(new_mem, sizeof(T) * this->capacity * 2);
 
-                    LPVOID old_mem = this->allocator->Resolve(this->mem);
-                    LPVOID new_mem_ptr = this->allocator->Resolve(new_mem);
+                    T* old_data = (T*)this->allocator->Resolve(this->mem);
+                    T* new_data = (T*)this->allocator->Resolve(new_mem);
 
-                    memcpy(new_mem_ptr, old_mem, sizeof(T) * this->capacity);
+                    for (UINT64 i = 0; i < this->size; i++)
+                    {
+                        new (&new_data[i]) T(old_data[i]);
+                        old_data[i].~T();
+                    }
 
                     this->allocator->Free(this->mem);
                     this->mem = new_mem;
                     this->capacity *= 2;
                 }
 
-                T* mem = (T*) this->allocator->Resolve(this->mem);
-
-                mem[this->size] = Obj;
+                T* data = (T*)this->allocator->Resolve(this->mem);
+                new (&data[this->size]) T(obj);
                 this->size++;
             }
 
@@ -74,10 +127,13 @@ namespace CytexLab
                 if (this->size == 0) return;
 
                 this->size--;
+                T* data = (T*)this->allocator->Resolve(this->mem);
+                data[this->size].~T();
             }
 
             void Clear()
             {
+                this->DestroyElements();
                 this->size = 0;
             }
 
@@ -88,11 +144,16 @@ namespace CytexLab
                     UINT64 newCapacity = this->capacity + Size;
 
                     CytexLab::Interface::IAllocatorHandle new_mem;
+                    this->allocator->Allocate(new_mem, sizeof(T) * newCapacity);
 
-                    LPVOID old_mem = this->allocator->Resolve(this->mem);
-                    LPVOID new_mem_ptr = this->allocator->Resolve(new_mem);
+                    T* old_data = (T*)this->allocator->Resolve(this->mem);
+                    T* new_data = (T*)this->allocator->Resolve(new_mem);
 
-                    memcpy(new_mem_ptr, old_mem, sizeof(T) * this->size);
+                    for (UINT64 i = 0; i < this->size; i++)
+                    {
+                        new (&new_data[i]) T(old_data[i]);
+                        old_data[i].~T();
+                    }
 
                     this->allocator->Free(this->mem);
                     this->mem = new_mem;
@@ -100,23 +161,25 @@ namespace CytexLab
                 }
             }
 
-            T& operator[] (UINT64 Index)
+            T& operator[](UINT64 Index)
             {
-                T* mem = (T*) this->allocator->Resolve(this->mem);
-                return mem[Index];
+                T* data = (T*)this->allocator->Resolve(this->mem);
+                return data[Index];
             }
 
-            const T& operator[] (UINT64 Index) const
+            const T& operator[](UINT64 Index) const
             {
-                T* mem = (T*) this->allocator->Resolve(this->mem);
-                return mem[Index];
+                T* data = (T*)this->allocator->Resolve(this->mem);
+                return data[Index];
             }
 
-            T* GetData() {
+            T* GetData()
+            {
                 return (T*)this->allocator->Resolve(this->mem);
             }
 
-            const T* GetData() const {
+            const T* GetData() const
+            {
                 return (const T*)this->allocator->Resolve(this->mem);
             }
 
