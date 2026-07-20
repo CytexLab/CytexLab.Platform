@@ -17,33 +17,15 @@ void ConsoleImpl::SetLink(CytexLab::Interface::IConsoleLink Link)
     this->link = Link;
 }
 
-CytexLab::Interface::IConsoleResult ConsoleImpl::WriteConsole(LPCECHAR Str)
+void ConsoleImpl::WriteConsole(LPCECHAR Str)
 {
     if (!Str)
-        return {
-            FALSE, 
-            CytexLab::Interface::IConsoleError::NullPointer, 
-            {
-                FALSE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
     
     UINT64 len = Unicode::StrLen(Str);
 
     if (len == 0)
-        return {
-            TRUE,
-            CytexLab::Interface::IConsoleError::None,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
     
     while (*Str)
     {
@@ -52,67 +34,29 @@ CytexLab::Interface::IConsoleResult ConsoleImpl::WriteConsole(LPCECHAR Str)
         Unicode::ConvertResult result = Unicode::ToUTF16(Str, &buf[0]);
 
         if (!result.Success)
-            return {
-                FALSE,
-                CytexLab::Interface::IConsoleError::FailConvert,
-                result,
-                0
-            };
+            ::ExitProcess(-1);
         
         BOOL w_result = ::WriteConsoleW(this->link.Handle.hOut, &buf[0], result.CountBytes / 2, NULLPTR, NULLPTR);
         
         if (!w_result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IConsoleError::SystemError,
-                result,
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         Str++;
     }
-
-    return {
-        TRUE,
-        CytexLab::Interface::IConsoleError::None,
-        {
-            TRUE,
-            Unicode::ConvertError::None,
-            0
-        }
-    };
 }
 
-CytexLab::Interface::IConsoleResult ConsoleImpl::WriteFile(LPCECHAR Str)
+void ConsoleImpl::WriteFile(LPCECHAR Str)
 {
     if (!Str)
-        return {
-            FALSE, 
-            CytexLab::Interface::IConsoleError::NullPointer, 
-            {
-                FALSE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
     
     UINT64 len = Unicode::StrLen(Str);
 
     if (len == 0)
-        return {
-            TRUE,
-            CytexLab::Interface::IConsoleError::None,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            },
-            0
-        };
+        ::ExitProcess(-1);
     
     while (*Str)
     {
@@ -121,81 +65,41 @@ CytexLab::Interface::IConsoleResult ConsoleImpl::WriteFile(LPCECHAR Str)
         Unicode::ConvertResult result = Unicode::ToUTF8(Str, &buf[0]);
 
         if (!result.Success)
-            return {
-                FALSE,
-                CytexLab::Interface::IConsoleError::FailConvert,
-                result,
-                0
-            };
+            ::ExitProcess(-1);
         
         BOOL w_result = ::WriteFile(this->link.Handle.hOut, &buf[0], result.CountBytes, NULLPTR, NULLPTR);
         
         if (!w_result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IConsoleError::SystemError,
-                result,
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         Str++;
     }
-
-    return {
-        TRUE,
-        CytexLab::Interface::IConsoleError::None,
-        {
-            TRUE,
-            Unicode::ConvertError::None,
-            0
-        }
-    };
 }
 
-CytexLab::Interface::IConsoleResult ConsoleImpl::Write(LPCECHAR Str)
+void ConsoleImpl::Write(LPCECHAR Str)
 {
     if (this->link.Settings.hOutIsFile)
-        return this->WriteFile(Str);
+        this->WriteFile(Str);
     else
-        return this->WriteConsole(Str);
+        this->WriteConsole(Str);
 }
 
-CytexLab::Interface::IConsoleResult ConsoleImpl::WriteLine (LPCECHAR Str)
+void ConsoleImpl::WriteLine (LPCECHAR Str)
 {
-    CytexLab::Interface::IConsoleResult result = this->Write(Str);
-
-    if (!result.Success)
-        return result;
-
-    return this->Write((LPCECHAR) U"\r\n");
+    this->Write(Str);
+    this->Write((LPCECHAR) U"\r\n");
 }
 
-CytexLab::Interface::IConsoleResult ConsoleImpl::ReadConsole(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
+void ConsoleImpl::ReadConsole(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
 {
     if (!Buffer)
-        return {
-            FALSE,
-            CytexLab::Interface::IConsoleError::NullPointer,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            }
-        };
+        ::ExitProcess(-1);
     
     if (BufferSize == 0)
-        return {
-            TRUE,
-            CytexLab::Interface::IConsoleError::None,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            }
-        };
+        return;
     
     UINT64 readed = 0;
     UINT8 bufPos = 0;
@@ -211,16 +115,7 @@ CytexLab::Interface::IConsoleResult ConsoleImpl::ReadConsole(LPECHAR Buffer, UIN
         if (!w_result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IConsoleError::SystemError,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         if (buf[0] == L'\r')
@@ -235,12 +130,7 @@ CytexLab::Interface::IConsoleResult ConsoleImpl::ReadConsole(LPECHAR Buffer, UIN
         {
             if (bufPos < 1) bufPos++;
             else
-                return {
-                    FALSE,
-                    CytexLab::Interface::IConsoleError::FailConvert,
-                    result,
-                    0
-                };
+                ::ExitProcess(-1);
         }
         else
         {
@@ -256,42 +146,15 @@ CytexLab::Interface::IConsoleResult ConsoleImpl::ReadConsole(LPECHAR Buffer, UIN
 
     if (Readed)
         *Readed = readed;
-
-    return {
-        TRUE,
-        CytexLab::Interface::IConsoleError::None,
-        {
-            TRUE,
-            Unicode::ConvertError::None,
-            0
-        },
-        0
-    };
 }
 
-CytexLab::Interface::IConsoleResult ConsoleImpl::ReadFile(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
+void ConsoleImpl::ReadFile(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
 {
     if (!Buffer)
-        return {
-            FALSE,
-            CytexLab::Interface::IConsoleError::NullPointer,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            }
-        };
+        ::ExitProcess(-1);
     
     if (BufferSize == 0)
-        return {
-            TRUE,
-            CytexLab::Interface::IConsoleError::None,
-            {
-                TRUE,
-                Unicode::ConvertError::None,
-                0
-            }
-        };
+        return;
     
     UINT64 readed = 0;
     UINT8 bufPos = 0;
@@ -307,16 +170,7 @@ CytexLab::Interface::IConsoleResult ConsoleImpl::ReadFile(LPECHAR Buffer, UINT64
         if (!w_result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IConsoleError::SystemError,
-                {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    0
-                },
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         if (buf[0] == '\r')
@@ -331,12 +185,7 @@ CytexLab::Interface::IConsoleResult ConsoleImpl::ReadFile(LPECHAR Buffer, UINT64
         {
             if (bufPos < 3) bufPos++;
             else
-                return {
-                    FALSE,
-                    CytexLab::Interface::IConsoleError::FailConvert,
-                    result,
-                    0
-                };
+                ::ExitProcess(-1);
         }
         else
         {
@@ -352,23 +201,12 @@ CytexLab::Interface::IConsoleResult ConsoleImpl::ReadFile(LPECHAR Buffer, UINT64
 
     if (Readed)
         *Readed = readed;
-
-    return {
-        TRUE,
-        CytexLab::Interface::IConsoleError::None,
-        {
-            TRUE,
-            Unicode::ConvertError::None,
-            0
-        },
-        0
-    };
 }
 
-CytexLab::Interface::IConsoleResult ConsoleImpl::ReadLine(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
+void ConsoleImpl::ReadLine(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
 {
     if (this->link.Settings.hInIsFile)
-        return this->ReadFile(Buffer, BufferSize, Readed);
+        this->ReadFile(Buffer, BufferSize, Readed);
     else
-        return this->ReadConsole(Buffer, BufferSize, Readed);
+        this->ReadConsole(Buffer, BufferSize, Readed);
 }

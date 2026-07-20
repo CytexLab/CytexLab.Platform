@@ -13,7 +13,7 @@
 #include "PipeImpl.hpp"
 #include "Placement.hpp"
 
-CytexLab::Interface::ISystemResult SystemImpl::CreateConsole(CytexLab::Interface::IConsole*& Out)
+void SystemImpl::CreateConsole(CytexLab::Interface::IConsole*& Out)
 {
     HANDLE heap = ::GetProcessHeap();
     LPVOID mem = ::HeapAlloc(heap, 0, sizeof(ConsoleImpl));
@@ -21,22 +21,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateConsole(CytexLab::Interface
     if (!mem)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     ConsoleImpl* ci = new (mem) ConsoleImpl();
@@ -55,44 +40,12 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateConsole(CytexLab::Interface
     ci->SetLink(l);
 
     Out = (CytexLab::Interface::IConsole*) ci;
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLab::Interface::IFile* Out, CytexLab::Interface::IFile* In)
+void SystemImpl::RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLab::Interface::IFile* Out, CytexLab::Interface::IFile* In)
 {
     if (!Console)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     CytexLab::Interface::IConsoleSettings s;
     CytexLab::Interface::IConsoleHandle h;
@@ -127,44 +80,12 @@ CytexLab::Interface::ISystemResult SystemImpl::RedirectConsole(CytexLab::Interfa
 
     ConsoleImpl* ci = (ConsoleImpl*) Console;
     ci->SetLink(l);
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLab::Interface::IPipe* Pipe)
+void SystemImpl::RedirectConsole(CytexLab::Interface::IConsole* Console, CytexLab::Interface::IPipe* Pipe)
 {
     if (!Console)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     CytexLab::Interface::IConsoleSettings s;
     CytexLab::Interface::IConsoleHandle h;
@@ -192,44 +113,12 @@ CytexLab::Interface::ISystemResult SystemImpl::RedirectConsole(CytexLab::Interfa
 
     ConsoleImpl* ci = (ConsoleImpl*) Console;
     ci->SetLink(l);
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::DestroyConsole(CytexLab::Interface::IConsole* Console)
+void SystemImpl::DestroyConsole(CytexLab::Interface::IConsole* Console)
 {
     if (!Console)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     ConsoleImpl* ci = (ConsoleImpl*) Console;
     HANDLE heap = ::GetProcessHeap();
@@ -238,38 +127,6 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyConsole(CytexLab::Interfac
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }

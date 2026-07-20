@@ -31,14 +31,10 @@ BOOL PipeImpl::IsOwner()
     return this->owner;
 }
 
-CytexLab::Interface::IPipeResult PipeImpl::Write(LPCECHAR Str)
+void PipeImpl::Write(LPCECHAR Str)
 {
     if (!Str)
-        return {
-            FALSE,
-            CytexLab::Interface::IPipeError::NullPointer,
-            0
-        };
+        ::ExitProcess(-1);
     
     UINT64 len = Unicode::StrLen(Str);
     UINT64 written = 0;
@@ -56,39 +52,21 @@ CytexLab::Interface::IPipeResult PipeImpl::Write(LPCECHAR Str)
         if (!result || _written == 0)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IPipeError::SystemError,
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         Str += _written / sizeof(ECHAR);
         written += _written / sizeof(ECHAR);
     }
-
-    return {
-        TRUE,
-        CytexLab::Interface::IPipeError::None,
-        0
-    };
 }
 
-CytexLab::Interface::IPipeResult PipeImpl::Write(LPCVOID Data, UINT64 Size)
+void PipeImpl::Write(LPCVOID Data, UINT64 Size)
 {
     if (!Data)
-        return {
-            FALSE,
-            CytexLab::Interface::IPipeError::NullPointer,
-            0
-        };
+        ::ExitProcess(-1);
     
     if (Size == 0)
-        return {
-            TRUE,
-            CytexLab::Interface::IPipeError::None,
-            0
-        };
+        return;
     
     UINT64 written = 0;
 
@@ -105,39 +83,21 @@ CytexLab::Interface::IPipeResult PipeImpl::Write(LPCVOID Data, UINT64 Size)
         if (!result || _written == 0)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IPipeError::SystemError,
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         Data = (LPCVOID)((LPUINT8)Data + _written);
         written += _written;
     }
-
-    return {
-        TRUE,
-        CytexLab::Interface::IPipeError::None,
-        0
-    };
 }
 
-CytexLab::Interface::IPipeResult PipeImpl::Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
+void PipeImpl::Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed)
 {
     if (!Buffer)
-        return {
-            FALSE,
-            CytexLab::Interface::IPipeError::NullPointer,
-            0
-        };
+        ::ExitProcess(-1);
     
     if (BufferSize == 0)
-        return {
-            TRUE,
-            CytexLab::Interface::IPipeError::None,
-            0
-        };
+        return;
     
     UINT64 readed = 0;
 
@@ -154,11 +114,7 @@ CytexLab::Interface::IPipeResult PipeImpl::Read(LPECHAR Buffer, UINT64 BufferSiz
         if (!result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IPipeError::SystemError,
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         if (_readed == 0)
@@ -175,29 +131,15 @@ CytexLab::Interface::IPipeResult PipeImpl::Read(LPECHAR Buffer, UINT64 BufferSiz
 
     if (Readed)
         *Readed = readed;
-
-    return {
-        TRUE,
-        CytexLab::Interface::IPipeError::None,
-        0
-    };
 }
 
-CytexLab::Interface::IPipeResult PipeImpl::Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed)
+void PipeImpl::Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed)
 {
     if (!Buffer)
-        return {
-            TRUE,
-            CytexLab::Interface::IPipeError::None,
-            0
-        };
+        return;
     
     if (BufferSize == 0)
-        return {
-            TRUE,
-            CytexLab::Interface::IPipeError::None,
-            0
-        };
+        return;
     
     UINT64 readed = 0;
 
@@ -214,11 +156,7 @@ CytexLab::Interface::IPipeResult PipeImpl::Read(LPVOID Buffer, UINT64 BufferSize
         if (!result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IPipeError::SystemError,
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         if (_readed == 0)
@@ -230,15 +168,9 @@ CytexLab::Interface::IPipeResult PipeImpl::Read(LPVOID Buffer, UINT64 BufferSize
 
     if (Readed)
         *Readed = readed;
-
-    return {
-        TRUE,
-        CytexLab::Interface::IPipeError::None,
-        0
-    };
 }
 
-CytexLab::Interface::IPipeResult PipeImpl::Connect()
+void PipeImpl::Connect()
 {
     if (this->owner)
     {
@@ -247,27 +179,11 @@ CytexLab::Interface::IPipeResult PipeImpl::Connect()
         if (!connected)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IPipeError::SystemError,
-                error
-            };
-        }
-        else
-        {
-            return {
-                TRUE,
-                CytexLab::Interface::IPipeError::None,
-                0
-            };
+            ::ExitProcess(-1);
         }
     }
     else 
     {
-        return {
-            FALSE,
-            CytexLab::Interface::IPipeError::RequiredOwner,
-            0
-        };
+        ::ExitProcess(-1);
     }
 }

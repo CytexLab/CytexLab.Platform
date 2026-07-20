@@ -25,7 +25,7 @@ AllocatorImpl::~AllocatorImpl()
 
 }
 
-CytexLab::Interface::IAllocatorResult AllocatorImpl::Init()
+void AllocatorImpl::Init()
 {
     this->total_block = 1;
     this->total_size = INITIAL_SIZE;
@@ -37,11 +37,7 @@ CytexLab::Interface::IAllocatorResult AllocatorImpl::Init()
     if (!mem)
     {
         UINT32 error = ::GetLastError();
-        return {
-            FALSE,
-            CytexLab::Interface::IAllocatorError::SystemError,
-            error
-        };
+        ::ExitProcess(-1);
     }
 
     this->blocks[0].base = mem;
@@ -49,12 +45,6 @@ CytexLab::Interface::IAllocatorResult AllocatorImpl::Init()
     this->blocks[0].free = INITIAL_SIZE;
     this->blocks[0].allocated = 0;
     this->blocks[0].used = 0;
-
-    return {
-        TRUE,
-        CytexLab::Interface::IAllocatorError::None,
-        0
-    };
 }
 
 void AllocatorImpl::DeInit()
@@ -65,7 +55,11 @@ void AllocatorImpl::DeInit()
     {
         AllocatorBlock* block = &this->blocks[i];
 
-        ::HeapFree(heap, 0, block->base);
+        if (!::HeapFree(heap, 0, block->base))
+        {
+            UINT32 error = ::GetLastError();
+            ::ExitProcess(-1);
+        }
     }
 }
 
@@ -305,14 +299,10 @@ BOOL AllocatorImpl::freeItem(UINT64 Id)
     return FALSE;
 }
 
-CytexLab::Interface::IAllocatorResult AllocatorImpl::Allocate(CytexLab::Interface::IAllocatorHandle &Out, UINT64 Size)
+void AllocatorImpl::Allocate(CytexLab::Interface::IAllocatorHandle &Out, UINT64 Size)
 {
     if (Size == 0)
-        return {
-            FALSE,
-            CytexLab::Interface::IAllocatorError::InvalidSize,
-            0
-        };
+        ::ExitProcess(-1);
 
     UINT64 block = this->findFreeBlock(Size);
 
@@ -336,64 +326,36 @@ CytexLab::Interface::IAllocatorResult AllocatorImpl::Allocate(CytexLab::Interfac
         this->total_allocates++;
         this->total_used += Size;
         this->total_free -= Size;
-
-        return {
-            TRUE,
-            CytexLab::Interface::IAllocatorError::None,
-            0
-        };
     }
     else
     {
         if (this->total_block == MAX_ALLOCATED_BLOCK)
-            return {
-                FALSE,
-                CytexLab::Interface::IAllocatorError::OutOfMemory,
-                0
-            };
+            ::ExitProcess(-1);
 
         BOOL result = this->allocateNewBlock(Size);
 
         if (!result)
         {
             UINT32 error = ::GetLastError();
-            return {
-                FALSE,
-                CytexLab::Interface::IAllocatorError::SystemError,
-                error
-            };
+            ::ExitProcess(-1);
         }
 
         return this->Allocate(Out, Size);
     }
 }
 
-CytexLab::Interface::IAllocatorResult AllocatorImpl::Free(CytexLab::Interface::IAllocatorHandle Handle)
+void AllocatorImpl::Free(CytexLab::Interface::IAllocatorHandle Handle)
 {
     BOOL result = this->freeItem(Handle.id);
 
     if (!result)
     {
-        return {
-            FALSE,
-            CytexLab::Interface::IAllocatorError::InvalidHandle,
-            0
-        };
+        ::ExitProcess(-1);
     }
-
-    return {
-        TRUE,
-        CytexLab::Interface::IAllocatorError::None,
-        0
-    };
 }
 
-CytexLab::Interface::IAllocatorResult AllocatorImpl::Reallocate(CytexLab::Interface::IAllocatorHandle& Handle, UINT64 NewSize)
+void AllocatorImpl::Reallocate(CytexLab::Interface::IAllocatorHandle& Handle, UINT64 NewSize)
 {
-    CytexLab::Interface::IAllocatorResult result = this->Free(Handle);
-
-    if (!result.Success)
-        return result;
-
-    return this->Allocate(Handle, NewSize);
+    this->Free(Handle);
+    this->Allocate(Handle, NewSize);
 }

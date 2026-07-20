@@ -11,7 +11,7 @@
 #include "WinImports.hpp"
 #include "Placement.hpp"
 
-CytexLab::Interface::ISystemResult SystemImpl::CreateAllocator(CytexLab::Interface::IAllocator *&Out)
+void SystemImpl::CreateAllocator(CytexLab::Interface::IAllocator *&Out)
 {
     HANDLE heap = ::GetProcessHeap();
     LPVOID mem = ::HeapAlloc(heap, 0, sizeof(AllocatorImpl));
@@ -19,90 +19,19 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateAllocator(CytexLab::Interfa
     if (!mem)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
 
     AllocatorImpl* ai = new (mem) AllocatorImpl();
-    CytexLab::Interface::IAllocatorResult init_result = ai->Init();
-
-    if (!init_result.Success)
-    {
-        // Init мог упасть только из-за HeapAlloc внутри AddBlock -
-        // блоков нет, чистить нечего, просто освобождаем сам объект
-        ::HeapFree(heap, 0, ai);
-
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                init_result.SystemError
-        };
-    }
+    ai->Init();
 
     Out = (CytexLab::Interface::IAllocator*) ai;
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::DestroyAllocator(CytexLab::Interface::IAllocator *Allacator)
+void SystemImpl::DestroyAllocator(CytexLab::Interface::IAllocator *Allacator)
 {
     if (!Allacator)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     AllocatorImpl* ai = (AllocatorImpl*) Allacator;
     ai->DeInit();
@@ -113,38 +42,6 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyAllocator(CytexLab::Interf
     if (!result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }

@@ -20,29 +20,12 @@ namespace CytexLab
             UINT64 size;
         };
 
-        enum class IAllocatorError : UINT8
-        {
-            None,
-            NullPointer,
-            InvalidHandle,
-            InvalidSize,
-            OutOfMemory,
-            SystemError
-        };
-
-        struct IAllocatorResult
-        {
-            BOOL Success;
-            IAllocatorError Error;
-            UINT32 SystemError;
-        };
-
         class IAllocator
         {
         public:
-            virtual IAllocatorResult Allocate(IAllocatorHandle& Out, UINT64 Size)= 0;
-            virtual IAllocatorResult Free(IAllocatorHandle Handle) = 0;
-            virtual IAllocatorResult Reallocate(IAllocatorHandle& Handle, UINT64 NewSize) = 0;
+            virtual void Allocate(IAllocatorHandle& Out, UINT64 Size)= 0;
+            virtual void Free(IAllocatorHandle Handle) = 0;
+            virtual void Reallocate(IAllocatorHandle& Handle, UINT64 NewSize) = 0;
 
             virtual LPVOID Resolve(CytexLab::Interface::IAllocatorHandle Handle) = 0;
 

@@ -22,13 +22,13 @@ public:
 
     HANDLE GetHandle();
 
-    CytexLab::Interface::IFileResult Write(LPCECHAR Str) override;
-    CytexLab::Interface::IFileResult WriteLine(LPCECHAR Str) override;
-    CytexLab::Interface::IFileResult Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
+    void Write(LPCECHAR Str) override;
+    void WriteLine(LPCECHAR Str) override;
+    void Read(LPECHAR Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
 
-    CytexLab::Interface::IFileResult Write(LPCVOID Data, UINT64 Size) override;
-    CytexLab::Interface::IFileResult Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
+    void Write(LPCVOID Data, UINT64 Size) override;
+    void Read(LPVOID Buffer, UINT64 BufferSize, LPUINT64 Readed) override;
 
-    CytexLab::Interface::IFileResult GetFileSize(LPUINT64 Out) override;
-    CytexLab::Interface::IFileResult Seek(CytexLab::Interface::IFileSeekMode Mode, INT64 Offset, LPUINT64 NewPos) override;
+    void GetFileSize(LPUINT64 Out) override;
+    void Seek(CytexLab::Interface::IFileSeekMode Mode, INT64 Offset, LPUINT64 NewPos) override;
 };
