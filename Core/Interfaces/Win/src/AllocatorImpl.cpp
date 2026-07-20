@@ -291,6 +291,13 @@ CytexLab::Interface::IAllocatorResult AllocatorImpl::Allocate(CytexLab::Interfac
 
     if (block != -1)
     {
+        if (this->blocks[block].allocated == MAX_ALLOCATED_ITEMS)
+            return {
+                FALSE,
+                CytexLab::Interface::IAllocatorError::OutOfMemory,
+                0
+            };
+
         UINT64 offset = this->findHole(block, Size);
 
         if (offset == -1)
@@ -318,6 +325,13 @@ CytexLab::Interface::IAllocatorResult AllocatorImpl::Allocate(CytexLab::Interfac
     }
     else
     {
+        if (this->total_block == MAX_ALLOCATED_BLOCK)
+            return {
+                FALSE,
+                CytexLab::Interface::IAllocatorError::OutOfMemory,
+                0
+            };
+
         BOOL result = this->allocateNewBlock(Size);
 
         if (!result)
