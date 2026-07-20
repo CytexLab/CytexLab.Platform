@@ -22,7 +22,7 @@ public:
 
     HANDLE GetHandle();
 
-    CytexLab::Interface::IMutexResult Lock() override;
-    CytexLab::Interface::IMutexResult UnLock() override;
-    CytexLab::Interface::IMutexResult TryLock(BOOL& Out) override;
+    void Lock() override;
+    void UnLock() override;
+    void TryLock(BOOL& Out) override;
 };

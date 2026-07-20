@@ -9,25 +9,10 @@
 #include "SystemImpl.hpp"
 #include "WinImports.hpp"
 
-CytexLab::Interface::ISystemResult SystemImpl::GetArgs(LPUINT64 Out)
+void SystemImpl::GetArgs(LPUINT64 Out)
 {
     if (!Out)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     LPWCHAR cmdLine = ::GetCommandLineW();
 
@@ -42,61 +27,14 @@ CytexLab::Interface::ISystemResult SystemImpl::GetArgs(LPUINT64 Out)
     if (argv == result)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::GetArgv(LPECHAR *Out)
+void SystemImpl::GetArgv(LPECHAR *Out)
 {
     if (!Out)
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::NullPointer,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                0
-        };
+        ::ExitProcess(-1);
 
     LPWCHAR cmdLine = ::GetCommandLineW();
 
@@ -109,12 +47,7 @@ CytexLab::Interface::ISystemResult SystemImpl::GetArgv(LPECHAR *Out)
 
         if (!convert_result.Success)
         {
-            return {
-                    FALSE,
-                    CytexLab::Interface::ISystemError::FailConvert,
-                    convert_result,
-                    0
-            };
+            ::ExitProcess(-1);
         }
     }
 
@@ -123,38 +56,6 @@ CytexLab::Interface::ISystemResult SystemImpl::GetArgv(LPECHAR *Out)
     if (result == argv)
     {
         UINT32 error = ::GetLastError();
-        return {
-                FALSE,
-                CytexLab::Interface::ISystemError::SystemError,
-                {
-                        TRUE,
-                        Unicode::ConvertError::None,
-                        {
-                                TRUE,
-                                Unicode::ConvertError::None,
-                                0
-                        },
-                        0,
-                        0
-                },
-                error
-        };
+        ::ExitProcess(-1);
     }
-
-    return {
-            TRUE,
-            CytexLab::Interface::ISystemError::None,
-            {
-                    TRUE,
-                    Unicode::ConvertError::None,
-                    {
-                            TRUE,
-                            Unicode::ConvertError::None,
-                            0
-                    },
-                    0,
-                    0
-            },
-            0
-    };
 }
