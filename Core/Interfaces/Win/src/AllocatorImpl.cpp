@@ -243,7 +243,7 @@ LPVOID AllocatorImpl::Resolve(CytexLab::Interface::IAllocatorHandle Handle)
     return NULLPTR;
 }
 
-void AllocatorImpl::freeItem(UINT64 Id)
+BOOL AllocatorImpl::freeItem(UINT64 Id)
 {
     for (UINT64 i = 0; i < this->total_block; i++)
     {
@@ -258,10 +258,12 @@ void AllocatorImpl::freeItem(UINT64 Id)
                 for (UINT64 k = j; k < block->allocated - 1; k++) {
                     block->items[k] = block->items[k + 1];
                 }
-                return;
+                return TRUE;
             }
         }
     }
+
+    return FALSE;
 }
 
 CytexLab::Interface::IAllocatorResult AllocatorImpl::Allocate(CytexLab::Interface::IAllocatorHandle &Out, UINT64 Size)
@@ -318,4 +320,24 @@ CytexLab::Interface::IAllocatorResult AllocatorImpl::Allocate(CytexLab::Interfac
 
         return this->Allocate(Out, Size);
     }
+}
+
+CytexLab::Interface::IAllocatorResult AllocatorImpl::Free(CytexLab::Interface::IAllocatorHandle Handle)
+{
+    BOOL result = this->freeItem(Handle.id);
+
+    if (!result)
+    {
+        return {
+            FALSE,
+            CytexLab::Interface::IAllocatorError::InvalidHandle,
+            0
+        };
+    }
+
+    return {
+        TRUE,
+        CytexLab::Interface::IAllocatorError::None,
+        0
+    };
 }
