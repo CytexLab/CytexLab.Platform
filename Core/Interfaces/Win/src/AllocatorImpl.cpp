@@ -97,7 +97,7 @@ UINT64 AllocatorImpl::findHole(UINT64 Block, UINT64 Size)
         currentOffset = item->offset + item->size;
     }
 
-    if (block->free - currentOffset >= Size)
+    if (block->total - currentOffset >= Size)
         return currentOffset;
 
     return -1;
@@ -255,9 +255,20 @@ BOOL AllocatorImpl::freeItem(UINT64 Id)
 
             if (item->id == Id)
             {
+                UINT64 freedSize = item->size;
+
                 for (UINT64 k = j; k < block->allocated - 1; k++) {
                     block->items[k] = block->items[k + 1];
                 }
+
+                block->allocated--;
+                block->free += freedSize;
+                block->used -= freedSize;
+
+                this->total_used -= freedSize;
+                this->total_free += freedSize;
+                this->total_allocates--;
+
                 return TRUE;
             }
         }
