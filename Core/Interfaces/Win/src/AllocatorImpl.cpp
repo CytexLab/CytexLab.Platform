@@ -17,6 +17,7 @@ AllocatorImpl::AllocatorImpl()
     this->total_block = 0;
     this->total_free = 0;
     this->total_size = 0;
+    this->next_id = 0;
 }
 
 AllocatorImpl::~AllocatorImpl()
