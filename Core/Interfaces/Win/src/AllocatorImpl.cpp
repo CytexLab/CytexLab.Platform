@@ -263,3 +263,59 @@ void AllocatorImpl::freeItem(UINT64 Id)
         }
     }
 }
+
+CytexLab::Interface::IAllocatorResult AllocatorImpl::Allocate(CytexLab::Interface::IAllocatorHandle &Out, UINT64 Size)
+{
+    if (Size == 0)
+        return {
+            FALSE,
+            CytexLab::Interface::IAllocatorError::InvalidSize,
+            0
+        };
+
+    UINT64 block = this->findFreeBlock(Size);
+
+    if (block != -1)
+    {
+        UINT64 offset = this->findHole(block, Size);
+
+        if (offset == -1)
+        {
+            this->defragmentBlock(block);
+            offset = this->findHole(block, Size);
+        }
+
+        UINT64 id = this->insertItem(block, Size, offset);
+
+        Out = {
+                id,
+                Size
+        };
+
+        this->total_allocates++;
+        this->total_used += Size;
+        this->total_free -= Size;
+
+        return {
+            TRUE,
+            CytexLab::Interface::IAllocatorError::None,
+            0
+        };
+    }
+    else
+    {
+        BOOL result = this->allocateNewBlock(Size);
+
+        if (!result)
+        {
+            UINT32 error = ::GetLastError();
+            return {
+                FALSE,
+                CytexLab::Interface::IAllocatorError::SystemError,
+                error
+            };
+        }
+
+        return this->Allocate(Out, Size);
+    }
+}
