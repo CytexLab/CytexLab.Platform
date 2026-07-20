@@ -7,14 +7,14 @@
  */
 
 #include "SystemImpl.hpp"
-#include "AllacatorImpl.hpp"
+#include "AllocatorImpl.hpp"
 #include "WinImports.hpp"
 #include "Placement.hpp"
 
-CytexLab::Interface::ISystemResult SystemImpl::CreateAllacator(CytexLab::Interface::IAllacator*& Out)
+CytexLab::Interface::ISystemResult SystemImpl::CreateAllacator(CytexLab::Interface::IAllocator*& Out)
 {
     HANDLE heap = ::GetProcessHeap();
-    LPVOID mem = ::HeapAlloc(heap, 0, sizeof(AllacatorImpl));
+    LPVOID mem = ::HeapAlloc(heap, 0, sizeof(AllocatorImpl));
 
     if (!mem)
     {
@@ -37,7 +37,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateAllacator(CytexLab::Interfa
         };
     }
 
-    AllacatorImpl* ai = new (mem) AllacatorImpl();
+    AllocatorImpl* ai = new (mem) AllocatorImpl();
     CytexLab::Interface::IAllacatorResult init_result = ai->Init();
 
     if (!init_result.Success)
@@ -64,7 +64,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateAllacator(CytexLab::Interfa
         };
     }
 
-    Out = (CytexLab::Interface::IAllacator*) ai;
+    Out = (CytexLab::Interface::IAllocator*) ai;
 
     return {
             TRUE,
@@ -84,7 +84,7 @@ CytexLab::Interface::ISystemResult SystemImpl::CreateAllacator(CytexLab::Interfa
     };
 }
 
-CytexLab::Interface::ISystemResult SystemImpl::DestroyAllacator(CytexLab::Interface::IAllacator* Allacator)
+CytexLab::Interface::ISystemResult SystemImpl::DestroyAllacator(CytexLab::Interface::IAllocator* Allacator)
 {
     if (!Allacator)
         return {
@@ -104,7 +104,7 @@ CytexLab::Interface::ISystemResult SystemImpl::DestroyAllacator(CytexLab::Interf
                 0
         };
 
-    AllacatorImpl* ai = (AllacatorImpl*) Allacator;
+    AllocatorImpl* ai = (AllocatorImpl*) Allacator;
     ai->DeInit();
 
     HANDLE heap = ::GetProcessHeap();
