@@ -14,13 +14,13 @@ namespace CytexLab
 {
     namespace Interface
     {
-        struct IAllacatorHandle
+        struct IAllocatorHandle
         {
             UINT64 id;
             UINT64 size;
         };
 
-        enum class IAllacatorError : UINT8
+        enum class IAllocatorError : UINT8
         {
             None,
             NullPointer,
@@ -30,21 +30,21 @@ namespace CytexLab
             SystemError
         };
 
-        struct IAllacatorResult
+        struct IAllocatorResult
         {
             BOOL Success;
-            IAllacatorError Error;
+            IAllocatorError Error;
             UINT32 SystemError;
         };
 
-        class IAllacator
+        class IAllocator
         {
         public:
-            virtual IAllacatorResult Allocate(IAllacatorHandle& Out, UINT64 Size)= 0;
-            virtual IAllacatorResult Free(IAllacatorHandle Handle) = 0;
-            virtual IAllacatorResult Reallocate(IAllacatorHandle Handle, UINT64 NewSize) = 0;
+            virtual IAllocatorResult Allocate(IAllocatorHandle& Out, UINT64 Size)= 0;
+            virtual IAllocatorResult Free(IAllocatorHandle Handle) = 0;
+            virtual IAllocatorResult Reallocate(IAllocatorHandle& Handle, UINT64 NewSize) = 0;
 
-            virtual LPVOID Resolve(CytexLab::Interface::IAllacatorHandle Handle) = 0;
+            virtual LPVOID Resolve(CytexLab::Interface::IAllocatorHandle Handle) = 0;
 
             virtual UINT64 GetTotalSize() = 0;
             virtual UINT64 GetFree() = 0;
