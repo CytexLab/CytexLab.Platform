@@ -56,6 +56,18 @@ CytexLab::Interface::IAllocatorResult AllocatorImpl::Init()
     };
 }
 
+void AllocatorImpl::DeInit()
+{
+    HANDLE heap = ::GetProcessHeap();
+
+    for (UINT64 i = 0; i < this->total_block; i++)
+    {
+        AllocatorBlock* block = &this->blocks[i];
+
+        ::HeapFree(heap, 0, block->base);
+    }
+}
+
 UINT64 AllocatorImpl::findFreeBlock(UINT64 Size)
 {
     for (UINT64 i = 0; i < this->total_block; i++)
