@@ -9,6 +9,7 @@
 #include "SystemFabric.hpp"
 #include "ISystem.hpp"
 #include "Unicode.hpp"
+#include "Vector.hpp"
 
 using namespace CytexLab::Interface;
 
