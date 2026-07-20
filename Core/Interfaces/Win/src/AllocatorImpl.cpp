@@ -198,3 +198,27 @@ UINT64 AllocatorImpl::insertItem(UINT64 Block, UINT64 Size, UINT64 Offset)
     return item->id;
 }
 
+UINT64 AllocatorImpl::GetFree()
+{
+    return this->total_free;
+}
+
+UINT64 AllocatorImpl::GetUsed()
+{
+    return this->total_used;
+}
+
+UINT64 AllocatorImpl::GetTotalSize()
+{
+    return this->total_size;
+}
+
+UINT64 AllocatorImpl::GetTotalAllocates()
+{
+    return this->total_allocates;
+}
+
+UINT64 AllocatorImpl::GetTotalAllocatedBlocks()
+{
+    return this->total_block;
+}
