@@ -145,6 +145,7 @@ endfunction()
 add_subdirectory(${CYTEXLAB_ROOT}/Core/Base)
 add_subdirectory(${CYTEXLAB_ROOT}/Core/Interfaces/Interface)
 add_subdirectory(${CYTEXLAB_ROOT}/Core/Interfaces/Win)
+add_subdirectory(${CYTEXLAB_ROOT}/Containers)
 
 add_subdirectory(${CYTEXLAB_ROOT}/Test/TestRunner)
 add_subdirectory(${CYTEXLAB_ROOT}/Test/SystemTest)
