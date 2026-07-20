@@ -75,7 +75,7 @@ UINT64 AllocatorImpl::findFreeBlock(UINT64 Size)
     {
         AllocatorBlock* block = &this->blocks[i];
 
-        if (block->free >= Size)
+        if (block->free >= Size && block->allocated < MAX_ALLOCATED_ITEMS)
             return i;
     }
 
@@ -291,13 +291,6 @@ CytexLab::Interface::IAllocatorResult AllocatorImpl::Allocate(CytexLab::Interfac
 
     if (block != -1)
     {
-        if (this->blocks[block].allocated == MAX_ALLOCATED_ITEMS)
-            return {
-                FALSE,
-                CytexLab::Interface::IAllocatorError::OutOfMemory,
-                0
-            };
-
         UINT64 offset = this->findHole(block, Size);
 
         if (offset == -1)
