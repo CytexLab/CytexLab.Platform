@@ -20,40 +20,25 @@ extern "C" void startup()
 {
     ISystem* system = Fabric::SystemFabric::Create();
 
-    IConsole* console;
-    system->CreateConsole(console);
+    IWindow* window;
+    system->CreateWindow(window, U"CytexVox", 0, 0, 500, 400);
 
-    IAllocator* allocator;
-    system->CreateAllocator(allocator);
+    IRenderWindow* renderWindow;
+    system->CreateRenderWindow(renderWindow, window);
 
-    String str1(allocator);
-    String str2(allocator);
-    String str3(allocator);
+    renderWindow->loadOpenGL33();
+    GLFunctions glFunctions = renderWindow->getOpenGL33();
 
-    str1 = U"Привет, мир!";
-    str2 += str1; str2 += U" Hello, World!";
-    str3 += str2; str3 += U" 😁🪟";
+    while (window->IsOpen())
+    {
+        window->Process();
 
-    Vector<String> vec(allocator);
+        glFunctions.glClearColor(0, 0, 0, 0.5f);
+        glFunctions.glClear(GL_COLOR_BUFFER_BIT);
 
-    vec.PushBack(str1);
-    vec.PushBack(str2);
-    vec.PushBack(str3);
+        renderWindow->SwapBuffers();
+    }
 
-    Map<String, Vector<String>> map(allocator);
-
-    String key1(allocator);
-    key1 = U"First";
-
-    map.Insert(key1, vec);
-
-    Vector<String> out(allocator);
-    map.Find(key1, out);
-
-    for (UINT8 i = 0; i < 3; i++)
-        console->WriteLine(out[i].GetData());
-
-    system->DestroyConsole(console);
-    system->DestroyAllocator(allocator);
+    system->DestroyWindow(window);
     system->ExitProcess(0);
 }

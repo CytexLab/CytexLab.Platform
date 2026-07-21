@@ -17,6 +17,8 @@
 #include "IPipe.hpp"
 #include "IAllocator.hpp"
 #include "IProcess.hpp"
+#include "IWindow.hpp"
+#include "IRenderWindow.hpp"
 
 namespace CytexLab
 {
@@ -51,6 +53,12 @@ namespace CytexLab
 
             virtual void CreateProcess(IProcess*& Out, LPCECHAR CmdLine) = 0;
             virtual void DestroyProcess(IProcess* Process) = 0;
+
+            virtual void CreateWindow(IWindow*& Out, LPCECHAR Title, UINT64 x, UINT64 y, UINT64 Width, UINT64 Height) = 0;
+            virtual void DestroyWindow(IWindow* Window) = 0;
+
+            virtual void CreateRenderWindow(IRenderWindow*& Out, IWindow* Window) = 0;
+            virtual void DestroyRenderWindow(IRenderWindow* RenderWindow) = 0;
 
             virtual void ExitProcess(UINT32 Code) = 0;
         };
