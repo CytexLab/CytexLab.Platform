@@ -9,6 +9,7 @@
 #pragma once
 
 #include "Types.hpp"
+#include "GLFunctions.hpp"
 
 namespace CytexLab
 {
@@ -19,6 +20,7 @@ namespace CytexLab
         public:
             virtual void SwapBuffers() = 0;
             virtual void loadOpenGL33() = 0;
+            virtual GLFunctions getOpenGL33() = 0;
         };
     }
 }
