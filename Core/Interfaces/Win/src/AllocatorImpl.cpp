@@ -40,6 +40,11 @@ void AllocatorImpl::Init()
         ::ExitProcess(-1);
     }
 
+    for (UINT64 i = 0; i < CACHE_SIZE; i++)
+    {
+        this->cache[i].id = UNSET;
+    }
+
     this->blocks[0].base = mem;
     this->blocks[0].total = INITIAL_SIZE;
     this->blocks[0].free = INITIAL_SIZE;
