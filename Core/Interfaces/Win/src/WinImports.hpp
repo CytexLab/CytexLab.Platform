@@ -214,5 +214,3 @@ extern "C"
 #define PFD_DOUBLEBUFFER    0x00000001
 #define PFD_TYPE_RGBA       0
 #define PFD_MAIN_PLANE      0
-
-#define GL_COLOR_BUFFER_BIT 0x00004000

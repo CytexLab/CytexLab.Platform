@@ -21,11 +21,22 @@ extern "C" void startup()
     ISystem* system = Fabric::SystemFabric::Create();
 
     IWindow* window;
-    system->CreateWindow(window, U"Test window", 0, 0, 500, 400);
+    system->CreateWindow(window, U"CytexVox", 0, 0, 500, 400);
+
+    IRenderWindow* renderWindow;
+    system->CreateRenderWindow(renderWindow, window);
+
+    renderWindow->loadOpenGL33();
+    GLFunctions glFunctions = renderWindow->getOpenGL33();
 
     while (window->IsOpen())
     {
         window->Process();
+
+        glFunctions.glClearColor(0, 0, 0, 0.5f);
+        glFunctions.glClear(GL_COLOR_BUFFER_BIT);
+
+        renderWindow->SwapBuffers();
     }
 
     system->DestroyWindow(window);
