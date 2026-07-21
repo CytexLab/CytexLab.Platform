@@ -48,5 +48,8 @@ public:
     void CreateWindow(CytexLab::Interface::IWindow*& Out, LPCECHAR Title, UINT64 x, UINT64 y, UINT64 Width, UINT64 Height) override;
     void DestroyWindow(CytexLab::Interface::IWindow* Window) override;
 
+    void CreateRenderWindow(CytexLab::Interface::IRenderWindow*& Out, CytexLab::Interface::IWindow* Window) override;
+    void DestroyRenderWindow(CytexLab::Interface::IRenderWindow* Window) override;
+
     void ExitProcess(UINT32 Code) override;
 };
