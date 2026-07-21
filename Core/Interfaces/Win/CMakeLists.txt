@@ -30,6 +30,7 @@ set(files
     "src/SystemImpl.Args.cpp"
     "src/SystemImpl.Process.cpp"
     "src/SystemImpl.Window.cpp"
+    "src/SystemImpl.RenderWindow.cpp"
     "src/ProcessImpl.hpp"
     "src/ProcessImpl.cpp"
     "src/WindowImpl.hpp"
