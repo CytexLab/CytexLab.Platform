@@ -29,6 +29,7 @@ set(files
     "src/SystemImpl.Allocator.cpp"
     "src/SystemImpl.Args.cpp"
     "src/SystemImpl.Process.cpp"
+    "src/SystemImpl.Window.cpp"
     "src/ProcessImpl.hpp"
     "src/ProcessImpl.cpp"
     "src/WindowImpl.hpp"
