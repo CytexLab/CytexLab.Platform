@@ -20,14 +20,26 @@ extern "C" void startup()
 {
     ISystem* system = Fabric::SystemFabric::Create();
 
+    IConsole* console;
+    system->CreateConsole(console);
+
+    console->WriteLine(U"[ WAIT ] Инициализация движка");
+
     IWindow* window;
     system->CreateWindow(window, U"CytexVox", 0, 0, 500, 400);
+
+    console->WriteLine(U"[ OK ] Создано окно");
 
     IRenderWindow* renderWindow;
     system->CreateRenderWindow(renderWindow, window);
 
+    console->WriteLine(U"[ OK ] Создано рендер окно");
+
     renderWindow->loadOpenGL33();
     GLFunctions glFunctions = renderWindow->getOpenGL33();
+
+    console->WriteLine(U"[ OK ] Созданы функции OpenGL 3.3 Core");
+    console->WriteLine(U"[ OK ] Движок инициализирован");
 
     while (window->IsOpen())
     {
@@ -39,6 +51,10 @@ extern "C" void startup()
         renderWindow->SwapBuffers();
     }
 
+    console->WriteLine(U"[ OK ] Завершение работы");
+
+    system->DestroyRenderWindow(renderWindow);
     system->DestroyWindow(window);
+    system->DestroyConsole(console);
     system->ExitProcess(0);
 }
