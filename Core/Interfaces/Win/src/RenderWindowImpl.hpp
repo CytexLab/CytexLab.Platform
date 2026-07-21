@@ -15,6 +15,10 @@ class RenderWindowImpl : public CytexLab::Interface::IRenderWindow
 {
 private:
     WindowImpl* window;
+    HANDLE context;
+    HANDLE hdc;
+
+    GLFunctions funcs;
 
 public:
     RenderWindowImpl(WindowImpl* Window);
@@ -22,4 +26,5 @@ public:
 
     void SwapBuffers() override;
     void loadOpenGL33() override;
+    GLFunctions getOpenGL33() override;
 };
