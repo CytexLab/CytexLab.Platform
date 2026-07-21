@@ -101,7 +101,7 @@ endif()
 
 if (${CYTEXLAB_PLATFORM} STREQUAL "Windows")
     set(CXX_BASE_FLAGS ${CXX_BASE_FLAGS} -target x86_64-pc-windows-msvc -fuse-ld=lld)
-	set(CYTEXLAB_PLATFORM_LIBS kernel32 user32)
+	set(CYTEXLAB_PLATFORM_LIBS kernel32 user32 gdi32 opengl32)
 elseif (${CYTEXLAB_PLATFORM} STREQUAL "Linux")
 	set(CYTEXLAB_PLATFORM_LIBS "")
 endif()
