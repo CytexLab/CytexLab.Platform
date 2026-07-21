@@ -34,6 +34,8 @@ set(files
     "src/ProcessImpl.cpp"
     "src/WindowImpl.hpp"
     "src/WindowImpl.cpp"
+    "src/RenderWindowImpl.hpp"
+    "src/RenderWindowImpl.cpp"
 )
 
 set(deps "Base" "Interface")
