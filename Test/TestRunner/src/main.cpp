@@ -20,40 +20,13 @@ extern "C" void startup()
 {
     ISystem* system = Fabric::SystemFabric::Create();
 
-    IConsole* console;
-    system->CreateConsole(console);
+    IWindow* window;
+    system->CreateWindow(window, U"Test window", 0, 0, 500, 400);
 
-    IAllocator* allocator;
-    system->CreateAllocator(allocator);
+    while (window->IsOpen())
+    {
+        window->Process();
+    }
 
-    String str1(allocator);
-    String str2(allocator);
-    String str3(allocator);
-
-    str1 = U"Привет, мир!";
-    str2 += str1; str2 += U" Hello, World!";
-    str3 += str2; str3 += U" 😁🪟";
-
-    Vector<String> vec(allocator);
-
-    vec.PushBack(str1);
-    vec.PushBack(str2);
-    vec.PushBack(str3);
-
-    Map<String, Vector<String>> map(allocator);
-
-    String key1(allocator);
-    key1 = U"First";
-
-    map.Insert(key1, vec);
-
-    Vector<String> out(allocator);
-    map.Find(key1, out);
-
-    for (UINT8 i = 0; i < 3; i++)
-        console->WriteLine(out[i].GetData());
-
-    system->DestroyConsole(console);
-    system->DestroyAllocator(allocator);
     system->ExitProcess(0);
 }

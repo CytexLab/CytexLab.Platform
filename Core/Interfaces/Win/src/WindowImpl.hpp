@@ -14,10 +14,14 @@ class WindowImpl : public CytexLab::Interface::IWindow
 {
 private:
     HANDLE hWindow;
+    BOOL isOpen;
+    UINT64 width, height;
 
 public:
-    WindowImpl(HANDLE Window);
+    WindowImpl(HANDLE Window, UINT64 width, UINT64 height);
     ~WindowImpl();
+
+    HANDLE GetHandle();
 
     void Close() override;
     void Process() override;
