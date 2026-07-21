@@ -28,5 +28,6 @@ extern "C" void startup()
         window->Process();
     }
 
+    system->DestroyWindow(window);
     system->ExitProcess(0);
 }

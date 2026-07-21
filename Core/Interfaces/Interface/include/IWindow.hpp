@@ -17,7 +17,6 @@ namespace CytexLab
         class IWindow
         {
         public:
-            virtual void Close() = 0;
             virtual void Process() = 0;
             virtual BOOL IsOpen() = 0;
             virtual UINT64 GetWidth() = 0;

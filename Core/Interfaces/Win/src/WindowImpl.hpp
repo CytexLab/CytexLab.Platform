@@ -23,7 +23,6 @@ public:
 
     HANDLE GetHandle();
 
-    void Close() override;
     void Process() override;
     BOOL IsOpen() override;
     UINT64 GetWidth() override;

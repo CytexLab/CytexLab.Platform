@@ -27,9 +27,6 @@ HANDLE WindowImpl::GetHandle()
     return this->hWindow;
 }
 
-void WindowImpl::Close()
-{}
-
 void WindowImpl::Process()
 {
     MSG msg;
