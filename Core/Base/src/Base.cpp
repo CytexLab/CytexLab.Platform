@@ -22,3 +22,5 @@ extern "C" void __cdecl __chkstk(UINT64)
 
     // В принципе ничего серьезного, так что просто это заглушка
 }
+
+extern "C" int _fltused = 1;
