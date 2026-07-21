@@ -45,5 +45,8 @@ public:
     void CreateProcess(CytexLab::Interface::IProcess*& Out, LPCECHAR CmdLine) override;
     void DestroyProcess(CytexLab::Interface::IProcess* Process) override;
 
+    void CreateWindow(CytexLab::Interface::IWindow*& Out, LPCECHAR Title, UINT64 x, UINT64 y, UINT64 Width, UINT64 Height) override;
+    void DestroyWindow(CytexLab::Interface::IWindow* Window) override;
+
     void ExitProcess(UINT32 Code) override;
 };
