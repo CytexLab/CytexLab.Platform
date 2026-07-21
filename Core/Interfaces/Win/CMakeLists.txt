@@ -13,7 +13,7 @@ set(files
     "src/ConsoleImpl.cpp"
     "src/FileImpl.hpp"
     "src/FileImpl.cpp"
-        "src/ThreadImpl.hpp"
+    "src/ThreadImpl.hpp"
     "src/ThreadImpl.cpp"
     "src/MutexImpl.hpp"
     "src/MutexImpl.cpp"
@@ -24,13 +24,15 @@ set(files
     "src/SystemImpl.Base.cpp"
     "src/SystemImpl.Console.cpp"
     "src/SystemImpl.File.cpp"
-        "src/SystemImpl.Thread.cpp"
+    "src/SystemImpl.Thread.cpp"
     "src/SystemImpl.Pipe.cpp"
     "src/SystemImpl.Allocator.cpp"
     "src/SystemImpl.Args.cpp"
     "src/SystemImpl.Process.cpp"
     "src/ProcessImpl.hpp"
     "src/ProcessImpl.cpp"
+    "src/WindowImpl.hpp"
+    "src/WindowImpl.cpp"
 )
 
 set(deps "Base" "Interface")
