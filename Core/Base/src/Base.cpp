@@ -8,7 +8,7 @@
 
 #include "Types.hpp"
 
-extern "C" int __cdecl _purecall()
+extern "C" __attribute__((used)) int __cdecl _purecall()
 {
     // Если сюда попали — значит, вызвали чисто виртуальную функцию
 
@@ -16,11 +16,11 @@ extern "C" int __cdecl _purecall()
                // Если только пользователь не запоганил ничего)
 }
 
-extern "C" void __cdecl __chkstk(UINT64)
+extern "C" __attribute__((used)) void __cdecl __chkstk(UINT64)
 {
     // Если сюда попали - значит пытаемся выделить большой массив на стеке
 
     // В принципе ничего серьезного, так что просто это заглушка
 }
 
-extern "C" int _fltused = 1;
+extern "C" __attribute__((used)) int _fltused = 1;
