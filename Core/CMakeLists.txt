@@ -10,7 +10,8 @@
 #
 
 set(files
-    "src/Mem.cpp")
+    "src/Mem.cpp"
+    "src/UTF.cpp")
 
 set(deps "")
 set(include "include")
