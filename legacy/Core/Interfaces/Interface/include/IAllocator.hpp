@@ -10,7 +10,7 @@
  */
 #pragma once
 
-#include "Types.hpp"
+#include "Platform.hpp"
 
 namespace CytexLab
 {
