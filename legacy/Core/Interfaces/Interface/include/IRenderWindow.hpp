@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Types.hpp"
+#include "Platform.hpp"
 #include "GLFunctions.hpp"
 
 namespace CytexLab
