@@ -148,3 +148,32 @@ function (platform_add_executable name files includes deps)
 endfunction()
 
 add_subdirectory(${CYTEXLAB_ROOT}/Core)
+
+find_program(CLANG_FORMAT_EXECUTABLE clang-format)
+
+if(CLANG_FORMAT_EXECUTABLE)
+	file(GLOB_RECURSE ALL_SOURCES
+		${CMAKE_SOURCE_DIR}/*.cpp
+		${CMAKE_SOURCE_DIR}/*.hpp
+		${CMAKE_SOURCE_DIR}/*.h
+		${CMAKE_SOURCE_DIR}/*.c
+		${CMAKE_SOURCE_DIR}/*.cxx
+		)
+	# Исключаем служебные каталоги: Build, Dist, Lib, Temp
+	list(FILTER ALL_SOURCES EXCLUDE REGEX "/(Build|Dist|Lib|Temp)/")
+
+	if(NOT ALL_SOURCES)
+		message(WARNING "No source files found for formatting")
+	else()
+		list(LENGTH ALL_SOURCES src_count)
+		message(STATUS "Found ${src_count} source files for formatting")
+		add_custom_target(format
+			COMMAND ${CLANG_FORMAT_EXECUTABLE} -i ${ALL_SOURCES}
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+			COMMENT "Formatting all source files"
+			VERBATIM
+			)
+	endif()
+else()
+	message(WARNING "clang-format not found, skipping format target")
+endif()
