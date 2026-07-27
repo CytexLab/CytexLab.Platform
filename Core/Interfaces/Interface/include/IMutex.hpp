@@ -1,11 +1,13 @@
-/* 
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/. 
- * 
- * CytexLab (c) 2026
+/*
+ * CytexLab Platform
+ * Copyright (c) 2026 CytexLab
+ *
+ * Данный файл является частью платформы CytexLab и распространяется
+ * согласно условиям CytexLab Public Community License (CL2P) v1.0.
+ * Полный текст лицензии доступен в файле LICENSE.txt.
+ *
+ * Для получения коммерческой лицензии: programminyka@mail.ru
  */
-
 
 #pragma once
 
