@@ -146,12 +146,3 @@ function (platform_add_executable name files includes deps)
 		set_target_properties(${name} PROPERTIES suffix ".exec")
 	endif()
 endfunction()
-
-add_subdirectory(${CYTEXLAB_ROOT}/Core/Base)
-add_subdirectory(${CYTEXLAB_ROOT}/Core/Interfaces/Interface)
-add_subdirectory(${CYTEXLAB_ROOT}/Core/Interfaces/Win)
-add_subdirectory(${CYTEXLAB_ROOT}/Containers)
-
-add_subdirectory(${CYTEXLAB_ROOT}/Test/TestRunner)
-add_subdirectory(${CYTEXLAB_ROOT}/Test/SystemTest)
-add_subdirectory(${CYTEXLAB_ROOT}/Test/SubProcess)
