@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Types.hpp"
+#include "Platform.hpp"
 
 typedef union _LARGE_INTEGER {
   struct {

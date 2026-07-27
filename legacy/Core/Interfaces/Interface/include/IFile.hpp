@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Types.hpp"
+#include "Platform.hpp"
 #include "Unicode.hpp"
 
 namespace CytexLab

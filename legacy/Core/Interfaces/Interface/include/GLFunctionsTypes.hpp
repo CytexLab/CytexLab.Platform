@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Types.hpp"
+#include "Platform.hpp"
 
 // 1.1 Legacy (через GetProcAddress от opengl32.dll)
 typedef void (__stdcall * PFNGLCLEARPROC)(UINT32 mask);

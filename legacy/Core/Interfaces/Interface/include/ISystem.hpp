@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Types.hpp"
+#include "Platform.hpp"
 #include "IConsole.hpp"
 #include "IFile.hpp"
 #include "IThread.hpp"
