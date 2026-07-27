@@ -10,4 +10,6 @@
  */
 
 
-#pramga once
+#pragma once
+
+#include "Platform.hpp"
