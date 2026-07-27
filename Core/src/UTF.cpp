@@ -1,8 +1,7 @@
 #include "UTF.hpp"
 #include "Mem.hpp"
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
-static inline UINT8 UTF8ByteLength(UINT8 byte)
+__attribute__((target_clones("default,sse4.2,avx,avx2"))) static inline UINT8 UTF8ByteLength(UINT8 byte)
 {
     if ((byte & 0x80) == 0x00)
         return 1;
@@ -15,20 +14,19 @@ static inline UINT8 UTF8ByteLength(UINT8 byte)
     return 0;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
-static inline BOOL IsUTF8Continuation(UINT8 byte)
+__attribute__((target_clones("default,sse4.2,avx,avx2"))) static inline BOOL IsUTF8Continuation(UINT8 byte)
 {
     return (byte & 0xC0) == 0x80;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
-static inline UINT32 DecodeUTF8Continuation(UINT8 byte)
+__attribute__((target_clones("default,sse4.2,avx,avx2"))) static inline UINT32 DecodeUTF8Continuation(UINT8 byte)
 {
     return byte & 0x3F;
 }
 
 __attribute__((target_clones("default,sse4.2,avx,avx2")))
-cl::UTF::SConvertSymbolResult cl::UTF::ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR To)
+cl::UTF::SConvertSymbolResult
+cl::UTF::ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR To)
 {
     SConvertSymbolResult result = {TRUE, EConvertSymbolError::None, 0};
 
@@ -118,7 +116,8 @@ cl::UTF::SConvertSymbolResult cl::UTF::ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR 
 }
 
 __attribute__((target_clones("default,sse4.2,avx,avx2")))
-cl::UTF::SConvertSymbolResult cl::UTF::ConvertUTF16ToUTF32(LPCWCHAR From, LPECHAR To)
+cl::UTF::SConvertSymbolResult
+cl::UTF::ConvertUTF16ToUTF32(LPCWCHAR From, LPECHAR To)
 {
     SConvertSymbolResult result = {TRUE, EConvertSymbolError::None, 0};
 
@@ -164,7 +163,8 @@ cl::UTF::SConvertSymbolResult cl::UTF::ConvertUTF16ToUTF32(LPCWCHAR From, LPECHA
 }
 
 __attribute__((target_clones("default,sse4.2,avx,avx2")))
-cl::UTF::SConvertSymbolResult cl::UTF::ConvertUTF32ToUTF8(LPCECHAR From, LPCHAR To)
+cl::UTF::SConvertSymbolResult
+cl::UTF::ConvertUTF32ToUTF8(LPCECHAR From, LPCHAR To)
 {
     SConvertSymbolResult result = {TRUE, EConvertSymbolError::None, 0};
 
@@ -235,7 +235,8 @@ cl::UTF::SConvertSymbolResult cl::UTF::ConvertUTF32ToUTF8(LPCECHAR From, LPCHAR 
 }
 
 __attribute__((target_clones("default,sse4.2,avx,avx2")))
-cl::UTF::SConvertSymbolResult cl::UTF::ConvertUTF32ToUTF16(LPCECHAR From, LPWCHAR To)
+cl::UTF::SConvertSymbolResult
+cl::UTF::ConvertUTF32ToUTF16(LPCECHAR From, LPWCHAR To)
 {
     SConvertSymbolResult result = {TRUE, EConvertSymbolError::None, 0};
 
@@ -270,7 +271,8 @@ cl::UTF::SConvertSymbolResult cl::UTF::ConvertUTF32ToUTF16(LPCECHAR From, LPWCHA
 }
 
 __attribute__((target_clones("default,sse4.2,avx,avx2")))
-cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF8ToUTF32(LPCCHAR From, LPECHAR To)
+cl::UTF::SConvertStringResult
+cl::UTF::ConvertStringUTF8ToUTF32(LPCCHAR From, LPECHAR To)
 {
     SConvertStringResult result = {TRUE, {TRUE, EConvertSymbolError::None, 0}, EConvertStringError::None, 0, 0};
 
@@ -282,7 +284,8 @@ cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF8ToUTF32(LPCCHAR From, LP
     }
 
     LPCCHAR ptr = From;
-    while (*ptr) ptr++;
+    while (*ptr)
+        ptr++;
     UINT64 len = ptr - From;
 
     UINT64 i = 0;
@@ -311,7 +314,8 @@ cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF8ToUTF32(LPCCHAR From, LP
 }
 
 __attribute__((target_clones("default,sse4.2,avx,avx2")))
-cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF16ToUTF32(LPCWCHAR From, LPECHAR To)
+cl::UTF::SConvertStringResult
+cl::UTF::ConvertStringUTF16ToUTF32(LPCWCHAR From, LPECHAR To)
 {
     SConvertStringResult result = {TRUE, {TRUE, EConvertSymbolError::None, 0}, EConvertStringError::None, 0, 0};
 
@@ -323,7 +327,8 @@ cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF16ToUTF32(LPCWCHAR From, 
     }
 
     LPCWCHAR ptr = From;
-    while(*ptr) ptr++;
+    while (*ptr)
+        ptr++;
     UINT64 len = ptr - From;
 
     UINT64 i = 0;
@@ -352,7 +357,8 @@ cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF16ToUTF32(LPCWCHAR From, 
 }
 
 __attribute__((target_clones("default,sse4.2,avx,avx2")))
-cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF32ToUTF8(LPCECHAR From, LPCHAR To)
+cl::UTF::SConvertStringResult
+cl::UTF::ConvertStringUTF32ToUTF8(LPCECHAR From, LPCHAR To)
 {
     SConvertStringResult result = {TRUE, {TRUE, EConvertSymbolError::None, 0}, EConvertStringError::None, 0, 0};
 
@@ -364,7 +370,8 @@ cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF32ToUTF8(LPCECHAR From, L
     }
 
     LPCECHAR ptr = From;
-    while (*ptr) ptr++;
+    while (*ptr)
+        ptr++;
     UINT64 len = ptr - From;
 
     UINT64 i = 0;
@@ -394,7 +401,8 @@ cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF32ToUTF8(LPCECHAR From, L
 }
 
 __attribute__((target_clones("default,sse4.2,avx,avx2")))
-cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF32ToUTF16(LPCECHAR From, LPWCHAR To)
+cl::UTF::SConvertStringResult
+cl::UTF::ConvertStringUTF32ToUTF16(LPCECHAR From, LPWCHAR To)
 {
     SConvertStringResult result = {TRUE, {TRUE, EConvertSymbolError::None, 0}, EConvertStringError::None, 0, 0};
 
@@ -406,7 +414,8 @@ cl::UTF::SConvertStringResult cl::UTF::ConvertStringUTF32ToUTF16(LPCECHAR From, 
     }
 
     LPCECHAR ptr = From;
-    while (*ptr) ptr++;
+    while (*ptr)
+        ptr++;
     UINT64 len = ptr - From;
 
     UINT64 i = 0;

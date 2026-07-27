@@ -9,7 +9,6 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-
 #pragma once
 
 #include "Platform.hpp"
