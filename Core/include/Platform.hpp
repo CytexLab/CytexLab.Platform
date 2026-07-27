@@ -21,20 +21,8 @@ typedef __UINT8_TYPE__ UINT8;
 typedef __UINT16_TYPE__ UINT16;
 typedef __UINT32_TYPE__ UINT32;
 typedef __UINT64_TYPE__ UINT64;
-
-#elif defined(_MSC_VER)
-
-typedef signed __int8 INT8;
-typedef signed __int16 INT16;
-typedef signed __int32 INT32;
-typedef signed __int64 INT64;
-typedef unsigned __int8 UINT8;
-typedef unsigned __int16 UINT16;
-typedef unsigned __int32 UINT32;
-typedef unsigned __int64 UINT64;
-
 #else
-#error "Unknown compiler. Use clang or MSVC"
+#error "Unknown compiler. Use Сlang"
 #endif
 
 #if __SIZEOF_POINTER__ == 4
@@ -80,6 +68,9 @@ typedef ECHAR* LPECHAR;
 typedef const CHAR* LPCCHAR;
 typedef const WCHAR* LPCWCHAR;
 typedef const ECHAR* LPCECHAR;
+
+typedef void* LPVOID;
+typedef const void* LPCVOID;
 
 #define UNSET -1
 #define FALSE BOOL(0)
