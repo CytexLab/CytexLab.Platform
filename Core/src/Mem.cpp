@@ -11,30 +11,27 @@
 
 #include "Mem.hpp"
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
-void memcpy(LPVOID To, LPCVOID From, UINT64 Count)
+__attribute__((target_clones("default,sse4.2,avx,avx2"))) void memcpy(LPVOID To, LPCVOID From, UINT64 Count)
 {
     __builtin_memcpy(To, From, Count);
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
-void memset(LPVOID To, UINT8 Byte, UINT64 Count)
+__attribute__((target_clones("default,sse4.2,avx,avx2"))) void memset(LPVOID To, UINT8 Byte, UINT64 Count)
 {
     __builtin_memset(To, Byte, Count);
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
-void memmove(LPVOID To, LPCVOID From, UINT64 Count)
+__attribute__((target_clones("default,sse4.2,avx,avx2"))) void memmove(LPVOID To, LPCVOID From, UINT64 Count)
 {
     __builtin_memmove(To, From, Count);
 }
 
 __attribute__((target_clones("default,sse4.2,avx,avx2")))
-BOOL memcmp(LPCVOID Mem1, LPCVOID Mem2, UINT64 Count)
+BOOL
+memcmp(LPCVOID Mem1, LPCVOID Mem2, UINT64 Count)
 {
     if (__builtin_memcmp(Mem1, Mem2, Count) == 0)
         return TRUE;
     else
         return FALSE;
 }
-
