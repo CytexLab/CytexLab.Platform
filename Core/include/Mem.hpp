@@ -9,26 +9,14 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-
 #pragma once
 
-#include "IThread.hpp"
+#include "Platform.hpp"
 
-class ThreadImpl : public CytexLab::Interface::IThread
+extern "C"
 {
-private:
-    HANDLE handle;
-    UINT64 id;
-
-public:
-    ThreadImpl(HANDLE hThread, UINT64 id);
-    ~ThreadImpl();
-
-    HANDLE GetHandle();
-
-    void Start() override;
-    void Join() override;
-    void Terminate() override;
-    void IsRunning(BOOL& Out) override;
-    UINT64 GetID() override;
-};
+    void memcpy(LPVOID To, LPCVOID From, UINT64 Count);
+    void memset(LPVOID To, UINT8 Byte, UINT64 Count);
+    void memmove(LPVOID To, LPCVOID From, UINT64 Count);
+    BOOL memcmp(LPCVOID Mem1, LPCVOID Mem2, UINT64 Count);
+}

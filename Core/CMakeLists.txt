@@ -9,8 +9,11 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-set(include "")
-set(files "src/main.cpp")
-set(deps "Base" "Interface" "WinInterface" "Containers")
+set(files
+    "src/Mem.cpp"
+    "src/UTF.cpp")
 
-platform_add_executable("TestRunner" "${files}" "${include}" "${deps}")
+set(deps "")
+set(include "include")
+
+platform_add_module("Core" "${files}" "${include}" "${deps}")
