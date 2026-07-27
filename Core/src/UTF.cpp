@@ -52,62 +52,62 @@ cl::UTF::ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR To)
 
     switch (len)
     {
-    case 1:
-    {
-        codepoint = first;
-        break;
-    }
-    case 2:
-    {
-        UINT8 second = static_cast<UINT8>(*(From + 1));
-        if (!IsUTF8Continuation(second))
+        case 1:
+        {
+            codepoint = first;
+            break;
+        }
+        case 2:
+        {
+            UINT8 second = static_cast<UINT8>(*(From + 1));
+            if (!IsUTF8Continuation(second))
+            {
+                result.Success = FALSE;
+                result.Error = EConvertSymbolError::InvalidContinueByte;
+                return result;
+            }
+            codepoint = (first & 0x1F) << 6;
+            codepoint |= DecodeUTF8Continuation(second);
+            break;
+        }
+        case 3:
+        {
+            UINT8 second = static_cast<UINT8>(*(From + 1));
+            UINT8 third = static_cast<UINT8>(*(From + 2));
+            if (!IsUTF8Continuation(second) || !IsUTF8Continuation(third))
+            {
+                result.Success = FALSE;
+                result.Error = EConvertSymbolError::InvalidContinueByte;
+                return result;
+            }
+            codepoint = (first & 0x0F) << 12;
+            codepoint |= DecodeUTF8Continuation(second) << 6;
+            codepoint |= DecodeUTF8Continuation(third);
+            break;
+        }
+        case 4:
+        {
+            UINT8 second = static_cast<UINT8>(*(From + 1));
+            UINT8 third = static_cast<UINT8>(*(From + 2));
+            UINT8 fourth = static_cast<UINT8>(*(From + 3));
+            if (!IsUTF8Continuation(second) || !IsUTF8Continuation(third) || !IsUTF8Continuation(fourth))
+            {
+                result.Success = FALSE;
+                result.Error = EConvertSymbolError::InvalidContinueByte;
+                return result;
+            }
+            codepoint = (first & 0x07) << 18;
+            codepoint |= DecodeUTF8Continuation(second) << 12;
+            codepoint |= DecodeUTF8Continuation(third) << 6;
+            codepoint |= DecodeUTF8Continuation(fourth);
+            break;
+        }
+        default:
         {
             result.Success = FALSE;
-            result.Error = EConvertSymbolError::InvalidContinueByte;
+            result.Error = EConvertSymbolError::InvalidByte;
             return result;
         }
-        codepoint = (first & 0x1F) << 6;
-        codepoint |= DecodeUTF8Continuation(second);
-        break;
-    }
-    case 3:
-    {
-        UINT8 second = static_cast<UINT8>(*(From + 1));
-        UINT8 third = static_cast<UINT8>(*(From + 2));
-        if (!IsUTF8Continuation(second) || !IsUTF8Continuation(third))
-        {
-            result.Success = FALSE;
-            result.Error = EConvertSymbolError::InvalidContinueByte;
-            return result;
-        }
-        codepoint = (first & 0x0F) << 12;
-        codepoint |= DecodeUTF8Continuation(second) << 6;
-        codepoint |= DecodeUTF8Continuation(third);
-        break;
-    }
-    case 4:
-    {
-        UINT8 second = static_cast<UINT8>(*(From + 1));
-        UINT8 third = static_cast<UINT8>(*(From + 2));
-        UINT8 fourth = static_cast<UINT8>(*(From + 3));
-        if (!IsUTF8Continuation(second) || !IsUTF8Continuation(third) || !IsUTF8Continuation(fourth))
-        {
-            result.Success = FALSE;
-            result.Error = EConvertSymbolError::InvalidContinueByte;
-            return result;
-        }
-        codepoint = (first & 0x07) << 18;
-        codepoint |= DecodeUTF8Continuation(second) << 12;
-        codepoint |= DecodeUTF8Continuation(third) << 6;
-        codepoint |= DecodeUTF8Continuation(fourth);
-        break;
-    }
-    default:
-    {
-        result.Success = FALSE;
-        result.Error = EConvertSymbolError::InvalidByte;
-        return result;
-    }
     }
 
     *To = static_cast<ECHAR>(codepoint);
@@ -197,38 +197,38 @@ cl::UTF::ConvertUTF32ToUTF8(LPCECHAR From, LPCHAR To)
 
     switch (len)
     {
-    case 1:
-    {
-        To[0] = static_cast<CHAR>(codepoint);
-        break;
-    }
-    case 2:
-    {
-        To[0] = static_cast<CHAR>(0xC0 | ((codepoint >> 6) & 0x1F));
-        To[1] = static_cast<CHAR>(0x80 | (codepoint & 0x3F));
-        break;
-    }
-    case 3:
-    {
-        To[0] = static_cast<CHAR>(0xE0 | ((codepoint >> 12) & 0x0F));
-        To[1] = static_cast<CHAR>(0x80 | ((codepoint >> 6) & 0x3F));
-        To[2] = static_cast<CHAR>(0x80 | (codepoint & 0x3F));
-        break;
-    }
-    case 4:
-    {
-        To[0] = static_cast<CHAR>(0xF0 | ((codepoint >> 18) & 0x07));
-        To[1] = static_cast<CHAR>(0x80 | ((codepoint >> 12) & 0x3F));
-        To[2] = static_cast<CHAR>(0x80 | ((codepoint >> 6) & 0x3F));
-        To[3] = static_cast<CHAR>(0x80 | (codepoint & 0x3F));
-        break;
-    }
-    default:
-    {
-        result.Success = FALSE;
-        result.Error = EConvertSymbolError::InvalidByte;
-        return result;
-    }
+        case 1:
+        {
+            To[0] = static_cast<CHAR>(codepoint);
+            break;
+        }
+        case 2:
+        {
+            To[0] = static_cast<CHAR>(0xC0 | ((codepoint >> 6) & 0x1F));
+            To[1] = static_cast<CHAR>(0x80 | (codepoint & 0x3F));
+            break;
+        }
+        case 3:
+        {
+            To[0] = static_cast<CHAR>(0xE0 | ((codepoint >> 12) & 0x0F));
+            To[1] = static_cast<CHAR>(0x80 | ((codepoint >> 6) & 0x3F));
+            To[2] = static_cast<CHAR>(0x80 | (codepoint & 0x3F));
+            break;
+        }
+        case 4:
+        {
+            To[0] = static_cast<CHAR>(0xF0 | ((codepoint >> 18) & 0x07));
+            To[1] = static_cast<CHAR>(0x80 | ((codepoint >> 12) & 0x3F));
+            To[2] = static_cast<CHAR>(0x80 | ((codepoint >> 6) & 0x3F));
+            To[3] = static_cast<CHAR>(0x80 | (codepoint & 0x3F));
+            break;
+        }
+        default:
+        {
+            result.Success = FALSE;
+            result.Error = EConvertSymbolError::InvalidByte;
+            return result;
+        }
     }
 
     return result;
