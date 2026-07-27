@@ -11,7 +11,8 @@
 
 set(files
     "src/Mem.cpp"
-    "src/UTF.cpp")
+    "src/UTF.cpp"
+    "src/Placement.cpp")
 
 set(deps "")
 set(include "include")
