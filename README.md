@@ -1,7 +1,7 @@
 # CytexLab.Platform
 
 [![C++14](https://img.shields.io/badge/C%2B%2B-14-blue)](https://github.com/CytexLab/CytexLab.Platform)
-[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
+[![License: CL2P](https://img.shields.io/badge/License-CL2P-brightgreen.svg)](LICENSE.txt)
 
 ## 📖 Обзор
 CytexLab Platform является Open Source платформой для разработки программ и приложений на C++ без использования CRT (C RunTime) и STL. Платформа предоставляет полную альтернативу базовым функциями и классам CRT, STL своими функциями и классами. Исполняемые файлы созданные при помощи CytexLab Platform имеют очень маленький размер:
