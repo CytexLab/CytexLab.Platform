@@ -13,3 +13,11 @@
 #pragma once
 
 #include "Platform.hpp"
+
+extern "C"
+{
+    void memcpy(LPVOID To, LPCVOID From, UINT64 Count);
+    void memset(LPVOID To, UINT8 Byte, UINT64 Count);
+    void memmove(LPVOID To, LPCVOID From, UINT64 Count);
+    BOOL memcmp(LPCVOID Mem1, LPCVOID Mem2, UINT64 Count);
+}
