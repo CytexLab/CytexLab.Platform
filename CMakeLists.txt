@@ -159,8 +159,8 @@ if(CLANG_FORMAT_EXECUTABLE)
 		${CMAKE_SOURCE_DIR}/*.c
 		${CMAKE_SOURCE_DIR}/*.cxx
 		)
-	# Исключаем служебные каталоги: Build, Dist, Lib, Temp
-	list(FILTER ALL_SOURCES EXCLUDE REGEX "/(Build|Dist|Lib|Temp)/")
+	# Исключаем служебные каталоги: Build, Dist, Lib, Temp, Doc
+	list(FILTER ALL_SOURCES EXCLUDE REGEX "/(Build|Dist|Lib|Temp|Doc)/")
 
 	if(NOT ALL_SOURCES)
 		message(WARNING "No source files found for formatting")
