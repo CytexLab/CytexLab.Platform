@@ -44,8 +44,8 @@ namespace cl
             BOOL Success;
             SConvertSymbolResult LastConvertSymbol;
             EConvertStringError Error;
-            UINT8 BytesCount;
-            UINT8 SymbolsCount;
+            UINT64 BytesCount;
+            UINT64 SymbolsCount;
         };
 
         SConvertSymbolResult ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR To);
