@@ -72,6 +72,12 @@ typedef const ECHAR* LPCECHAR;
 typedef void* LPVOID;
 typedef const void* LPCVOID;
 
-#define UNSET -1
+#define UNSET (UINT64)(-1)
 #define FALSE BOOL(0)
 #define TRUE BOOL(1)
+
+#ifdef CYTEXLAB_PLATFORM_EXPORT
+#define CYTEXLAB_API __declspec(dllexport)
+#else
+#define CYTEXLAB_API __declspec(dllimport)
+#endif
