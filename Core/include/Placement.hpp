@@ -13,4 +13,7 @@
 
 #include "Platform.hpp"
 
-LPVOID operator new(UINT64 size, LPVOID mem);
+extern "C"
+{
+    CYTEXLAB_API LPVOID operator new(UINT64 size, LPVOID mem);
+}
