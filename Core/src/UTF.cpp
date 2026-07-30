@@ -1,7 +1,7 @@
 #include "UTF.hpp"
 #include "Mem.hpp"
 
-__attribute__((target_clones("default,sse4.2,avx,avx2"))) static inline UINT8 UTF8ByteLength(UINT8 byte)
+static inline UINT8 UTF8ByteLength(UINT8 byte)
 {
     if ((byte & 0x80) == 0x00)
         return 1;
@@ -14,17 +14,16 @@ __attribute__((target_clones("default,sse4.2,avx,avx2"))) static inline UINT8 UT
     return 0;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2"))) static inline BOOL IsUTF8Continuation(UINT8 byte)
+static inline BOOL IsUTF8Continuation(UINT8 byte)
 {
     return (byte & 0xC0) == 0x80;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2"))) static inline UINT32 DecodeUTF8Continuation(UINT8 byte)
+static inline UINT32 DecodeUTF8Continuation(UINT8 byte)
 {
     return byte & 0x3F;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
 cl::UTF::SConvertSymbolResult
 cl::UTF::ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR To)
 {
@@ -115,7 +114,6 @@ cl::UTF::ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR To)
     return result;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
 cl::UTF::SConvertSymbolResult
 cl::UTF::ConvertUTF16ToUTF32(LPCWCHAR From, LPECHAR To)
 {
@@ -162,7 +160,6 @@ cl::UTF::ConvertUTF16ToUTF32(LPCWCHAR From, LPECHAR To)
     return result;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
 cl::UTF::SConvertSymbolResult
 cl::UTF::ConvertUTF32ToUTF8(LPCECHAR From, LPCHAR To)
 {
@@ -234,7 +231,6 @@ cl::UTF::ConvertUTF32ToUTF8(LPCECHAR From, LPCHAR To)
     return result;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
 cl::UTF::SConvertSymbolResult
 cl::UTF::ConvertUTF32ToUTF16(LPCECHAR From, LPWCHAR To)
 {
@@ -270,7 +266,6 @@ cl::UTF::ConvertUTF32ToUTF16(LPCECHAR From, LPWCHAR To)
     return result;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
 cl::UTF::SConvertStringResult
 cl::UTF::ConvertStringUTF8ToUTF32(LPCCHAR From, LPECHAR To)
 {
@@ -313,7 +308,6 @@ cl::UTF::ConvertStringUTF8ToUTF32(LPCCHAR From, LPECHAR To)
     return result;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
 cl::UTF::SConvertStringResult
 cl::UTF::ConvertStringUTF16ToUTF32(LPCWCHAR From, LPECHAR To)
 {
@@ -356,7 +350,6 @@ cl::UTF::ConvertStringUTF16ToUTF32(LPCWCHAR From, LPECHAR To)
     return result;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
 cl::UTF::SConvertStringResult
 cl::UTF::ConvertStringUTF32ToUTF8(LPCECHAR From, LPCHAR To)
 {
@@ -400,7 +393,6 @@ cl::UTF::ConvertStringUTF32ToUTF8(LPCECHAR From, LPCHAR To)
     return result;
 }
 
-__attribute__((target_clones("default,sse4.2,avx,avx2")))
 cl::UTF::SConvertStringResult
 cl::UTF::ConvertStringUTF32ToUTF16(LPCECHAR From, LPWCHAR To)
 {
