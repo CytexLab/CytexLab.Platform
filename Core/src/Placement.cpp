@@ -11,6 +11,7 @@
 
 #include "Placement.hpp"
 
+
 LPVOID operator new(UINT64 size, LPVOID mem)
 {
     return mem;
