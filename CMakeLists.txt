@@ -60,18 +60,28 @@ set(CXX_BASE_FLAGS
 if (WIN32)
     set(LINK_BASE_FLAGS
         -nostdlib
-        -Wl,/ENTRY:startup
         -Wl,/NODEFAULTLIB
-        -Wl,/SUBSYSTEM:CONSOLE
     )
+	set(LINK_LIB_FLAGS
+		-Wl,/NOENTRY
+	)
+	set(LINK_EXTRA_FLAGS
+		-Wl,/ENTRY:startup
+		-Wl,/SUBSYSTEM:CONSOLE
+	)
 else()
     set(LINK_BASE_FLAGS
         -nostdlib
         -Wl,--gc-sections
-        -Wl,--entry=startup
         -Wl,--build-id=none
         -Wl,--no-undefined
     )
+	set(LINK_LIB_FLAGS
+
+	)
+	set(LINK_EXTRA_FLAGS
+		-Wl,--entry=startup
+	)
 endif()
 
 if (${CYTEXLAB_BUILD} STREQUAL "Debug")
@@ -121,6 +131,7 @@ function (platform_add_module name files includes deps)
 	target_include_directories(${name} PUBLIC ${includes})
 	target_compile_options(${name} PRIVATE ${CXX_BASE_FLAGS} ${CXX_EXTRA_FLAGS})
 	target_link_libraries(${name} PUBLIC ${deps} ${CYTEXLAB_PLATFORM_LIBS})
+	target_link_options(${name} PRIVATE ${LINK_BASE_FLAGS} ${LINK_LIB_FLAGS})
 	target_compile_definitions(${name} PRIVATE ${CYTEXLAB_DEFINE} CYTEXLAB_PLATFORM_EXPORT)
 	set_target_properties(${name} PROPERTIES prefix "")
 	set_target_properties(${name} PROPERTIES suffix ".a")
@@ -137,7 +148,7 @@ function (platform_add_executable name files includes deps)
 	target_compile_options(${name} PRIVATE ${CXX_BASE_FLAGS} ${CXX_EXTRA_FLAGS})
 	target_compile_definitions(${name} PRIVATE ${CYTEXLAB_DEFINE})
 	target_link_libraries(${name} PRIVATE ${deps} ${CYTEXLAB_PLATFORM_LIBS})
-	target_link_options(${name} PRIVATE ${LINK_BASE_FLAGS})
+	target_link_options(${name} PRIVATE ${LINK_BASE_FLAGS} ${LINK_EXTRA_FLAGS})
 	set_target_properties(${name} PROPERTIES prefix "")
 	
 	if (${CYTEXLAB_PLATFORM} STREQUAL "Windows")
@@ -148,6 +159,8 @@ function (platform_add_executable name files includes deps)
 endfunction()
 
 add_subdirectory(${CYTEXLAB_ROOT}/Core)
+
+add_subdirectory(${CYTEXLAB_ROOT}/Test/Dev)
 
 find_program(CLANG_FORMAT_EXECUTABLE clang-format)
 
