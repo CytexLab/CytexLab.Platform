@@ -1,5 +1,4 @@
 #include "UTF.hpp"
-#include "Mem.hpp"
 
 static inline UINT8 UTF8ByteLength(UINT8 byte)
 {
@@ -305,6 +304,8 @@ cl::UTF::ConvertStringUTF8ToUTF32(LPCCHAR From, LPECHAR To)
         result.BytesCount += convert.BytesCount;
     }
 
+    *To = U'\0';
+
     return result;
 }
 
@@ -346,6 +347,8 @@ cl::UTF::ConvertStringUTF16ToUTF32(LPCWCHAR From, LPECHAR To)
         result.BytesCount += convert.BytesCount;
         result.SymbolsCount++;
     }
+
+    *To = U'\0';
 
     return result;
 }
@@ -390,6 +393,8 @@ cl::UTF::ConvertStringUTF32ToUTF8(LPCECHAR From, LPCHAR To)
         result.SymbolsCount++;
     }
 
+    *To = '\0';
+
     return result;
 }
 
@@ -433,5 +438,167 @@ cl::UTF::ConvertStringUTF32ToUTF16(LPCECHAR From, LPWCHAR To)
         result.BytesCount += convert.BytesCount;
     }
 
+    *To = L'\0';
+
+    return result;
+}
+
+cl::UTF::SStringFunctionsResult cl::UTF::UIntToString(UINT64 Number, LPECHAR Buffer)
+{
+    SStringFunctionsResult result = {TRUE, EStringFunctionsError::None};
+
+    if (Buffer == nullptr)
+    {
+        result.Success = FALSE;
+        result.Error = EStringFunctionsError::NullPointer;
+        return result;
+    }
+
+    if (Number == 0)
+    {
+        *Buffer++ = U'0';
+        *Buffer = U'\0';
+    }
+
+    ECHAR buf[21];
+    UINT8 i = 0;
+
+    while (Number > 0)
+    {
+        UINT64 dig = Number % 10;
+        buf[i++] = U'0' + dig;
+        Number /= 10;
+    }
+
+    for (UINT8 j = 0; j < i; j++)
+        *Buffer++ = buf[i];
+
+    return result;
+}
+
+cl::UTF::SStringFunctionsResult cl::UTF::SIntToString(INT64 Number, LPECHAR Buffer)
+{
+    SStringFunctionsResult result = {TRUE, EStringFunctionsError::None};
+
+    if (Buffer == nullptr)
+    {
+        result.Success = FALSE;
+        result.Error = EStringFunctionsError::None;
+        return result;
+    }
+
+    if (Number == 0)
+    {
+        *Buffer++ = U'0';
+        *Buffer = U'\0';
+        return result;
+    }
+
+    BOOL negative = FALSE;
+
+    if (Number < 0)
+    {
+        negative = TRUE;
+        Number = -Number;
+    }
+
+    ECHAR buf[21];
+    UINT8 i = 0;
+
+    while (Number > 0)
+    {
+        INT64 dig = Number % 10;
+        buf[i++] = U'0' + dig;
+        Number /= 10;
+    }
+
+    if (negative)
+        *Buffer++ = U'-';
+
+    for (UINT8 j = 0; j < i; j++)
+        *Buffer++ = buf[j];
+
+    return result;
+}
+
+cl::UTF::SStringFunctionsResult cl::UTF::StringToUInt(LPCECHAR String, LPUINT64 Number)
+{
+    SStringFunctionsResult result = {TRUE, EStringFunctionsError::None};
+
+    if (String == nullptr || Number == nullptr)
+    {
+        result.Success = FALSE;
+        result.Error = EStringFunctionsError::NullPointer;
+        return result;
+    }
+
+    if (*String == '-')
+    {
+        result.Success = FALSE;
+        result.Error = EStringFunctionsError::InvalidString;
+        return result;
+    }
+
+    UINT64 num = 0;
+
+    if (*String == U'0')
+    {
+        *Number = num;
+        return result;
+    }
+
+    while (true)
+    {
+        if (*String || *String < U'0' || *String > U'9')
+            break;
+
+        num *= 10;
+        num += *String++ - U'0';
+    }
+
+    *Number = num;
+    return result;
+}
+
+cl::UTF::SStringFunctionsResult cl::UTF::StringToSInt(LPCECHAR String, LPINT64 Number)
+{
+    SStringFunctionsResult result = {TRUE, EStringFunctionsError::None};
+
+    if (String == nullptr || Number == nullptr)
+    {
+        result.Success = FALSE;
+        result.Error = EStringFunctionsError::NullPointer;
+        return result;
+    }
+
+    BOOL negative = FALSE;
+
+    if (*String == U'-')
+    {
+        String++;
+        negative = TRUE;
+    }
+
+    INT64 num = 0;
+
+    if (*String == U'0')
+    {
+        *Number = num;
+        return result;
+    }
+
+    while (true)
+    {
+        if (*String || *String < U'0' || *String > U'9')
+            break;
+
+        num *= 10;
+        num += *String++ - U'0';
+    }
+
+    if (negative)
+        num = -num;
+
+    *Number = num;
     return result;
 }
