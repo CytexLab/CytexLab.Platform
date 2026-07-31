@@ -470,8 +470,8 @@ cl::UTF::SStringFunctionsResult cl::UTF::UIntToString(UINT64 Number, LPECHAR Buf
         Number /= 10;
     }
 
-    for (UINT8 j = 0; j < i; j++)
-        *Buffer++ = buf[i];
+    for (UINT8 j = i; j > 0; j--)
+        *Buffer++ = buf[j - 1];
 
     *Buffer = U'\0';
 
@@ -517,8 +517,8 @@ cl::UTF::SStringFunctionsResult cl::UTF::SIntToString(INT64 Number, LPECHAR Buff
     if (negative)
         *Buffer++ = U'-';
 
-    for (UINT8 j = 0; j < i; j++)
-        *Buffer++ = buf[j];
+    for (UINT8 j = i; j > 0; j--)
+        *Buffer++ = buf[j-1];
 
     *Buffer = U'\0';
 
