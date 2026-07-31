@@ -553,7 +553,7 @@ cl::UTF::SStringFunctionsResult cl::UTF::StringToUInt(LPCECHAR String, LPUINT64 
 
     while (true)
     {
-        if (*String || *String < U'0' || *String > U'9')
+        if (*String == U'\0' || *String < U'0' || *String > U'9')
             break;
 
         num *= 10;
@@ -593,7 +593,7 @@ cl::UTF::SStringFunctionsResult cl::UTF::StringToSInt(LPCECHAR String, LPINT64 N
 
     while (true)
     {
-        if (*String || *String < U'0' || *String > U'9')
+        if (*String == U'\0' || *String < U'0' || *String > U'9')
             break;
 
         num *= 10;
