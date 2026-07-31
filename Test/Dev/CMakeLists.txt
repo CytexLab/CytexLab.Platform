@@ -11,7 +11,7 @@
 
 set(files
     "src/main.cpp")
-set(deps "Core")
+set(deps "CytexLab.Platform.Core")
 set(include "")
 
 platform_add_executable("Dev" "${files}" "${include}" "${deps}")

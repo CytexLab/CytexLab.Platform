@@ -17,4 +17,4 @@ set(files
 set(deps "")
 set(include "include")
 
-platform_add_module("Core" "${files}" "${include}" "${deps}")
+platform_add_module("CytexLab.Platform.Core" "${files}" "${include}" "${deps}")
