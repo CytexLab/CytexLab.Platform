@@ -9,12 +9,13 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
+#include "Mem.hpp"
 #include "UTF.hpp"
 
 extern "C" void startup()
 {
-    LPCCHAR str = "Welcome! Привет мир! 😁";
-    ECHAR buf[128];
+    INT64 num = -1000;
+    LPCECHAR str = U"25";
 
-    cl::UTF::SConvertStringResult result = cl::UTF::ConvertStringUTF8ToUTF32(str, buf);
+    cl::UTF::SStringFunctionsResult result = cl::UTF::StringToSInt(str, &num);
 }
