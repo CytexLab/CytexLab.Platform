@@ -134,7 +134,6 @@ function (platform_add_module name files includes deps)
 	target_link_options(${name} PRIVATE ${LINK_BASE_FLAGS} ${LINK_LIB_FLAGS})
 	target_compile_definitions(${name} PRIVATE ${CYTEXLAB_DEFINE} CYTEXLAB_PLATFORM_EXPORT)
 	set_target_properties(${name} PROPERTIES prefix "")
-	set_target_properties(${name} PROPERTIES suffix ".a")
 endfunction()
 
 function (platform_add_executable name files includes deps)
