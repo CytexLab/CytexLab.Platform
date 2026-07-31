@@ -12,7 +12,6 @@
 #pragma once
 
 #ifdef __clang__
-
 typedef __INT8_TYPE__ INT8;
 typedef __INT16_TYPE__ INT16;
 typedef __INT32_TYPE__ INT32;
