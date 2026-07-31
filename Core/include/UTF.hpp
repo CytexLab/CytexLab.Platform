@@ -34,6 +34,14 @@ extern "C"
                 NullPointer = 2,
             };
 
+            enum class EStringFunctionsError : UINT8
+            {
+                None = 0,
+                NullPointer = 1,
+                BufferOverflow = 2,
+                InvalidString = 3
+            };
+
             struct SConvertSymbolResult
             {
                 BOOL Success;
@@ -49,6 +57,17 @@ extern "C"
                 UINT64 BytesCount;
                 UINT64 SymbolsCount;
             };
+
+            struct SStringFunctionsResult
+            {
+                BOOL Success;
+                EStringFunctionsError Error;
+            };
+
+            CYTEXLAB_API SStringFunctionsResult UIntToString(UINT64 Number, LPECHAR Buffer);
+            CYTEXLAB_API SStringFunctionsResult SIntToString(INT64 Number, LPECHAR Buffer);
+            CYTEXLAB_API SStringFunctionsResult StringToUInt(LPCECHAR String, LPUINT64 Number);
+            CYTEXLAB_API SStringFunctionsResult StringToSInt(LPCECHAR String, LPINT64 Number);
 
             CYTEXLAB_API SConvertSymbolResult ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR To);
             CYTEXLAB_API SConvertSymbolResult ConvertUTF16ToUTF32(LPCWCHAR From, LPECHAR To);
