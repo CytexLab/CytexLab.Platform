@@ -9,11 +9,9 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#include "Fabric.hpp"
-#include "UTF.hpp"
+#include "Platform.hpp"
 
-extern "C" void startup()
+extern "C" CYTEXLAB_API INT32 __cdecl _purecall(void)
 {
-  cl::Interface::ISystem* system = cl::SystemPlatform::Fabric::Create();
-  system->Exit(0);
+  return 0;
 }

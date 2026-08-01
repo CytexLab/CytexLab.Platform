@@ -9,11 +9,12 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#include "Fabric.hpp"
-#include "UTF.hpp"
+#pragma once
 
-extern "C" void startup()
+#include "ISystem.hpp"
+
+class SystemImpl : public cl::Interface::ISystem
 {
-  cl::Interface::ISystem* system = cl::SystemPlatform::Fabric::Create();
-  system->Exit(0);
-}
+public:
+  void Exit(UINT32 Code) override;
+};
