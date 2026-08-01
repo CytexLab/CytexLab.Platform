@@ -13,8 +13,8 @@
 
 #ifdef Windows
 
-#include "Win32.WinImports.hpp"
 #include "UTF.hpp"
+#include "Win32.WinImports.hpp"
 
 struct Frame
 {
@@ -41,7 +41,7 @@ void cl::SystemPlatform::Panic::Init()
 
   hOut = ::GetStdHandle(STD_OUTPUT_HANDLE);
 
-  if (!hOut || hOut == (HANDLE) UNSET)
+  if (!hOut || hOut == (HANDLE)UNSET)
   {
 #ifdef CYTEXLAB_DEBUG
     __builtin_debugtrap();
@@ -227,11 +227,21 @@ void WriteU8(LPCCHAR Message)
 void cl::SystemPlatform::Panic::Panic(LPCECHAR Message, LPCCHAR Function, LPCCHAR File, UINT64 Line, UINT32 SystemError)
 {
   Write(U"===== [ Panic ] =====\n\r");
-  Write(U" * Message: "); Write(Message); Write(U"\r\n");
-  Write(U" * Function: "); WriteU8(Function); Write(U"\r\n");
-  Write(U" * File: "); WriteU8(File); Write(U"\r\n");
-  Write(U" * Line: "); WriteNum(Line); Write(U"\r\n");
-  Write(U" * System error: "); WriteNum((UINT64) SystemError); Write(U"\r\n");
+  Write(U" * Message: ");
+  Write(Message);
+  Write(U"\r\n");
+  Write(U" * Function: ");
+  WriteU8(Function);
+  Write(U"\r\n");
+  Write(U" * File: ");
+  WriteU8(File);
+  Write(U"\r\n");
+  Write(U" * Line: ");
+  WriteNum(Line);
+  Write(U"\r\n");
+  Write(U" * System error: ");
+  WriteNum((UINT64)SystemError);
+  Write(U"\r\n");
   Write(U"\r\n");
 
   Write(U"===== [ Stack ] ===== \r\n");

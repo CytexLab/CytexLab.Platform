@@ -13,10 +13,10 @@
 
 #ifdef Windows
 
+#include "Panic.hpp"
 #include "Placement.hpp"
 #include "Win32.SystemImpl.hpp"
 #include "Win32.WinImports.hpp"
-#include "Panic.hpp"
 
 cl::Interface::ISystem* cl::SystemPlatform::Fabric::Create()
 {
