@@ -10,10 +10,19 @@
  */
 
 #include "Fabric.hpp"
-#include "UTF.hpp"
+#include "Panic.hpp"
 
 extern "C" void startup()
 {
+  cl::SystemPlatform::Panic::Init();
+
+  STACK_FRAME();
+
+  ASSERT(FALSE, U"Fail");
+
   cl::Interface::ISystem* system = cl::SystemPlatform::Fabric::Create();
+
+  cl::SystemPlatform::Panic::StackPop();
+
   system->Exit(0);
 }
