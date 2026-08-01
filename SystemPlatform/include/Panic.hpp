@@ -52,3 +52,5 @@ namespace cl
 #define STACK_FRAME() ()
 #define ASSERT(cond, msg) ()
 #endif
+
+#define PANIC(msg) cl::SystemPlatform::Panic::Panic(msg, __PRETTY_FUNCTION__, __FILE__, __LINE__, 0)
