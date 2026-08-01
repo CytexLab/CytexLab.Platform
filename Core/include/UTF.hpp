@@ -15,69 +15,69 @@
 
 extern "C"
 {
-    namespace cl
+  namespace cl
+  {
+    namespace UTF
     {
-        namespace UTF
-        {
-            enum class EConvertSymbolError : UINT8
-            {
-                None = 0,
-                InvalidByte = 1,
-                InvalidContinueByte = 2,
-                NullPointer = 3
-            };
+      enum class EConvertSymbolError : UINT8
+      {
+        None = 0,
+        InvalidByte = 1,
+        InvalidContinueByte = 2,
+        NullPointer = 3
+      };
 
-            enum class EConvertStringError : UINT8
-            {
-                None = 0,
-                FailConvertSymbol = 1,
-                NullPointer = 2,
-            };
+      enum class EConvertStringError : UINT8
+      {
+        None = 0,
+        FailConvertSymbol = 1,
+        NullPointer = 2,
+      };
 
-            enum class EStringFunctionsError : UINT8
-            {
-                None = 0,
-                NullPointer = 1,
-                BufferOverflow = 2,
-                InvalidString = 3
-            };
+      enum class EStringFunctionsError : UINT8
+      {
+        None = 0,
+        NullPointer = 1,
+        BufferOverflow = 2,
+        InvalidString = 3
+      };
 
-            struct SConvertSymbolResult
-            {
-                BOOL Success;
-                EConvertSymbolError Error;
-                UINT8 BytesCount;
-            };
+      struct SConvertSymbolResult
+      {
+        BOOL Success;
+        EConvertSymbolError Error;
+        UINT8 BytesCount;
+      };
 
-            struct SConvertStringResult
-            {
-                BOOL Success;
-                SConvertSymbolResult LastConvertSymbol;
-                EConvertStringError Error;
-                UINT64 BytesCount;
-                UINT64 SymbolsCount;
-            };
+      struct SConvertStringResult
+      {
+        BOOL Success;
+        SConvertSymbolResult LastConvertSymbol;
+        EConvertStringError Error;
+        UINT64 BytesCount;
+        UINT64 SymbolsCount;
+      };
 
-            struct SStringFunctionsResult
-            {
-                BOOL Success;
-                EStringFunctionsError Error;
-            };
+      struct SStringFunctionsResult
+      {
+        BOOL Success;
+        EStringFunctionsError Error;
+      };
 
-            CYTEXLAB_API SStringFunctionsResult UIntToString(UINT64 Number, LPECHAR Buffer);
-            CYTEXLAB_API SStringFunctionsResult SIntToString(INT64 Number, LPECHAR Buffer);
-            CYTEXLAB_API SStringFunctionsResult StringToUInt(LPCECHAR String, LPUINT64 Number);
-            CYTEXLAB_API SStringFunctionsResult StringToSInt(LPCECHAR String, LPINT64 Number);
+      CYTEXLAB_API SStringFunctionsResult UIntToString(UINT64 Number, LPECHAR Buffer);
+      CYTEXLAB_API SStringFunctionsResult SIntToString(INT64 Number, LPECHAR Buffer);
+      CYTEXLAB_API SStringFunctionsResult StringToUInt(LPCECHAR String, LPUINT64 Number);
+      CYTEXLAB_API SStringFunctionsResult StringToSInt(LPCECHAR String, LPINT64 Number);
 
-            CYTEXLAB_API SConvertSymbolResult ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR To);
-            CYTEXLAB_API SConvertSymbolResult ConvertUTF16ToUTF32(LPCWCHAR From, LPECHAR To);
-            CYTEXLAB_API SConvertSymbolResult ConvertUTF32ToUTF8(LPCECHAR From, LPCHAR To);
-            CYTEXLAB_API SConvertSymbolResult ConvertUTF32ToUTF16(LPCECHAR From, LPWCHAR To);
+      CYTEXLAB_API SConvertSymbolResult ConvertUTF8ToUTF32(LPCCHAR From, LPECHAR To);
+      CYTEXLAB_API SConvertSymbolResult ConvertUTF16ToUTF32(LPCWCHAR From, LPECHAR To);
+      CYTEXLAB_API SConvertSymbolResult ConvertUTF32ToUTF8(LPCECHAR From, LPCHAR To);
+      CYTEXLAB_API SConvertSymbolResult ConvertUTF32ToUTF16(LPCECHAR From, LPWCHAR To);
 
-            CYTEXLAB_API SConvertStringResult ConvertStringUTF8ToUTF32(LPCCHAR From, LPECHAR To);
-            CYTEXLAB_API SConvertStringResult ConvertStringUTF16ToUTF32(LPCWCHAR From, LPECHAR To);
-            CYTEXLAB_API SConvertStringResult ConvertStringUTF32ToUTF8(LPCECHAR From, LPCHAR To);
-            CYTEXLAB_API SConvertStringResult ConvertStringUTF32ToUTF16(LPCECHAR From, LPWCHAR To);
-        } // namespace UTF
-    } // namespace cl
+      CYTEXLAB_API SConvertStringResult ConvertStringUTF8ToUTF32(LPCCHAR From, LPECHAR To);
+      CYTEXLAB_API SConvertStringResult ConvertStringUTF16ToUTF32(LPCWCHAR From, LPECHAR To);
+      CYTEXLAB_API SConvertStringResult ConvertStringUTF32ToUTF8(LPCECHAR From, LPCHAR To);
+      CYTEXLAB_API SConvertStringResult ConvertStringUTF32ToUTF16(LPCECHAR From, LPWCHAR To);
+    } // namespace UTF
+  } // namespace cl
 }
