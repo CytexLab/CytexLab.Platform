@@ -693,15 +693,15 @@ SConvertStringResult result = ConvertStringUTF32ToUTF16(str, buf);
 SStringFunctionsResult UIntToString(UINT64 Number, LPECHAR Buffer)
 ```
 
-**Предназначение:** Преобразование без знакового числа в строку
-**Параметры:**
+**Предназначение:** Преобразование без знакового числа в строку  
+**Параметры:**  
 
 | Параметр | Тип       | Назначение                                  |
 |----------|-----------|---------------------------------------------|
 | `Number` | `UINT64`  | Число                                       |
 | `Buffer` | `LPECHAR` | Указатель на буфер для записи строки UTF-32 |
 
-**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)
+**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)  
 
 > [!WARNING]
 > Данная функция работает **только** с без знаковыми числами
@@ -709,7 +709,7 @@ SStringFunctionsResult UIntToString(UINT64 Number, LPECHAR Buffer)
 > [!TIP]
 > Для работы со знаковыми числами используете `SIntToString`
 
-**Пример:**
+**Пример:**  
 
 ```cpp
 ECHAR buf[30];
@@ -723,7 +723,7 @@ SStringFunctionsResult result = UIntToString(num, buf);
  */
 ```
 
-**См. также:** `SIntToString`
+**См. также:** `SIntToString`  
 
 ---
 
@@ -731,20 +731,20 @@ SStringFunctionsResult result = UIntToString(num, buf);
 SStringFunctionsResult SIntToString(INT64 Number, LPECHAR Buffer)
 ```
 
-**Предназначение:** Преобразование знакового числа в строку
-**Параметры:**
+**Предназначение:** Преобразование знакового числа в строку  
+**Параметры:**  
 
 | Параметр | Тип       | Назначение                                  |
 |----------|-----------|---------------------------------------------|
 | `Number` | `INT64`   | Число                                       |
 | `Buffer` | `LPECHAR` | Указатель на буфер для записи строки UTF-32 |
 
-**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)
+**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)  
 
 > [!TIP]
-> Для работы с без знаковыми числами используете `UIntToString`
+> Для работы с без знаковыми числами используете `UIntToString`  
 
-**Пример:**
+**Пример:**  
 
 ```cpp
 ECHAR buf[30];
@@ -758,7 +758,7 @@ SStringFunctionsResult result = SIntToString(num, buf);
  */
 ```
 
-**См. также:** `UIntToString`
+**См. также:** `UIntToString`  
 
 ---
 
@@ -766,20 +766,20 @@ SStringFunctionsResult result = SIntToString(num, buf);
 SStringFunctionsResult StringToUInt(LPCECHAR String, LPUINT64 Number)
 ```
 
-**Предназначение:** Преобразование строки в без знакового число
-**Параметры:**
+**Предназначение:** Преобразование строки в без знакового число  
+**Параметры:**  
 
 | Параметр | Тип        | Назначение                                  |
 |----------|------------|---------------------------------------------|
 | `String` | `LPECHAR`  | Указатель на буфер для записи строки UTF-32 |
 | `Number` | `LPUINT64` | Указатель на число                          |
 
-**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)
+**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)  
 
 > [!TIP]
-> Для работы со знаковыми числами используете `StringToSInt`
+> Для работы со знаковыми числами используете `StringToSInt`  
 
-**Пример:**
+**Пример:**  
 
 ```cpp
 LPCECHAR str = U"100";
@@ -793,7 +793,7 @@ SStringFunctionsResult result = SIntToString(str, &num);
  */
 ```
 
-**См. также:** `UIntToString`
+**См. также:** `UIntToString`  
 
 ---
 
@@ -801,20 +801,20 @@ SStringFunctionsResult result = SIntToString(str, &num);
 SStringFunctionsResult StringToSInt(LPCECHAR String, LPINT64 Number)
 ```
 
-**Предназначение:** Преобразование строки в знаковое число
-**Параметры:**
+**Предназначение:** Преобразование строки в знаковое число  
+**Параметры:**  
 
 | Параметр | Тип       | Назначение                                  |
 |----------|-----------|---------------------------------------------|
 | `String` | `LPECHAR` | Указатель на буфер для записи строки UTF-32 |
 | `Number` | `LPINT64` | Указатель на число                          |
 
-**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)
+**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)  
 
 > [!TIP]
-> Для работы с без знаковыми числами используете `StringToUInt`
+> Для работы с без знаковыми числами используете `StringToUInt`  
 
-**Пример:**
+**Пример:**  
 
 ```cpp
 LPCECHAR str = U"-100";
