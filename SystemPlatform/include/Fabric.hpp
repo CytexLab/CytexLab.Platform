@@ -9,11 +9,19 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#include "Fabric.hpp"
-#include "UTF.hpp"
+#pragma once
 
-extern "C" void startup()
+#include "ISystem.hpp"
+
+namespace cl
 {
-  cl::Interface::ISystem* system = cl::SystemPlatform::Fabric::Create();
-  system->Exit(0);
-}
+  namespace SystemPlatform
+  {
+    class Fabric
+    {
+    public:
+      CYTEXLAB_API static Interface::ISystem* Create();
+      CYTEXLAB_API static void Destroy(Interface::ISystem* System);
+    };
+  } // namespace SystemPlatform
+} // namespace cl

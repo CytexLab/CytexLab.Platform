@@ -9,11 +9,10 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#include "Fabric.hpp"
-#include "UTF.hpp"
+#include "Win32.SystemImpl.hpp"
+#include "Win32.WinImports.hpp"
 
-extern "C" void startup()
+void SystemImpl::Exit(UINT32 Code)
 {
-  cl::Interface::ISystem* system = cl::SystemPlatform::Fabric::Create();
-  system->Exit(0);
+  ::ExitProcess(Code);
 }

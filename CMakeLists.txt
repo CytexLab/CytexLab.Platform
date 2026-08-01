@@ -121,6 +121,8 @@ elseif (${CYTEXLAB_PLATFORM} STREQUAL "Linux")
 	set(CYTEXLAB_PLATFORM_LIBS "")
 endif()
 
+set(CYTEXLAB_DEFINE ${CYTEXLAB_DEFINE} ${CYTEXLAB_PLATFORM})
+
 function (platform_add_module name files includes deps)
 	message("Module ${name}: ")
 	message("- Files: ${files}")
@@ -158,6 +160,7 @@ function (platform_add_executable name files includes deps)
 endfunction()
 
 add_subdirectory(${CYTEXLAB_ROOT}/Core)
+add_subdirectory(${CYTEXLAB_ROOT}/SystemPlatform)
 
 add_subdirectory(${CYTEXLAB_ROOT}/Test/Dev)
 
