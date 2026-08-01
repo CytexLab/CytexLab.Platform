@@ -10,8 +10,11 @@
 #
 
 set(files
-    "src/main.cpp")
-set(deps "CytexLab.Platform.Core" "CytexLab.Platform.SystemPlatform")
-set(include "")
+    "src/Win32.SystemImpl.hpp"
+    "src/Win32.SystemImpl.cpp"
+    "src/Win32.Fabric.cpp"
+    "src/Win32.WinImports.hpp")
+set(include "include")
+set(deps "CytexLab.Platform.Core")
 
-platform_add_executable("Dev" "${files}" "${include}" "${deps}")
+platform_add_module("CytexLab.Platform.SystemPlatform" "${files}" "${include}" "${deps}")
