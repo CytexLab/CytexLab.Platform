@@ -18,9 +18,9 @@ extern "C" void startup()
 
   STACK_FRAME();
 
-  ASSERT(FALSE, U"Fail");
-
   cl::Interface::ISystem* system = cl::SystemPlatform::Fabric::Create();
+
+  ASSERT(FALSE, U"Test");
 
   cl::SystemPlatform::Panic::StackPop();
 
