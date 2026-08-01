@@ -518,7 +518,7 @@ cl::UTF::SStringFunctionsResult cl::UTF::SIntToString(INT64 Number, LPECHAR Buff
         *Buffer++ = U'-';
 
     for (UINT8 j = i; j > 0; j--)
-        *Buffer++ = buf[j-1];
+        *Buffer++ = buf[j - 1];
 
     *Buffer = U'\0';
 
