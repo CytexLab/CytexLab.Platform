@@ -13,7 +13,8 @@ set(files
     "src/Win32.SystemImpl.hpp"
     "src/Win32.SystemImpl.cpp"
     "src/Win32.Fabric.cpp"
-    "src/Win32.WinImports.hpp")
+    "src/Win32.WinImports.hpp"
+    "src/Win32.Panic.cpp")
 set(include "include")
 set(deps "CytexLab.Platform.Core")
 
