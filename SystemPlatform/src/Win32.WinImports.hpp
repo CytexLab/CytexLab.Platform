@@ -39,4 +39,4 @@ extern "C"
 
 // Константы
 
-#define STD_OUTPUT_HANDLE ((UINT32)-11)
+#define STD_OUTPUT_HANDLE ((UINT32) - 11)
