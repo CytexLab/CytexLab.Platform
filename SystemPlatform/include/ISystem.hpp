@@ -9,11 +9,18 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#include "Fabric.hpp"
-#include "UTF.hpp"
+#pragma once
 
-extern "C" void startup()
+#include "Platform.hpp"
+
+namespace cl
 {
-  cl::Interface::ISystem* system = cl::SystemPlatform::Fabric::Create();
-  system->Exit(0);
-}
+  namespace Interface
+  {
+    class ISystem
+    {
+    public:
+      virtual void Exit(UINT32 Code) = 0;
+    };
+  } // namespace Interface
+} // namespace cl

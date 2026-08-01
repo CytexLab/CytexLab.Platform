@@ -9,11 +9,16 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#include "Fabric.hpp"
-#include "UTF.hpp"
+#pragma once
 
-extern "C" void startup()
+#include "Platform.hpp"
+
+typedef LPVOID HANDLE;
+
+extern "C"
 {
-  cl::Interface::ISystem* system = cl::SystemPlatform::Fabric::Create();
-  system->Exit(0);
+  __declspec(dllimport) HANDLE GetProcessHeap();
+  __declspec(dllimport) LPVOID HeapAlloc(HANDLE hHeap, UINT32 dwFlags, UINT64 dwBytes);
+  __declspec(dllimport) BOOL HeapFree(HANDLE hHeap, UINT32 dwFlags, LPVOID lpMem);
+  __declspec(dllimport) void ExitProcess(UINT32 uExitCode);
 }
