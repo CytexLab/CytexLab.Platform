@@ -39,13 +39,15 @@ namespace cl
           StackPop();
         }
       };
-    }
-  }
-}
+    } // namespace Panic
+  } // namespace SystemPlatform
+} // namespace cl
 
 #ifdef CYTEXLAB_DEBUG
-#define STACK_FRAME() cl::SystemPlatform::Panic::StackItem ___stack_item(__PRETTY_FUNCTION__, __FILE__,  __LINE__)
-#define ASSERT(cond, msg) if (!(cond)) cl::SystemPlatform::Panic::Panic(msg, __PRETTY_FUNCTION__, __FILE__,  __LINE__, 0)
+#define STACK_FRAME() cl::SystemPlatform::Panic::StackItem ___stack_item(__PRETTY_FUNCTION__, __FILE__, __LINE__)
+#define ASSERT(cond, msg) \
+  if (!(cond))            \
+  cl::SystemPlatform::Panic::Panic(msg, __PRETTY_FUNCTION__, __FILE__, __LINE__, 0)
 #else
 #define STACK_FRAME() ()
 #define ASSERT(cond, msg) ()
