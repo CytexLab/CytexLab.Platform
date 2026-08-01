@@ -13,5 +13,5 @@
 
 LPVOID operator new(UINT64 size, LPVOID mem)
 {
-    return mem;
+  return mem;
 }
