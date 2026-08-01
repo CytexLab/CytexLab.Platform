@@ -17,8 +17,19 @@ typedef LPVOID HANDLE;
 
 extern "C"
 {
+  // Память
   __declspec(dllimport) HANDLE GetProcessHeap();
   __declspec(dllimport) LPVOID HeapAlloc(HANDLE hHeap, UINT32 dwFlags, UINT64 dwBytes);
-  __declspec(dllimport) BOOL HeapFree(HANDLE hHeap, UINT32 dwFlags, LPVOID lpMem);
+  __declspec(dllimport) INT32 HeapFree(HANDLE hHeap, UINT32 dwFlags, LPVOID lpMem);
+
+  // Процессы
   __declspec(dllimport) void ExitProcess(UINT32 uExitCode);
+
+  // Консоль
+  __declspec(dllimport) HANDLE GetStdHandle(UINT32 dwHandle);
+  __declspec(dllimport) INT32 WriteConsoleW(HANDLE hConsoleOutput, LPCWCHAR lpBuffer, UINT32 nNumberOfCharsToWrite, LPUINT32 lpNumberOfCharsWritten, LPVOID lpReserved);
+  __declspec(dllimport) INT32 GetConsoleMode(HANDLE hConsoleHandle, LPUINT32 lpMode);
+
+  // Файлы
+  __declspec(dllimport) INT32 WriteFile(HANDLE hFile, LPCVOID lpBuffer, UINT32 nNumberOfBytesToWrite, LPUINT32 lpNumberOfBytesWritten, LPVOID lpOverlapped);
 }
