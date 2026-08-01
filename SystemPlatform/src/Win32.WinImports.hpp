@@ -17,6 +17,9 @@ typedef LPVOID HANDLE;
 
 extern "C"
 {
+  // API
+  __declspec(dllimport) UINT32 GetLastError();
+
   // Память
   __declspec(dllimport) HANDLE GetProcessHeap();
   __declspec(dllimport) LPVOID HeapAlloc(HANDLE hHeap, UINT32 dwFlags, UINT64 dwBytes);
@@ -33,3 +36,7 @@ extern "C"
   // Файлы
   __declspec(dllimport) INT32 WriteFile(HANDLE hFile, LPCVOID lpBuffer, UINT32 nNumberOfBytesToWrite, LPUINT32 lpNumberOfBytesWritten, LPVOID lpOverlapped);
 }
+
+// Константы
+
+#define STD_OUTPUT_HANDLE ((UINT32)-11)
