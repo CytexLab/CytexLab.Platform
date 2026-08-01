@@ -314,7 +314,7 @@ struct SConvertSymbolResult
 
 **Предназначение:** Результат конвертации отдельного символа строки в строке UTF
 **Размер:** 3 байта  
-**Выравнивание:** 0 байт  
+**Выравнивание:** 1 байт  
 **Поля:**
 
 | Поле         | Тип                   | Назначение                       |
@@ -343,7 +343,7 @@ struct SConvertStringResult
 
 **Предназначение:** Результат конвертации целой строки символов в строке UTF
 **Размер:** 24 байта  
-**Выравнивание:** 5 байт  
+**Выравнивание:** 8 байт  
 **Поля:**
 
 | Поле                | Тип                    | Назначение                                      |
@@ -360,6 +360,26 @@ struct SConvertStringResult
 
 > [!TIP]
 > При конвертации в UTF-32, можно узнать сколько байт занимала строка UTF-8/UTF-16
+
+---
+
+```cpp
+struct SStringFunctionsResult
+{
+    BOOL Success;
+    EStringFunctionsError Error;
+};
+```
+
+**Предназначение:** Результат конвертации числа в строку и наоборот
+**Размер:** 2 байта  
+**Выравнивание:** 1 байта  
+**Поля:**
+
+| Поле      | Тип                     | Назначение                    |
+|-----------|-------------------------|-------------------------------|
+| `Success` | `BOOL`                  | Успешность конвертации строки |
+| `Error`   | `EStringFunctionsError` | Ошибка конвертации            |
 
 ### Функции
 
@@ -666,3 +686,146 @@ SConvertStringResult result = ConvertStringUTF32ToUTF16(str, buf);
 ```
 
 **См. также:** `ConvertUTF32ToUTF16`
+
+---
+
+```cpp
+SStringFunctionsResult UIntToString(UINT64 Number, LPECHAR Buffer)
+```
+
+**Предназначение:** Преобразование без знакового числа в строку
+**Параметры:**
+
+| Параметр | Тип       | Назначение                                  |
+|----------|-----------|---------------------------------------------|
+| `Number` | `UINT64`  | Число                                       |
+| `Buffer` | `LPECHAR` | Указатель на буфер для записи строки UTF-32 |
+
+**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)
+
+> [!WARNING]
+> Данная функция работает **только** с без знаковыми числами
+
+> [!TIP]
+> Для работы со знаковыми числами используете `SIntToString`
+
+**Пример:**
+
+```cpp
+ECHAR buf[30];
+UINT64 num = 100;
+
+SStringFunctionsResult result = UIntToString(num, buf);
+
+/*
+ * result.Success = TRUE
+ * result.Error = None
+ */
+```
+
+**См. также:** `SIntToString`
+
+---
+
+```cpp
+SStringFunctionsResult SIntToString(INT64 Number, LPECHAR Buffer)
+```
+
+**Предназначение:** Преобразование знакового числа в строку
+**Параметры:**
+
+| Параметр | Тип       | Назначение                                  |
+|----------|-----------|---------------------------------------------|
+| `Number` | `INT64`   | Число                                       |
+| `Buffer` | `LPECHAR` | Указатель на буфер для записи строки UTF-32 |
+
+**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)
+
+> [!TIP]
+> Для работы с без знаковыми числами используете `UIntToString`
+
+**Пример:**
+
+```cpp
+ECHAR buf[30];
+INT64 num = -100;
+
+SStringFunctionsResult result = SIntToString(num, buf);
+
+/*
+ * result.Success = TRUE
+ * result.Error = None
+ */
+```
+
+**См. также:** `UIntToString`
+
+---
+
+```cpp
+SStringFunctionsResult StringToUInt(LPCECHAR String, LPUINT64 Number)
+```
+
+**Предназначение:** Преобразование строки в без знакового число
+**Параметры:**
+
+| Параметр | Тип        | Назначение                                  |
+|----------|------------|---------------------------------------------|
+| `String` | `LPECHAR`  | Указатель на буфер для записи строки UTF-32 |
+| `Number` | `LPUINT64` | Указатель на число                          |
+
+**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)
+
+> [!TIP]
+> Для работы со знаковыми числами используете `StringToSInt`
+
+**Пример:**
+
+```cpp
+LPCECHAR str = U"100";
+UINT64 num;
+
+SStringFunctionsResult result = SIntToString(str, &num);
+
+/*
+ * result.Success = TRUE
+ * result.Error = None
+ */
+```
+
+**См. также:** `UIntToString`
+
+---
+
+```cpp
+SStringFunctionsResult StringToSInt(LPCECHAR String, LPINT64 Number)
+```
+
+**Предназначение:** Преобразование строки в знаковое число
+**Параметры:**
+
+| Параметр | Тип       | Назначение                                  |
+|----------|-----------|---------------------------------------------|
+| `String` | `LPECHAR` | Указатель на буфер для записи строки UTF-32 |
+| `Number` | `LPINT64` | Указатель на число                          |
+
+**Возвращаемое значение:** Результат преобразования (`SStringFunctionsResult`)
+
+> [!TIP]
+> Для работы с без знаковыми числами используете `StringToUInt`
+
+**Пример:**
+
+```cpp
+LPCECHAR str = U"-100";
+INT64 num;
+
+SStringFunctionsResult result = SIntToString(str, &num);
+
+/*
+ * result.Success = TRUE
+ * result.Error = None
+ */
+```
+
+**См. также:** `SIntToString`
