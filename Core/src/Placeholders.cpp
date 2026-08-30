@@ -9,6 +9,7 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
+#define CYTEXLAB_PLATFORM_EXPORT
 #include "Platform.hpp"
 
 extern "C" CYTEXLAB_API INT32 __cdecl _purecall(void)

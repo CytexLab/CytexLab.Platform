@@ -9,57 +9,85 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
+#define CYTEXLAB_PLATFORM_EXPORT
 #include "Mem.hpp"
 
-void memcpy(LPVOID To, LPCVOID From, UINT64 Count)
+typedef void (*memcpy_sse42_asm_func)(LPCVOID From, LPVOID To, UINT64 Count);
+typedef void (*memcpy_avx_asm_func)(LPCVOID From, LPVOID To, UINT64 Count);
+typedef void (*fail_callback_sign)(UINT64 code);
+
+memcpy_sse42_asm_func memcpy_sse42_asm = nullptr;
+memcpy_avx_asm_func memcpy_avx_asm = nullptr;
+
+extern BOOL is_proc_support_sse42();
+extern BOOL is_proc_support_avx();
+extern fail_callback_sign get_fail_callback();
+
+static BOOL support_sse42 = FALSE;
+static BOOL support_avx = FALSE;
+static BOOL updated_info = FALSE;
+
+void update_info()
 {
-  __asm__ volatile(
-      "rep movsb"
-      : "+D"(To), "+S"(From), "+c"(Count)
+  support_sse42 = is_proc_support_sse42();
+  support_avx = is_proc_support_avx();
+  updated_info = TRUE;
+}
+
+CYTEXLAB_API void memcpy_sse42_set(memcpy_sse42_asm_func func)
+{
+  memcpy_sse42_asm = func;
+}
+
+CYTEXLAB_API void memcpy_avx_set(memcpy_avx_asm_func func)
+{
+  memcpy_avx_asm = func;
+}
+
+CYTEXLAB_API void memcpy_sse42(LPCVOID From, LPVOID To, UINT64 Count)
+{
+  if (!updated_info)
+    update_info();
+
+  if (Count % 16 != 0)
+    get_fail_callback()(2);
+
+  if (support_sse42)
+    memcpy_sse42_asm(From, To, Count);
+  else
+    get_fail_callback()(1);
+}
+
+CYTEXLAB_API void memcpy_avx(LPCVOID From, LPVOID To, UINT64 Count)
+{
+  if (!updated_info)
+    update_info();
+
+  if (Count % 32 != 0)
+    get_fail_callback()(4);
+
+  if (support_avx)
+    memcpy_avx_asm(From, To, Count);
+  else
+    get_fail_callback()(3);
+}
+
+CYTEXLAB_API void memcpy(LPCVOID From, LPVOID To, UINT64 Count)
+{
+  if (!updated_info)
+    update_info();
+
+  if (support_avx && Count >= 32 && (Count % 32 == 0))
+    memcpy_sse42(From, To, Count);
+  else if (support_sse42 && Count >= 16 && (Count % 16 == 0))
+    memcpy_avx(From, To, Count);
+  else
+  {
+    asm volatile (
+      "rep movsb\n"
       :
-      : "memory");
-}
-
-void memset(LPVOID To, UINT8 Byte, UINT64 Count)
-{
-  __asm__ volatile(
-      "rep stosb"
-      : "+D"(To), "+c"(Count)
-      : "a"(Byte)
-      : "memory");
-}
-
-void memmove(LPVOID To, LPCVOID From, UINT64 Count)
-{
-  __asm__ volatile(
-      "cmp %0, %1\n\t"
-      "jae 1f\n\t" // Если To >= From, используем обычный rep movsb
-      "mov %2, %%rcx\n\t"
-      "lea 0x1(%%rsi,%%rcx,1), %%rsi\n\t"
-      "lea 0x1(%%rdi,%%rcx,1), %%rdi\n\t"
-      "std\n\t" // Направление назад
-      "rep movsb\n\t"
-      "cld\n\t" // Вернуть направление вперёд
-      "jmp 2f\n\t"
-      "1:\n\t"
-      "rep movsb\n\t"
-      "2:\n\t"
-      : "+D"(To), "+S"(From), "+c"(Count)
-      :
-      : "memory", "cc");
-}
-
-BOOL memcmp(LPCVOID Mem1, LPCVOID Mem2, UINT64 Count)
-{
-  int result = 0;
-  __asm__ volatile(
-      "repe cmpsb\n\t"
-      "mov $0, %0\n\t"
-      "je 1f\n\t"
-      "mov $1, %0\n\t" // Не равны
-      "1:\n\t"
-      : "=r"(result)
-      : "D"(Mem1), "S"(Mem2), "c"(Count)
-      : "memory", "cc");
-  return (result == 0) ? TRUE : FALSE;
+      : "S" (From), "D" (To), "c" (Count)
+      : "memory"
+    );
+  }
 }
