@@ -160,7 +160,6 @@ function (platform_add_executable name files includes deps)
 endfunction()
 
 add_subdirectory(${CYTEXLAB_ROOT}/Core)
-add_subdirectory(${CYTEXLAB_ROOT}/SystemPlatform)
 
 add_subdirectory(${CYTEXLAB_ROOT}/Test/Dev)
 

@@ -20,7 +20,7 @@ extern "C" void startup()
 
   cl::Interface::ISystem* system = cl::SystemPlatform::Fabric::Create();
 
-  ASSERT(FALSE, U"Test");
+  PANIC(U"Test");
 
   cl::SystemPlatform::Panic::StackPop();
 
