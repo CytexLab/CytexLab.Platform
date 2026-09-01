@@ -11,6 +11,7 @@
 
 #pragma once
 
+#define CYTEXLAB_PLATFORM_EXPORT
 #include "Platform.hpp"
 
 CYTEXLAB_API LPVOID operator new(UINT64 size, LPVOID mem);
