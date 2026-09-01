@@ -168,7 +168,10 @@ function(platform_add_module NAME FILES INCLUDES DEPS)
         $<$<COMPILE_LANGUAGE:ASM>:${COMPILER_ASM_FLAGS}>
     )
 
-    target_compile_definitions(${NAME} PRIVATE ${CYTEXLAB_DEFINE})
+    target_compile_definitions(${NAME} PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:${CYTEXLAB_DEFINE}>
+        $<$<COMPILE_LANGUAGE:C>:${CYTEXLAB_DEFINE}>
+    )
 
     target_link_libraries(${NAME} PUBLIC ${DEPS} ${PLATFORM_LIBS})
 
@@ -199,7 +202,10 @@ function(platform_add_executable NAME FILES INCLUDES DEPS)
         $<$<COMPILE_LANGUAGE:ASM>:${COMPILER_ASM_FLAGS}>
     )
 
-    target_compile_definitions(${NAME} PRIVATE ${CYTEXLAB_DEFINE})
+    target_compile_definitions(${NAME} PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:${CYTEXLAB_DEFINE}>
+        $<$<COMPILE_LANGUAGE:C>:${CYTEXLAB_DEFINE}>
+    )
 
     target_link_libraries(${NAME} PRIVATE ${DEPS} ${PLATFORM_LIBS})
 
