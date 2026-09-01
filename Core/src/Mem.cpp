@@ -52,6 +52,9 @@ CYTEXLAB_API void memcpy_sse42(LPCVOID From, LPVOID To, UINT64 Count)
   if (Count % 16 != 0)
     get_fail_callback()(2);
 
+  if (!memcpy_sse42_asm)
+    get_fail_callback()(5);
+
   if (support_sse42)
     memcpy_sse42_asm(From, To, Count);
   else
@@ -65,6 +68,9 @@ CYTEXLAB_API void memcpy_avx(LPCVOID From, LPVOID To, UINT64 Count)
 
   if (Count % 32 != 0)
     get_fail_callback()(4);
+
+  if (!memcpy_avx_asm)
+    get_fail_callback()(6);
 
   if (support_avx)
     memcpy_avx_asm(From, To, Count);
