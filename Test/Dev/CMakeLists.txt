@@ -10,8 +10,9 @@
 #
 
 set(files
-    "src/main.cpp")
-set(deps "CytexLab.Platform.Core" "CytexLab.Platform.SystemPlatform")
+    "src/main.cpp"
+    "src/mem.asm")
+set(deps "CytexLab.Platform.Core")
 set(include "")
 
 platform_add_executable("Dev" "${files}" "${include}" "${deps}")
