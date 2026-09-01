@@ -1,4 +1,3 @@
-.intel_syntax noprefix
 .section .text
 
 .global memcpy_sse42_asm
