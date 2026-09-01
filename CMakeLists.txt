@@ -14,6 +14,8 @@ cmake_minimum_required(VERSION 3.20)
 set(CYTEXLAB_PROJECT CytexLab.Platform)
 project(${CYTEXLAB_PROJECT} LANGUAGES ASM C CXX)
 
+list(APPEND CMAKE_ASM_SOURCE_FILE_EXTENSIONS asm)
+
 if (NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE "Debug")
 endif()
@@ -56,6 +58,7 @@ set(CXX_BASE_FLAGS
     -fno-threadsafe-statics
     -fno-common
 )
+set(ASM_BASE_FLAGS -masm=intel)
 
 if (WIN32)
     set(LINK_BASE_FLAGS
@@ -131,10 +134,17 @@ function (platform_add_module name files includes deps)
 	
 	add_library(${name} SHARED ${files})
 	target_include_directories(${name} PUBLIC ${includes})
-	target_compile_options(${name} PRIVATE ${CXX_BASE_FLAGS} ${CXX_EXTRA_FLAGS})
+	target_compile_options(${name} PRIVATE
+		$<$<COMPILE_LANGUAGE:CXX>:${CXX_BASE_FLAGS} ${CXX_EXTRA_FLAGS}>
+		$<$<COMPILE_LANGUAGE:C>:${CXX_BASE_FLAGS} ${CXX_EXTRA_FLAGS}>
+		$<$<COMPILE_LANGUAGE:ASM>:${ASM_BASE_FLAGS}>
+	)
 	target_link_libraries(${name} PUBLIC ${deps} ${CYTEXLAB_PLATFORM_LIBS})
 	target_link_options(${name} PRIVATE ${LINK_BASE_FLAGS} ${LINK_LIB_FLAGS})
-	target_compile_definitions(${name} PRIVATE ${CYTEXLAB_DEFINE})
+	target_compile_definitions(${name} PRIVATE
+		$<$<COMPILE_LANGUAGE:CXX>:${CYTEXLAB_DEFINE}>
+		$<$<COMPILE_LANGUAGE:C>:${CYTEXLAB_DEFINE}>
+	)
 	set_target_properties(${name} PROPERTIES prefix "")
 endfunction()
 
@@ -146,8 +156,15 @@ function (platform_add_executable name files includes deps)
 	
 	add_executable(${name} ${files})
 	target_include_directories(${name} PRIVATE ${includes})
-	target_compile_options(${name} PRIVATE ${CXX_BASE_FLAGS} ${CXX_EXTRA_FLAGS})
-	target_compile_definitions(${name} PRIVATE ${CYTEXLAB_DEFINE})
+	target_compile_options(${name} PRIVATE
+		$<$<COMPILE_LANGUAGE:CXX>:${CXX_BASE_FLAGS} ${CXX_EXTRA_FLAGS}>
+		$<$<COMPILE_LANGUAGE:C>:${CXX_BASE_FLAGS} ${CXX_EXTRA_FLAGS}>
+		$<$<COMPILE_LANGUAGE:ASM>:${ASM_BASE_FLAGS}>
+	)
+	target_compile_definitions(${name} PRIVATE
+		$<$<COMPILE_LANGUAGE:CXX>:${CYTEXLAB_DEFINE}>
+		$<$<COMPILE_LANGUAGE:C>:${CYTEXLAB_DEFINE}>
+	)
 	target_link_libraries(${name} PRIVATE ${deps} ${CYTEXLAB_PLATFORM_LIBS})
 	target_link_options(${name} PRIVATE ${LINK_BASE_FLAGS} ${LINK_EXTRA_FLAGS})
 	set_target_properties(${name} PROPERTIES prefix "")
