@@ -78,16 +78,15 @@ CYTEXLAB_API void memcpy(LPCVOID From, LPVOID To, UINT64 Count)
     update_info();
 
   if (support_avx && Count >= 32 && (Count % 32 == 0))
-    memcpy_sse42(From, To, Count);
-  else if (support_sse42 && Count >= 16 && (Count % 16 == 0))
     memcpy_avx(From, To, Count);
+  else if (support_sse42 && Count >= 16 && (Count % 16 == 0))
+    memcpy_sse42(From, To, Count);
   else
   {
-    asm volatile (
-      "rep movsb\n"
-      :
-      : "S" (From), "D" (To), "c" (Count)
-      : "memory"
-    );
+    asm volatile(
+        "rep movsb\n"
+        :
+        : "S"(From), "D"(To), "c"(Count)
+        : "memory");
   }
 }
