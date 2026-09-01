@@ -5,7 +5,7 @@
 
 memcpy_sse42_asm:
     cmp r8, 0
-    jz .memcpy_done
+    jz .memcpy_sse42_done
 
     test rcx, 15
     jnz .memcpy_sse42_loop_unaligned
@@ -18,7 +18,7 @@ memcpy_sse42_asm:
     add rcx, 16
     add rdx, 16
     sub r8, 16
-    jz .memcpy_done
+    jz .memcpy_sse42_done
 .memcpy_sse42_loop_unaligned:
     movups xmm0, [rcx]
     movups [rdx], xmm0
@@ -26,13 +26,13 @@ memcpy_sse42_asm:
     add rcx, 16
     add rdx, 16
     sub r8, 16
-    jz .memcpy_done
-.memcpy_done:
+    jz .memcpy_sse42_done
+.memcpy_sse42_done:
     ret
 
 memcpy_avx_asm:
     cmp r8, 0
-    jz .memcpy_done
+    jz .memcpy_avx_done
 
     test rcx, 31
     jnz .memcpy_avx_loop_unaligned
@@ -45,7 +45,7 @@ memcpy_avx_asm:
     add rcx, 32
     add rdx, 32
     sub r8, 32
-    jz .memcpy_done
+    jz .memcpy_avx_done
 .memcpy_avx_loop_unaligned:
     vmovdqu ymm0, [rcx]
     vmovdqu [rdx], ymm0
@@ -53,4 +53,7 @@ memcpy_avx_asm:
     add rcx, 32
     add rdx, 32
     sub r8, 32
-    jz .memcpy_done
+    jz .memcpy_avx_done
+.memcpy_avx_done:
+    vzeroupper
+    ret
