@@ -83,6 +83,7 @@ set(COMPILER_CXX_BASE_FLAGS
     -fno-use-cxa-atexit
     -fno-threadsafe-statics
     -fno-common
+    -masm=intel
 )
 set(COMPILER_ASM_BASE_FLAGS -masm=intel)
 
