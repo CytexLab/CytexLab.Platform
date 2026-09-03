@@ -27,7 +27,8 @@ namespace cl
         {
           None = 0,
           NullPointer = 1,
-          InvalidByte = 2
+          InvalidByte = 2,
+          InvalidContinueByte = 3
         };
 
         struct Result
