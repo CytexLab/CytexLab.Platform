@@ -150,17 +150,21 @@ CYTEXLAB_API void memset(LPVOID To, UINT8 Byte, UINT64 Count)
     memset_sse42(To, Byte, Count);
   else
   {
-    asm volatile (
-      ".loop:\n"
-      "mov [%0], %1\n"
-      "add %0, 1\n"
-      "sub %2, 1\n"
-      "jz .done\n"
-      "jmp .loop\n"
-      ".done:\n"
-      :
-      : "r" (+To), "r" (Byte), "r" (+Count)
-      : "memory", "cc"
-    );
+    asm volatile(
+        ".loop:\n"
+        "mov [%0], %2\n"
+        "add %0, 1\n"
+        "sub %1, 1\n"
+        "jz .done\n"
+        "jmp .loop\n"
+        ".done:\n"
+        : "+r"(To), "+r"(Count)
+        : "r"(Byte)
+        : "memory", "cc");
   }
+}
+
+void memclear(LPVOID To, UINT64 Count)
+{
+  memset(To, 0x00, Count);
 }

@@ -21,4 +21,5 @@ extern "C"
   CYTEXLAB_API void memset_sse42(LPVOID To, UINT8 Byte, UINT64 Count);
   CYTEXLAB_API void memset_avx(LPVOID To, UINT8 Byte, UINT64 Count);
   CYTEXLAB_API void memset(LPVOID To, UINT8 Byte, UINT64 Count);
+  CYTEXLAB_API void memclear(LPVOID To, UINT64 Count);
 }

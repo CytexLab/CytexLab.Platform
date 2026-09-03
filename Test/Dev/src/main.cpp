@@ -36,7 +36,7 @@ void callback(UINT64 code)
 
 extern "C" void startup()
 {
-  proc_support(TRUE, TRUE);
+  proc_support(FALSE, FALSE);
   set_fail_callback(callback);
   memset_sse42_set(memset_sse42_asm);
   memset_avx_set(memset_avx_asm);
