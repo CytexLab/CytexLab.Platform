@@ -14,6 +14,7 @@ set(files
     "src/Placement.cpp"
     "src/Placeholders.cpp"
     "src/Core.cpp"
+    "src/UTF.Processor.cpp"
 )
 
 set(deps "")
