@@ -30,17 +30,17 @@ CYTEXLAB_API void set_fail_callback(fail_callback_sign callback)
   fail_callback = callback;
 }
 
-fail_callback_sign get_fail_callback()
+CYTEXLAB_API fail_callback_sign get_fail_callback()
 {
   return fail_callback;
 }
 
-BOOL is_proc_support_sse42()
+CYTEXLAB_API BOOL is_proc_support_sse42()
 {
   return support_sse42;
 }
 
-BOOL is_proc_support_avx()
+CYTEXLAB_API BOOL is_proc_support_avx()
 {
   return support_avx;
 }
