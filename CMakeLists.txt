@@ -48,6 +48,7 @@ endif()
 set(CYTEXLAB_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(CYTEXLAB_DIST_EXECUTABLE ${CYTEXLAB_ROOT}/Dist/${CYTEXLAB_PLATFORM}.${CMAKE_BUILD_TYPE})
 set(CYTEXLAB_DIST_LIB ${CYTEXLAB_ROOT}/Lib/${CYTEXLAB_PLATFORM}.${CMAKE_BUILD_TYPE})
+set(CYTEXLAB_GENERIC_INCLUDE ${CYTEXLAB_ROOT}/Generic/include)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CYTEXLAB_DIST_EXECUTABLE})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CYTEXLAB_DIST_LIB})
@@ -161,7 +162,7 @@ function(platform_add_module NAME FILES INCLUDES DEPS)
 
     add_library(${NAME} SHARED ${FILES})
 
-    target_include_directories(${NAME} PUBLIC ${INCLUDES})
+    target_include_directories(${NAME} PUBLIC ${INCLUDES} ${CYTEXLAB_GENERIC_INCLUDE})
 
     target_compile_options(${NAME} PRIVATE
         $<$<COMPILE_LANGUAGE:CXX>:${COMPILER_CXX_FLAGS}>
@@ -195,7 +196,7 @@ function(platform_add_executable NAME FILES INCLUDES DEPS)
 
     add_executable(${NAME} ${FILES})
 
-    target_include_directories(${NAME} PRIVATE ${INCLUDES})
+    target_include_directories(${NAME} PRIVATE ${INCLUDES} ${CYTEXLAB_GENERIC_INCLUDE})
 
     target_compile_options(${NAME} PRIVATE
         $<$<COMPILE_LANGUAGE:CXX>:${COMPILER_CXX_FLAGS}>

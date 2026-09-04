@@ -9,9 +9,8 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-set(MAIN_PACKAGE "CytexLab.Platform.Core")
+set(files "src/Placeholders.cpp")
+set(include "")
+set(deps "")
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/%)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placement)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placeholders)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Mem)
+platform_add_module("${MAIN_PACKAGE}.Placeholders" "${files}" "" "")

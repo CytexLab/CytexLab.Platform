@@ -56,7 +56,7 @@ typedef UINT8 BOOL;
 typedef BOOL* LPBOOL;
 typedef const BOOL* LPCBOOL;
 
-typedef unsigned char CHAR;
+typedef char CHAR;
 typedef wchar_t WCHAR;
 typedef char32_t ECHAR;
 
