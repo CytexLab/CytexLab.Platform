@@ -92,7 +92,7 @@ CYTEXLAB_API void memcpy_avx(LPCVOID From, LPVOID To, UINT64 Count)
     get_fail_callback()(3);
 }
 
-CYTEXLAB_API void memcpy(LPCVOID From, LPVOID To, UINT64 Count)
+CYTEXLAB_API void memcpy(LPVOID To, LPCVOID From, UINT64 Count)
 {
   if (!updated_info)
     update_info();
