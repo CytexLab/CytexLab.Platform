@@ -15,7 +15,7 @@
 
 extern "C"
 {
-  CYTEXLAB_API void memcpy(LPCVOID From, LPVOID To, UINT64 Count);
+  CYTEXLAB_API void memcpy(LPVOID To, LPCVOID From, UINT64 Count);
   CYTEXLAB_API void memcpy_sse42(LPCVOID From, LPVOID To, UINT64 Count);
   CYTEXLAB_API void memcpy_avx(LPCVOID From, LPVOID To, UINT64 Count);
   CYTEXLAB_API void memset_sse42(LPVOID To, UINT8 Byte, UINT64 Count);
