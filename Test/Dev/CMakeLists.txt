@@ -12,7 +12,7 @@
 set(files
     "src/main.cpp"
     "src/mem.asm")
-set(deps "CytexLab.Platform.Core.Placement" "CytexLab.Platform.Core.Placeholders" "CytexLab.Platform.Core.Mem")
+set(deps "CytexLab.Platform.Core.Placement" "CytexLab.Platform.Core.Placeholders" "CytexLab.Platform.Core.Mem" "CytexLab.Platform.Core.UTF.Processor.Symbols")
 set(include "")
 
 platform_add_executable("Dev" "${files}" "${include}" "${deps}")
