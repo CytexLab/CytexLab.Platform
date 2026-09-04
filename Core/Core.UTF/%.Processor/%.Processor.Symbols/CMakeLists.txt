@@ -9,10 +9,8 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-set(MAIN_PACKAGE "CytexLab.Platform.Core")
+set(files "src/UTF.Processor.cpp")
+set(include "include")
+set(deps "")
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/%)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placement)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placeholders)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Mem)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.UTF)
+platform_add_module("${SUB_UTF_PACKAGE}.Symbols" "${files}" "${include}" "${deps}")
