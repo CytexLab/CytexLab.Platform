@@ -144,32 +144,71 @@ CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::Sym
 
   if (one <= 0x007F)
   {
-    *U8_Char++ = (CHAR) one;
-    result.ReadedInput = 1; result.WrittenOutput = 1;
+    *U8_Char++ = (CHAR)one;
+    result.ReadedInput = 1;
+    result.WrittenOutput = 1;
     return result;
   }
   else if (one <= 0x07FF)
   {
     *U8_Char++ = 0xC0 | (CHAR)(one >> 6);
-    *U8_Char++ = 0x80 | (CHAR)(one);
-    result.ReadedInput = 1; result.WrittenOutput = 2;
+    *U8_Char++ = 0x80 | (CHAR)(one & 0x3F);
+    result.ReadedInput = 1;
+    result.WrittenOutput = 2;
     return result;
   }
   else if (one <= 0xFFFF)
   {
     *U8_Char++ = 0xE0 | (CHAR)(one >> 12);
-    *U8_Char++ = 0x80 | (CHAR)(one >> 6);
-    *U8_Char++ = 0x80 | (CHAR)(one);
-    result.ReadedInput = 1; result.WrittenOutput = 3;
+    *U8_Char++ = 0x80 | (CHAR)(one >> 6 & 0x3F);
+    *U8_Char++ = 0x80 | (CHAR)(one & 0x3F);
+    result.ReadedInput = 1;
+    result.WrittenOutput = 3;
     return result;
   }
   else if (one <= 0x10FFFF)
   {
-    *U8_Char++ = 0xF0 | (CHAR)(one >> 24);
-    *U8_Char++ = 0x80 | (CHAR)(one >> 12);
-    *U8_Char++ = 0x80 | (CHAR)(one >> 6);
-    *U8_Char++ = 0x80 | (CHAR)(one);
-    result.ReadedInput = 1; result.WrittenOutput = 4;
+    *U8_Char++ = 0xF0 | (CHAR)(one >> 18);
+    *U8_Char++ = 0x80 | (CHAR)(one >> 12 & 0x3F);
+    *U8_Char++ = 0x80 | (CHAR)(one >> 6 & 0x3F);
+    *U8_Char++ = 0x80 | (CHAR)(one & 0x3F);
+    result.ReadedInput = 1;
+    result.WrittenOutput = 4;
+    return result;
+  }
+  else
+  {
+    result = {FALSE, Error::InvalidByte, 0, 0};
+    return result;
+  }
+}
+
+CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU32oU16(LPCECHAR U32_Char, LPWCHAR U16_Char)
+{
+  Result result = {TRUE, Error::None, 0, 0};
+
+  if (!U32_Char || !U16_Char)
+  {
+    result = {FALSE, Error::NullPointer, 0, 0};
+    return result;
+  }
+
+  ECHAR one = *U32_Char++;
+
+  if (one <= 0xD7FF || (one >= 0xE000 && one <= 0xFFFF))
+  {
+    *U16_Char++ = (WCHAR)one;
+    result.ReadedInput = 1;
+    result.WrittenOutput = 1;
+    return result;
+  }
+  else if (one >= 0x10000 && one <= 0x10FFFF)
+  {
+    one -= 0x10000;
+    *U16_Char++ = 0xD800 | (WCHAR)(one >> 10 & 0x3FF);
+    *U16_Char++ = 0xDC00 | (WCHAR)(one & 0x3FF);
+    result.ReadedInput = 1;
+    result.WrittenOutput = 2;
     return result;
   }
   else
