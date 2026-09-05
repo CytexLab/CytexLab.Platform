@@ -103,7 +103,8 @@ CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::Sym
   {
     ECHAR out = one;
     *U32_Char = out;
-    result.ReadedInput = 1; result.WrittenOutput = 1;
+    result.ReadedInput = 1;
+    result.WrittenOutput = 1;
     return result;
   }
   else if ((one & 0xFC00) == 0xD800)
@@ -118,7 +119,8 @@ CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::Sym
     ECHAR out = ((ECHAR)(one & 0x3FF) << 10 | (ECHAR)(two & 0x3FF)) + 0x10000;
     *U32_Char = out;
 
-    result.ReadedInput = 2; result.WrittenOutput = 1;
+    result.ReadedInput = 2;
+    result.WrittenOutput = 1;
     return result;
   }
   else
@@ -127,3 +129,53 @@ CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::Sym
     return result;
   }
 }
+
+CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU32oU8(LPCECHAR U32_Char, LPCHAR U8_Char)
+{
+  Result result = {TRUE, Error::None, 0, 0};
+
+  if (!U32_Char || !U8_Char)
+  {
+    result = {FALSE, Error::NullPointer, 0, 0};
+    return result;
+  }
+
+  ECHAR one = *U32_Char++;
+
+  if (one <= 0x007F)
+  {
+    *U8_Char++ = (CHAR) one;
+    result.ReadedInput = 1; result.WrittenOutput = 1;
+    return result;
+  }
+  else if (one <= 0x07FF)
+  {
+    *U8_Char++ = 0xC0 | (CHAR)(one >> 6);
+    *U8_Char++ = 0x80 | (CHAR)(one);
+    result.ReadedInput = 1; result.WrittenOutput = 2;
+    return result;
+  }
+  else if (one <= 0xFFFF)
+  {
+    *U8_Char++ = 0xE0 | (CHAR)(one >> 12);
+    *U8_Char++ = 0x80 | (CHAR)(one >> 6);
+    *U8_Char++ = 0x80 | (CHAR)(one);
+    result.ReadedInput = 1; result.WrittenOutput = 3;
+    return result;
+  }
+  else if (one <= 0x10FFFF)
+  {
+    *U8_Char++ = 0xF0 | (CHAR)(one >> 24);
+    *U8_Char++ = 0x80 | (CHAR)(one >> 12);
+    *U8_Char++ = 0x80 | (CHAR)(one >> 6);
+    *U8_Char++ = 0x80 | (CHAR)(one);
+    result.ReadedInput = 1; result.WrittenOutput = 4;
+    return result;
+  }
+  else
+  {
+    result = {FALSE, Error::InvalidByte, 0, 0};
+    return result;
+  }
+}
+
