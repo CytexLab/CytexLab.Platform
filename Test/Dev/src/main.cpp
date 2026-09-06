@@ -27,7 +27,6 @@ extern "C" void memcpy_avx_asm(LPCVOID From, LPVOID To, UINT64 Count);
 
 void callback(UINT64 Code)
 {
-
 }
 
 extern "C" void startup()
@@ -37,8 +36,9 @@ extern "C" void startup()
   memcpy_sse42_set(memcpy_sse42_asm);
   memcpy_avx_set(memcpy_avx_asm);
 
-  cl::UTF::Processor::SymbolProcessor::Result result;
-  ECHAR out;
+  cl::UTF::Processor::StringProcessor::Result result = cl::UTF::Processor::StringProcessor::GenerateEmptyResult();
 
-  result = cl::UTF::Processor::SymbolProcessor::ConvertU8oU32("H", &out);
+  ECHAR buf[16];
+
+  result = cl::UTF::Processor::StringProcessor::ConvertUTF16oUTF32(L"Привет!🔄️", buf);
 }
