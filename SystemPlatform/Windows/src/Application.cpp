@@ -14,6 +14,8 @@
 #include "Application.hpp"
 #include "Imports.hpp"
 
+#define SYSTEM_POOL_SIZE 1024 * 4 * 16
+
 typedef void (*fail_callback_sign)(UINT64 code);
 typedef void (*memcpy_sse42_asm_func)(LPCVOID From, LPVOID To, UINT64 Count);
 typedef void (*memcpy_avx_asm_func)(LPCVOID From, LPVOID To, UINT64 Count);
@@ -32,9 +34,23 @@ extern "C" void memcpy_avx_asm(LPCVOID From, LPVOID To, UINT64 Count);
 extern "C" void memset_sse42_asm(LPVOID To, UINT8 Byte, UINT64 Count);
 extern "C" void memset_avx_asm(LPVOID To, UINT8 Byte, UINT64 Count);
 
+static LPVOID SystemPool;
+static UINT64 Free;
+
 void core_fail_callback(UINT64 Code)
 {
-  RtlExitUserProcess((UINT32)Code);
+  RtlExitUserProcess(-5);
+}
+
+LPVOID AllocateSystemPool(UINT64 Size)
+{
+  if (Size > Free)
+    RtlExitUserProcess(-4);
+
+  LPVOID p = SystemPool;
+  SystemPool -= Size;
+  Free -= Size;
+  return p;
 }
 
 CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Init()
@@ -66,10 +82,20 @@ CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Init()
   memset_sse42_set(memset_sse42_asm);
   memset_avx_set(memset_avx_asm);
 
+  UINT32 status = NtAllocateVirtualMemory(NtCurrentProcess(), &SystemPool, 0, SYSTEM_POOL_SIZE, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+
+  if (status != STATUS_SUCCESS)
+    RtlExitUserProcess(-2);
+
   this->inited = TRUE;
 }
 
 CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Exit(UINT32 Code)
 {
+  UINT32 status = NtFreeVirtualMemory(NtCurrentProcess(), &SystemPool, SYSTEM_POOL_SIZE, MEM_RELEASE);
+
+  if (status != STATUS_SUCCESS)
+    RtlExitUserProcess(-3);
+
   RtlExitUserProcess(Code);
 }
