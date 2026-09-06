@@ -11,6 +11,6 @@
 
 set(files "src/UTF.Processor.cpp")
 set(include "include")
-set(deps "")
+set(deps "${MAIN_PACKAGE}.Mem")
 
 platform_add_module("${SUB_UTF_PACKAGE}.Symbols" "${files}" "${include}" "${deps}")
