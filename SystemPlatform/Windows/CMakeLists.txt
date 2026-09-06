@@ -9,7 +9,9 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-set(files "src/Application.cpp")
+set(files
+    "src/Application.cpp"
+    "src/Imports.hpp")
 set(include "include")
 set(deps "CytexLab.Platform.Core" "CytexLab.Platform.Core.Mem" "CytexLab.Platform.Core.Placement" "CytexLab.Platform.Core.Placeholders" "CytexLab.Platform.Core.UTF.Processor.Symbols")
 
