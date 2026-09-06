@@ -9,10 +9,18 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#include "Application.hpp"
-#include "Imports.hpp"
+#pragma once
 
-void cl::SystemPlatform::Application::Exit(UINT32 Code)
+#include "Platform.hpp"
+
+namespace cl
 {
-  RtlExitUserProcess(Code);
+  namespace SystemPlatform
+  {
+    class Application
+    {
+    public:
+      static void Exit(UINT32 Code);
+    };
+  }
 }
