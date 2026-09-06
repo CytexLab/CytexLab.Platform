@@ -2,11 +2,6 @@ Dist
 Lib
 Build
 Temp
-*.o
-*.a
-*.lib
-*.exe
-*.exec
 .vscode
 .cache
 .vs
