@@ -9,15 +9,11 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#include "Application.hpp"
+#pragma once
 
-class App : public cl::SystemPlatform::UserApplication
+#include "Platform.hpp"
+
+extern "C"
 {
-public:
-  void Run(cl::SystemPlatform::Application& App) override
-  {
-    App.Exit(0);
-  }
-};
-
-REGISTER_USER_APP(App);
+  __declspec(dllimport) void RtlExitUserProcess(UINT32 ExitStatus);
+}

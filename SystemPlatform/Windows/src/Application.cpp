@@ -9,15 +9,20 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
+#define CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API_EXPORT
+
 #include "Application.hpp"
+#include "Imports.hpp"
 
-class App : public cl::SystemPlatform::UserApplication
+CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Init()
 {
-public:
-  void Run(cl::SystemPlatform::Application& App) override
-  {
-    App.Exit(0);
-  }
-};
+  if (this->inited == TRUE)
+    this->Exit(-1);
 
-REGISTER_USER_APP(App);
+  this->inited = TRUE;
+}
+
+CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Exit(UINT32 Code)
+{
+  RtlExitUserProcess(Code);
+}

@@ -9,10 +9,8 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-set(files
-    "src/main.cpp"
-    "src/mem.asm")
-set(deps "CytexLab.Platform.SystemPlatform.Windows")
-set(include "")
+set(MAIN_PACKAGE "CytexLab.Platform.SystemPlatform")
 
-platform_add_executable("Dev" "${files}" "${include}" "${deps}")
+if (${CYTEXLAB_PLATFORM} STREQUAL "Windows")
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Windows)
+endif()

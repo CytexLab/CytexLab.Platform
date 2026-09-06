@@ -10,9 +10,9 @@
 #
 
 set(files
-    "src/main.cpp"
-    "src/mem.asm")
-set(deps "CytexLab.Platform.SystemPlatform.Windows")
-set(include "")
+    "src/Application.cpp"
+    "src/Imports.hpp")
+set(include "include")
+set(deps "CytexLab.Platform.Core" "CytexLab.Platform.Core.Mem" "CytexLab.Platform.Core.Placement" "CytexLab.Platform.Core.Placeholders" "CytexLab.Platform.Core.UTF.Processor.Symbols")
 
-platform_add_executable("Dev" "${files}" "${include}" "${deps}")
+platform_add_module("${MAIN_PACKAGE}.Windows" "${files}" "${include}" "${deps}")
