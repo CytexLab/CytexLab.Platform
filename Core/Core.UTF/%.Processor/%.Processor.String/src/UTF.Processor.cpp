@@ -84,7 +84,7 @@ CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Resu
     SymbolProcessor::Result convert_symbol = SymbolProcessor::ConvertU16oU32(U16_String, U32_String);
 
     result.LastSymbol = convert_symbol;
-    result.Metrics.Input.BytesReaded += convert_symbol.ReadedInput;
+    result.Metrics.Input.BytesReaded += convert_symbol.ReadedInput * 2;
     result.Metrics.Input.SymbolsReaded++;
     result.Metrics.Output.BytesWritten += convert_symbol.WrittenOutput;
     result.Metrics.Output.SymbolsWritten++;
@@ -141,6 +141,46 @@ CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Resu
   }
 
   *U8_String = U'\0';
+
+  return result;
+}
+
+CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result cl::UTF::Processor::StringProcessor::ConvertUTF32oUTF16(LPCECHAR U32_String, LPWCHAR U16_String)
+{
+  Result result = GenerateEmptyResult();
+
+  if (!U16_String || !U32_String)
+  {
+    result.Success = FALSE;
+    result.Error = Error::NullPointer;
+    return result;
+  }
+
+  while (TRUE)
+  {
+    if (*U32_String == U'\0')
+      break;
+
+    SymbolProcessor::Result convert_symbol = SymbolProcessor::ConvertU32oU16(U32_String, U16_String);
+
+    result.LastSymbol = convert_symbol;
+    result.Metrics.Input.BytesReaded += convert_symbol.ReadedInput * 2;
+    result.Metrics.Input.SymbolsReaded++;
+    result.Metrics.Output.BytesWritten += convert_symbol.WrittenOutput;
+    result.Metrics.Output.SymbolsWritten++;
+
+    if (!convert_symbol.Success)
+    {
+      result.Success = FALSE;
+      result.Error = Error::FailConvertSymbol;
+      return result;
+    }
+
+    U16_String += convert_symbol.WrittenOutput;
+    U32_String += convert_symbol.ReadedInput;
+  }
+
+  *U16_String = L'\0';
 
   return result;
 }
