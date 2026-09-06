@@ -9,7 +9,8 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-set (SUB_UTF_PACKAGE "${MAIN_UTF_PACKAGE}.Processor")
+set(files "src/UTF.Processor.cpp")
+set(include "include")
+set(deps "${SUB_UTF_PACKAGE}.Symbols")
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/%.Processor.Symbols)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/%.Processor.String)
+platform_add_module("${SUB_UTF_PACKAGE}.String" "${files}" "${include}" "${deps}")
