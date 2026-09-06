@@ -37,7 +37,6 @@ namespace cl
     {
     public:
       virtual void Run(Application& App) = 0;
-      virtual ~UserApplication() = 0;
     };
   }
 }
