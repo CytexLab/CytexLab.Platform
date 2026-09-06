@@ -12,3 +12,4 @@
 set (SUB_UTF_PACKAGE "${MAIN_UTF_PACKAGE}.Processor")
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/%.Processor.Symbols)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/%.Processor.String)

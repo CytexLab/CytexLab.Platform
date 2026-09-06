@@ -9,10 +9,10 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#define CYTEXLAB_PLATFORM_EXPORT
-#include "UTF.Processor.hpp"
+#define CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API_EXPORT
+#include "UTF.Processor.Symbols.hpp"
 
-CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU8oU32(LPCCHAR U8_Char, LPECHAR U32_Char)
+CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU8oU32(LPCCHAR U8_Char, LPECHAR U32_Char)
 {
   Result result = {TRUE, Error::None, 0, 0};
 
@@ -87,7 +87,7 @@ CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::Sym
   }
 }
 
-CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU16oU32(LPCWCHAR U16_Char, LPECHAR U32_Char)
+CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU16oU32(LPCWCHAR U16_Char, LPECHAR U32_Char)
 {
   Result result = {TRUE, Error::None, 0, 0};
 
@@ -130,7 +130,7 @@ CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::Sym
   }
 }
 
-CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU32oU8(LPCECHAR U32_Char, LPCHAR U8_Char)
+CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU32oU8(LPCECHAR U32_Char, LPCHAR U8_Char)
 {
   Result result = {TRUE, Error::None, 0, 0};
 
@@ -183,7 +183,7 @@ CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::Sym
   }
 }
 
-CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU32oU16(LPCECHAR U32_Char, LPWCHAR U16_Char)
+CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU32oU16(LPCECHAR U32_Char, LPWCHAR U16_Char)
 {
   Result result = {TRUE, Error::None, 0, 0};
 

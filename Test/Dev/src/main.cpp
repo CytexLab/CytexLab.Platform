@@ -11,23 +11,22 @@
 
 #include "Mem.hpp"
 #include "Platform.hpp"
-#include "UTF.Processor.hpp"
+#include "UTF.Processor.String.hpp"
 
 typedef void (*fail_callback_sign)(UINT64 code);
 typedef void (*memcpy_sse42_asm_func)(LPCVOID From, LPVOID To, UINT64 Count);
 typedef void (*memcpy_avx_asm_func)(LPCVOID From, LPVOID To, UINT64 Count);
 
-CYTEXLAB_API void proc_support(BOOL sse42, BOOL avx);
-CYTEXLAB_API void set_fail_callback(fail_callback_sign callback);
-CYTEXLAB_API void memcpy_sse42_set(memcpy_sse42_asm_func func);
-CYTEXLAB_API void memcpy_avx_set(memcpy_avx_asm_func func);
+__declspec(dllimport) void proc_support(BOOL sse42, BOOL avx);
+__declspec(dllimport) void set_fail_callback(fail_callback_sign callback);
+__declspec(dllimport) void memcpy_sse42_set(memcpy_sse42_asm_func func);
+__declspec(dllimport) void memcpy_avx_set(memcpy_avx_asm_func func);
 
 extern "C" void memcpy_sse42_asm(LPCVOID From, LPVOID To, UINT64 Count);
 extern "C" void memcpy_avx_asm(LPCVOID From, LPVOID To, UINT64 Count);
 
 void callback(UINT64 Code)
 {
-
 }
 
 extern "C" void startup()
@@ -37,8 +36,9 @@ extern "C" void startup()
   memcpy_sse42_set(memcpy_sse42_asm);
   memcpy_avx_set(memcpy_avx_asm);
 
-  cl::UTF::Processor::SymbolProcessor::Result result;
-  ECHAR out;
+  cl::UTF::Processor::StringProcessor::Result result = cl::UTF::Processor::StringProcessor::GenerateEmptyResult();
 
-  result = cl::UTF::Processor::SymbolProcessor::ConvertU8oU32("H", &out);
+  WCHAR buf[50];
+
+  result = cl::UTF::Processor::StringProcessor::ConvertUTF32oUTF16(U"Привет!🔄️", buf);
 }
