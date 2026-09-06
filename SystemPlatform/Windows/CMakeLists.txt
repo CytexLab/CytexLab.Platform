@@ -11,7 +11,8 @@
 
 set(files
     "src/Application.cpp"
-    "src/Imports.hpp")
+    "src/Imports.hpp"
+    "src/Mem.asm")
 set(include "include")
 set(deps "CytexLab.Platform.Core" "CytexLab.Platform.Core.Mem" "CytexLab.Platform.Core.Placement" "CytexLab.Platform.Core.Placeholders" "CytexLab.Platform.Core.UTF.Processor.Symbols")
 
