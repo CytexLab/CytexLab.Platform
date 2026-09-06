@@ -17,9 +17,8 @@ namespace cl
 {
   namespace UTF
   {
-    class Processor
+    namespace Processor
     {
-    public:
       class SymbolProcessor
       {
       public:
