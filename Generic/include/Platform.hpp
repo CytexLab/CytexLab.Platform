@@ -74,9 +74,3 @@ typedef const void* LPCVOID;
 #define UNSET (UINT64)(-1)
 #define FALSE BOOL(0)
 #define TRUE BOOL(1)
-
-#ifdef CYTEXLAB_PLATFORM_EXPORT
-#define CYTEXLAB_API __declspec(dllexport)
-#else
-#define CYTEXLAB_API __declspec(dllimport)
-#endif
