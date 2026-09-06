@@ -16,8 +16,8 @@
 extern "C"
 {
   __declspec(dllimport) void RtlExitUserProcess(UINT32 ExitStatus);
-  __declspec(dllimport) UINT64 NtAllocateVirtualMemory(LPVOID ProcessHandle, LPVOID* BaseAddress, UINT64 ZeroBits, UINT64 RegionSize, UINT32 AllocationType, UINT32 Protect);
-  __declspec(dllimport) UINT32 NtFreeVirtualMemory(LPVOID ProcessHandle, LPVOID* BaseAddress, UINT64 RegionSize, UINT32 FreeType);
+  __declspec(dllimport) UINT64 NtAllocateVirtualMemory(LPVOID ProcessHandle, LPVOID* BaseAddress, UINT64 ZeroBits, LPUINT64 RegionSize, UINT32 AllocationType, UINT32 Protect);
+  __declspec(dllimport) UINT32 NtFreeVirtualMemory(LPVOID ProcessHandle, LPVOID* BaseAddress, LPUINT64 RegionSize, UINT32 FreeType);
 }
 
 #define PAGE_NOACCESS          0x01
