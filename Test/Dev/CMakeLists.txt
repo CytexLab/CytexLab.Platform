@@ -10,8 +10,7 @@
 #
 
 set(files
-    "src/main.cpp"
-    "src/mem.asm")
+    "src/main.cpp")
 set(deps "CytexLab.Platform.SystemPlatform.Windows")
 set(include "")
 
