@@ -131,7 +131,7 @@ if (${CYTEXLAB_PLATFORM} STREQUAL "Windows")
         -Wl,/ENTRY:startup
         -Wl,/SUBSYSTEM:CONSOLE
     )
-    set(PLATFORM_LIBS kernel32 user32 gdi32 opengl32)
+    set(PLATFORM_LIBS ${CYTEXLAB_ROOT}/Generic/WinLibs/ntdll.lib)
 elseif(${CYTEXLAB_PLATFORM} STREQUAL "Linux")
     set(PLATFORM_LINKER_FLAGS
         -nostdlib
@@ -234,6 +234,7 @@ endfunction()
 # ==========================================
 
 add_subdirectory(${CYTEXLAB_ROOT}/Core)
+add_subdirectory(${CYTEXLAB_ROOT}/SystemPlatform)
 add_subdirectory(${CYTEXLAB_ROOT}/Test/Dev)
 
 # ==========================================
