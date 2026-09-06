@@ -9,7 +9,6 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#include "Mem.hpp"
 #include "Platform.hpp"
 #include "UTF.Processor.String.hpp"
 
