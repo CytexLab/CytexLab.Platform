@@ -10,7 +10,7 @@
  */
 
 #define CYTEXLAB_PLATFORM_EXPORT
-#include "UTF.Processor.hpp"
+#include "UTF.Processor.Symbols.hpp"
 
 CYTEXLAB_API cl::UTF::Processor::SymbolProcessor::Result cl::UTF::Processor::SymbolProcessor::ConvertU8oU32(LPCCHAR U8_Char, LPECHAR U32_Char)
 {
