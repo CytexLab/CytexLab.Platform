@@ -104,3 +104,43 @@ CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Resu
 
   return result;
 }
+
+CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result cl::UTF::Processor::StringProcessor::ConvertUTF32oUTF8(LPCECHAR U32_String, LPCHAR U8_String)
+{
+  Result result = GenerateEmptyResult();
+
+  if (!U8_String || !U32_String)
+  {
+    result.Success = FALSE;
+    result.Error = Error::NullPointer;
+    return result;
+  }
+
+  while (TRUE)
+  {
+    if (*U32_String == U'\0')
+      break;
+
+    SymbolProcessor::Result convert_symbol = SymbolProcessor::ConvertU32oU8(U32_String, U8_String);
+
+    result.LastSymbol = convert_symbol;
+    result.Metrics.Input.BytesReaded += convert_symbol.ReadedInput;
+    result.Metrics.Input.SymbolsReaded++;
+    result.Metrics.Output.BytesWritten += convert_symbol.WrittenOutput;
+    result.Metrics.Output.SymbolsWritten++;
+
+    if (!convert_symbol.Success)
+    {
+      result.Success = FALSE;
+      result.Error = Error::FailConvertSymbol;
+      return result;
+    }
+
+    U8_String += convert_symbol.WrittenOutput;
+    U32_String += convert_symbol.ReadedInput;
+  }
+
+  *U8_String = U'\0';
+
+  return result;
+}
