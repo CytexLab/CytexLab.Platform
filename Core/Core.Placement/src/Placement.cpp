@@ -9,9 +9,10 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
+#define CYTEXLAB_CORE_PLACEMENT_API_EXPORT
 #include "Placement.hpp"
 
-LPVOID operator new(UINT64 size, LPVOID mem)
+CYTEXLAB_CORE_PLACEMENT_API LPVOID operator new(UINT64 size, LPVOID mem)
 {
   return mem;
 }

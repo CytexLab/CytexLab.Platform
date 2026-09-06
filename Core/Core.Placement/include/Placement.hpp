@@ -11,7 +11,12 @@
 
 #pragma once
 
-#define CYTEXLAB_PLATFORM_EXPORT
 #include "Platform.hpp"
 
-CYTEXLAB_API LPVOID operator new(UINT64 size, LPVOID mem);
+#ifdef CYTEXLAB_CORE_PLACEMENT_API_EXPORT
+#define CYTEXLAB_CORE_PLACEMENT_API __declspec(dllexport)
+#else
+#define CYTEXLAB_CORE_PLACEMENT_API __declspec(dllimport)
+#endif
+
+CYTEXLAB_CORE_PLACEMENT_API LPVOID operator new(UINT64 size, LPVOID mem);

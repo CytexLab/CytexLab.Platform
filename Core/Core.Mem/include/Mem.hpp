@@ -13,13 +13,19 @@
 
 #include "Platform.hpp"
 
+#ifdef CYTEXLAB_CORE_MEM_API_EXPORT
+#define CYTEXLAB_CORE_MEM_API __declspec(dllexport)
+#else
+#define CYTEXLAB_CORE_MEM_API __declspec(dllimport)
+#endif
+
 extern "C"
 {
-  CYTEXLAB_API void memcpy(LPVOID To, LPCVOID From, UINT64 Count);
-  CYTEXLAB_API void memcpy_sse42(LPCVOID From, LPVOID To, UINT64 Count);
-  CYTEXLAB_API void memcpy_avx(LPCVOID From, LPVOID To, UINT64 Count);
-  CYTEXLAB_API void memset_sse42(LPVOID To, UINT8 Byte, UINT64 Count);
-  CYTEXLAB_API void memset_avx(LPVOID To, UINT8 Byte, UINT64 Count);
-  CYTEXLAB_API void memset(LPVOID To, UINT8 Byte, UINT64 Count);
-  CYTEXLAB_API void memclear(LPVOID To, UINT64 Count);
+  CYTEXLAB_CORE_MEM_API void memcpy(LPVOID To, LPCVOID From, UINT64 Count);
+  CYTEXLAB_CORE_MEM_API void memcpy_sse42(LPCVOID From, LPVOID To, UINT64 Count);
+  CYTEXLAB_CORE_MEM_API void memcpy_avx(LPCVOID From, LPVOID To, UINT64 Count);
+  CYTEXLAB_CORE_MEM_API void memset_sse42(LPVOID To, UINT8 Byte, UINT64 Count);
+  CYTEXLAB_CORE_MEM_API void memset_avx(LPVOID To, UINT8 Byte, UINT64 Count);
+  CYTEXLAB_CORE_MEM_API void memset(LPVOID To, UINT8 Byte, UINT64 Count);
+  CYTEXLAB_CORE_MEM_API void memclear(LPVOID To, UINT64 Count);
 }
