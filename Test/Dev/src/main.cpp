@@ -38,7 +38,7 @@ extern "C" void startup()
 
   cl::UTF::Processor::StringProcessor::Result result = cl::UTF::Processor::StringProcessor::GenerateEmptyResult();
 
-  CHAR buf[50];
+  WCHAR buf[50];
 
-  result = cl::UTF::Processor::StringProcessor::ConvertUTF32oUTF8(U"Привет!🔄️", buf);
+  result = cl::UTF::Processor::StringProcessor::ConvertUTF32oUTF16(U"Привет!🔄️", buf);
 }
