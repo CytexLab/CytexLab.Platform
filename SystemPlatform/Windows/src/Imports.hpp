@@ -15,10 +15,12 @@
 
 extern "C"
 {
-  __declspec(dllimport) void RtlExitUserProcess(UINT32 ExitStatus);
-  __declspec(dllimport) UINT64 NtAllocateVirtualMemory(LPVOID ProcessHandle, LPVOID* BaseAddress, UINT64 ZeroBits, LPUINT64 RegionSize, UINT32 AllocationType, UINT32 Protect);
-  __declspec(dllimport) UINT32 NtFreeVirtualMemory(LPVOID ProcessHandle, LPVOID* BaseAddress, LPUINT64 RegionSize, UINT32 FreeType);
+  __declspec(dllimport) void ExitProcess(UINT32 ExitCode);
+  __declspec(dllimport) LPVOID VirtualAlloc(LPVOID lpAddress, UINT64 dwSize, UINT32 flAllocationType, UINT32 flProtect);
+  __declspec(dllimport) INT32 VirtualFree(LPVOID lpAddress, UINT64 dwSize, UINT32 dwFreeType);
+  __declspec(dllimport) UINT32 GetLastError();
 }
+
 
 #define PAGE_NOACCESS          0x01
 #define PAGE_READONLY          0x02
@@ -38,3 +40,4 @@ extern "C"
 #define MEM_DECOMMIT           0x00004000
 #define STATUS_SUCCESS         ((UINT32)0x00000000L)
 #define NtCurrentProcess()     (LPVOID)-1
+#define FILE_DEVICE_CONSOLE    0x00000050
