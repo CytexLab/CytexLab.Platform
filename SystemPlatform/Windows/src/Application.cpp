@@ -39,13 +39,13 @@ static UINT64 Free;
 
 void core_fail_callback(UINT64 Code)
 {
-  RtlExitUserProcess(-5);
+  ExitProcess(-5);
 }
 
 LPVOID AllocateSystemPool(UINT64 Size)
 {
   if (Size > Free)
-    RtlExitUserProcess(-4);
+    ExitProcess(-4);
 
   LPVOID p = SystemPool;
   SystemPool = (LPUINT8)SystemPool - Size;
@@ -82,22 +82,21 @@ CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Init()
   memset_sse42_set(memset_sse42_asm);
   memset_avx_set(memset_avx_asm);
 
-  UINT64 size = SYSTEM_POOL_SIZE;
-  UINT32 status = NtAllocateVirtualMemory(NtCurrentProcess(), &SystemPool, 0, &size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+  SystemPool = VirtualAlloc(nullptr, SYSTEM_POOL_SIZE, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 
-  if (status != STATUS_SUCCESS)
-    RtlExitUserProcess(-2);
+  if (SystemPool == nullptr)
+    ExitProcess(-2);
 
   this->inited = TRUE;
 }
 
 CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Exit(UINT32 Code)
 {
-  UINT64 size = SYSTEM_POOL_SIZE;
-  UINT32 status = NtFreeVirtualMemory(NtCurrentProcess(), &SystemPool, &size, MEM_RELEASE);
+  INT32 result = VirtualFree(SystemPool, 0, MEM_RELEASE);
 
-  if (status != STATUS_SUCCESS)
-    RtlExitUserProcess(-3);
+  if (result != TRUE)
+    ExitProcess(-3);
 
-  RtlExitUserProcess(Code);
+
+  ExitProcess(Code);
 }
