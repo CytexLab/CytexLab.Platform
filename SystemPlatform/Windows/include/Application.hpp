@@ -38,14 +38,14 @@ namespace cl
     public:
       virtual void Run(Application& App) = 0;
     };
-  }
-}
+  } // namespace SystemPlatform
+} // namespace cl
 
-#define REGISTER_USER_APP(UserAppClass) \
-  extern "C" void clSysStartup() \
-  { \
+#define REGISTER_USER_APP(UserAppClass)  \
+  extern "C" void clSysStartup()         \
+  {                                      \
     cl::SystemPlatform::Application app; \
-    app.Init(); \
-    UserAppClass user_app; \
-    user_app.Run(app); \
+    app.Init();                          \
+    UserAppClass user_app;               \
+    user_app.Run(app);                   \
   }

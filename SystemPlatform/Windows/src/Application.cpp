@@ -66,11 +66,10 @@ CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Init()
   UINT32 ebx = 0;
   UINT32 edx = 0;
 
-  asm volatile (
-    "cpuid"
-    : "=c"(ecx), "=a"(eax), "=b"(ebx), "=d"(edx)
-    : "a"(1)
-  );
+  asm volatile(
+      "cpuid"
+      : "=c"(ecx), "=a"(eax), "=b"(ebx), "=d"(edx)
+      : "a"(1));
 
   support_sse42 = ecx >> 20 & 1;
   support_avx = ecx >> 28 & 1 & (ecx >> 27 & 1);
@@ -96,7 +95,6 @@ CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Exit(U
 
   if (result != TRUE)
     ExitProcess(-3);
-
 
   ExitProcess(Code);
 }

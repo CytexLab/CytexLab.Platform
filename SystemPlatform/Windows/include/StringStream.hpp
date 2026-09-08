@@ -9,7 +9,6 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-
 #pragma once
 
 #include "Stream.hpp"
@@ -24,5 +23,5 @@ namespace cl
       virtual StringStream& operator<<(LPCECHAR String) = 0;
       virtual StringStream& operator>>(LPECHAR Buffer) = 0;
     };
-  }
-}
+  } // namespace SystemPlatform
+} // namespace cl

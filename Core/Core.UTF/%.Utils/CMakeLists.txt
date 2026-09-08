@@ -11,7 +11,7 @@
 
 set(files 
 	"src/CString.cpp"
-	"src/UConvert.cpp")
+	"src/StringIntConvert.cpp")
 set(include "include")
 set(deps "")
 

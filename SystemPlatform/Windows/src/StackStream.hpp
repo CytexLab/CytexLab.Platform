@@ -11,8 +11,8 @@
 
 #pragma once
 
-#include "StringStream.hpp"
 #include "Stack.hpp"
+#include "StringStream.hpp"
 
 class StackStream : public cl::SystemPlatform::StringStream
 {

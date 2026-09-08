@@ -12,3 +12,4 @@
 set(MAIN_UTF_PACKAGE "${MAIN_PACKAGE}.UTF")
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/%.Processor)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/%.Utils)
