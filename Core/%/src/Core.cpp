@@ -55,7 +55,7 @@ CYTEXLAB_CORE_API stack_push_sign get_stack_push_func()
   return stack_push;
 }
 
-CYTEXLAB_CORE_API stack_pop_sign get_stack_pop_sign()
+CYTEXLAB_CORE_API stack_pop_sign get_stack_pop_func()
 {
   return stack_pop;
 }
