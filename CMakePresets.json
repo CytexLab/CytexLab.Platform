@@ -1,0 +1,27 @@
+{
+    "version":  5,
+    "configurePresets": [
+        {
+            "name": "clang22-debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/Build/Windows-Debug",
+            "cacheVariables": {
+                "CMAKE_ASM_COMPILER": "clang.exe",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "clang.exe",
+                "CMAKE_CXX_COMPILER": "clang++.exe"
+            }
+        },
+        {
+            "name": "clang22-release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/Build/Windows-Release",
+            "cacheVariables": {
+                "CMAKE_ASM_COMPILER": "clang.exe",
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER": "clang.exe",
+                "CMAKE_CXX_COMPILER": "clang++.exe"
+            }
+        }
+    ]
+}
