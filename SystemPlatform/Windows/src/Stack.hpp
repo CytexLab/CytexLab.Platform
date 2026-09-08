@@ -9,5 +9,19 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-
 #pragma once
+
+#include "Platform.hpp"
+#include "StringStream.hpp"
+
+struct StackItem
+{
+  LPCCHAR Module;
+  LPCCHAR File;
+  LPCCHAR Function;
+  UINT64 Line;
+};
+
+void StackInit();
+void StackPush(StackItem);
+void StackPop();
