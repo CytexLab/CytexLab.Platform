@@ -11,6 +11,12 @@
 
 #pragma once
 
+#ifdef CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API_EXPORT
+#define CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API __declspec(dllexport)
+#else
+#define CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API __declspec(dllimport)
+#endif
+
 #include "Platform.hpp"
 
 namespace cl
@@ -36,10 +42,10 @@ namespace cl
           Error Error;
         };
 
-        Result ConvertStringToInt(LPCECHAR String, LPUINT64 Int);
-        Result ConvertStringToInt(LPCECHAR String, LPINT64 Int);
-        Result ConvertIntToString(LPUINT64 Int, LPECHAR String);
-        Result ConvertIntToString(LPINT64 Int, LPECHAR String);
+        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API Result ConvertStringToInt(LPCECHAR String, LPUINT64 Int);
+        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API Result ConvertStringToInt(LPCECHAR String, LPINT64 Int);
+        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API Result ConvertIntToString(LPUINT64 Int, LPECHAR String);
+        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API Result ConvertIntToString(LPINT64 Int, LPECHAR String);
       };
     }
   } // namespace UTF
