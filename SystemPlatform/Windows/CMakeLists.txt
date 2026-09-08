@@ -14,7 +14,9 @@ set(files
     "src/Imports.hpp"
     "src/Mem.asm"
     "src/Stack.hpp"
-    "src/Stack.cpp")
+    "src/Stack.cpp"
+    "src/StackStream.hpp"
+    "src/StackStream.cpp")
 set(include "include")
 set(deps "CytexLab.Platform.Core" "CytexLab.Platform.Core.Mem" "CytexLab.Platform.Core.Placement" "CytexLab.Platform.Core.Placeholders" "CytexLab.Platform.Core.UTF.Processor.Symbols")
 
