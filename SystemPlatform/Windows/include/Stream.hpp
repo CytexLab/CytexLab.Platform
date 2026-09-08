@@ -23,5 +23,5 @@ namespace cl
       virtual Stream& operator<<(LPCUINT8 Bytes) = 0;
       virtual Stream& operator>>(LPUINT8 Buffer) = 0;
     };
-  }
-}
+  } // namespace SystemPlatform
+} // namespace cl
