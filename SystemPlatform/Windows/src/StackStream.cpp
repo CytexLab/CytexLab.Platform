@@ -12,6 +12,15 @@
 #include "StackStream.hpp"
 #include "Imports.hpp"
 
+void strcat(LPECHAR To, LPCECHAR From)
+{
+  while (*From)
+  {
+    *To++ = *From++;
+  }
+  *To = U'\0';
+}
+
 StackStream::StackStream(StackItem* Stack, UINT64 Count)
 {
   this->stack = Stack;
@@ -23,6 +32,11 @@ cl::SystemPlatform::Stream& StackStream::operator<<(LPCUINT8)
   ExitProcess(-8);
 }
 
+cl::SystemPlatform::Stream& StackStream::operator>>(LPUINT8)
+{
+  return *this;
+}
+
 cl::SystemPlatform::StringStream& StackStream::operator<<(LPCECHAR)
 {
   ExitProcess(-8);
@@ -30,7 +44,7 @@ cl::SystemPlatform::StringStream& StackStream::operator<<(LPCECHAR)
 
 cl::SystemPlatform::StringStream& StackStream::operator>>(LPECHAR Buffer)
 {
-  
+  strcat(Buffer, U"============ [ Stack trace ] ============");
 
   return *this;
 }
