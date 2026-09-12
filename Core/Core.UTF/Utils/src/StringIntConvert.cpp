@@ -12,6 +12,15 @@
 #define CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API_EXPORT
 #include "StringIntConvert.hpp"
 
+#define INT64_MIN -9223372036854775808LL
+#define INT64_MINU 9223372036854775808ULL
+#define INT64_MAX 9223372036854775807LL
+#define INT64_MAX_DIV10 INT64_MAX / 10
+#define INT64_MAX_MOD10 INT64_MAX % 10
+#define UINT64_MAX 18446744073709551615ULL
+#define UINT64_MAX_DIV10 UINT64_MAX / 10
+#define UINT64_MAX_MOD10 UINT64_MAX % 10
+
 CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result cl::UTF::Utils::StringIntConvert::ConvertStringToInt(LPCECHAR String, LPUINT64 Int)
 {
   Result result = {TRUE, Error::None};
@@ -39,9 +48,84 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
   while (*String)
   {
     UINT64 n = *String - U'0';
+
+    if (n < 0 || n > 9)
+    {
+      result = {FALSE, Error::InvalidNumber};
+      return result;
+    }
+
+    if (number > UINT64_MAX_DIV10 || (number == UINT64_MAX_DIV10 && n > UINT64_MAX_MOD10))
+    {
+      result = {FALSE, Error::BufferOverflow};
+      return result;
+    }
+
     number *= 10;
     number += n;
     String++;
+  }
+
+  *Int = number;
+  return result;
+}
+
+CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result cl::UTF::Utils::StringIntConvert::ConvertStringToInt(LPCECHAR String, LPINT64 Int)
+{
+  Result result = {TRUE, Error::None};
+
+  if (!String || !Int)
+  {
+    result = {FALSE, Error::NullPointer};
+    return result;
+  }
+
+  BOOL isNegative = FALSE;
+
+  if (*String == U'-')
+  {
+    isNegative = TRUE;
+    String++;
+  }
+
+  if (*String == U'0')
+  {
+    *Int = 0;
+    return result;
+  }
+
+  INT64 number = 0;
+
+  while (*String)
+  {
+    INT64 n = *String - U'0';
+
+    if (n < 0 || n > 9)
+    {
+      result = {FALSE, Error::InvalidNumber};
+      return result;
+    }
+
+    if (number > INT64_MAX_DIV10 || (number == INT64_MAX_DIV10 && n > INT64_MAX_MOD10))
+    {
+      result = {FALSE, Error::BufferOverflow};
+      return result;
+    }
+
+    number *= 10;
+    number += n;
+    String++;
+  }
+
+  if (isNegative == TRUE)
+  {
+    if (number > INT64_MINU)
+    {
+      result = {FALSE, Error::BufferOverflow};
+      return result;
+    }
+
+    number = -number;
   }
 
   *Int = number;
