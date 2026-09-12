@@ -27,6 +27,6 @@ namespace cl
     {
       CYTEXLAB_CORE_UTF_UTILS_API void StrCat(LPECHAR To, LPCECHAR From);
       CYTEXLAB_CORE_UTF_UTILS_API void StrCpy(LPECHAR From, LPECHAR To);
-    }
-  }
+    } // namespace Utils
+  } // namespace UTF
 } // namespace cl

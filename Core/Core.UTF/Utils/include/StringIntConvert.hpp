@@ -42,11 +42,11 @@ namespace cl
           Error Error;
         };
 
-        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API Result ConvertStringToInt(LPCECHAR String, LPUINT64 Int);
-        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API Result ConvertStringToInt(LPCECHAR String, LPINT64 Int);
-        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API Result ConvertIntToString(LPUINT64 Int, LPECHAR String);
-        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API Result ConvertIntToString(LPINT64 Int, LPECHAR String);
+        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertStringToInt(LPCECHAR String, LPUINT64 Int);
+        // CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertStringToInt(LPCECHAR String, LPINT64 Int);
+        // CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertIntToString(LPUINT64 Int, LPECHAR String);
+        // CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertIntToString(LPINT64 Int, LPECHAR String);
       };
-    }
+    } // namespace Utils
   } // namespace UTF
 } // namespace cl

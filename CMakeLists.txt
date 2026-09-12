@@ -131,7 +131,7 @@ if (${CYTEXLAB_PLATFORM} STREQUAL "Windows")
         -Wl,/ENTRY:clSysStartup
         -Wl,/SUBSYSTEM:CONSOLE
     )
-    set(PLATFORM_LIBS kernel32 user32 gdi32)
+    set(PLATFORM_LIBS "${CYTEXLAB_ROOT}\\Generic\\WinLibs\\kernel32.lib")
 elseif(${CYTEXLAB_PLATFORM} STREQUAL "Linux")
     set(PLATFORM_LINKER_FLAGS
         -nostdlib

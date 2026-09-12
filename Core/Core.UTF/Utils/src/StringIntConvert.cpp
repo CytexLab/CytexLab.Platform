@@ -41,6 +41,7 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
     UINT64 n = *String - U'0';
     number *= 10;
     number += n;
+    String++;
   }
 
   *Int = number;
