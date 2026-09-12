@@ -10,12 +10,16 @@
  */
 
 #include "Application.hpp"
+#include "StringIntConvert.hpp"
 
 class App : public cl::SystemPlatform::UserApplication
 {
 public:
   void Run(cl::SystemPlatform::Application& App) override
   {
+    UINT64 out;
+    cl::UTF::Utils::StringIntConvert::Result result = cl::UTF::Utils::StringIntConvert::ConvertStringToInt(U"235", &out);
+
     App.Exit(0);
   }
 };
