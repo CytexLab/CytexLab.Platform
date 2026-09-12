@@ -11,7 +11,7 @@
 
 set(MAIN_PACKAGE "CytexLab.Platform.Core")
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/%)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/current)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placement)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placeholders)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Mem)
