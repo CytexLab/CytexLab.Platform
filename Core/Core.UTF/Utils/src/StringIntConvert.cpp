@@ -131,3 +131,34 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
   *Int = number;
   return result;
 }
+
+CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result cl::UTF::Utils::StringIntConvert::ConvertIntToString(LPCUINT64 Int, LPECHAR String)
+{
+  Result result = {TRUE, Error::None};
+
+  if (!String || !Int)
+  {
+    result = {FALSE, Error::None};
+    return result;
+  }
+
+  ECHAR buf[21];
+  UINT8 count = 0;
+  UINT64 number = *Int;
+
+  while (number > 0)
+  {
+    buf[count++] = U'0' + number % 10;
+    number /= 10;
+  }
+
+  for (UINT8 i = count; i > 0; i--)
+  {
+    *String = buf[i - 1];
+    String++;
+  }
+
+  *String = U'\0';
+
+  return result;
+}
