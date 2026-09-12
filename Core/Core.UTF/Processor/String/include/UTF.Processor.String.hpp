@@ -68,6 +68,6 @@ namespace cl
         CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API static Result ConvertUTF32oUTF8(LPCECHAR U32_String, LPCHAR U8_String);
         CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API static Result ConvertUTF32oUTF16(LPCECHAR U32_String, LPWCHAR U16_String);
       };
-    }
-  }
-}
+    } // namespace Processor
+  } // namespace UTF
+} // namespace cl

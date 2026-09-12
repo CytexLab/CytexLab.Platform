@@ -28,8 +28,6 @@ memset_avx_asm_func memset_avx_asm = nullptr;
 __declspec(dllimport) BOOL is_proc_support_sse42();
 __declspec(dllimport) BOOL is_proc_support_avx();
 __declspec(dllimport) fail_callback_sign get_fail_callback();
-__declspec(dllimport) stack_push_sign get_stack_push_func();
-__declspec(dllimport) stack_pop_sign get_stack_pop_func();
 
 static BOOL support_sse42 = FALSE;
 static BOOL support_avx = FALSE;
@@ -44,36 +42,26 @@ void update_info()
 
 CYTEXLAB_CORE_MEM_API void memcpy_sse42_set(memcpy_sse42_asm_func func)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
   memcpy_sse42_asm = func;
-  get_stack_pop_func()();
 }
 
 CYTEXLAB_CORE_MEM_API void memcpy_avx_set(memcpy_avx_asm_func func)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
   memcpy_avx_asm = func;
-  get_stack_pop_func()();
 }
 
 CYTEXLAB_CORE_MEM_API void memset_sse42_set(memset_sse42_asm_func func)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
   memset_sse42_asm = func;
-  get_stack_pop_func()();
 }
 
 CYTEXLAB_CORE_MEM_API void memset_avx_set(memset_avx_asm_func func)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
   memset_avx_asm = func;
-  get_stack_pop_func()();
 }
 
 CYTEXLAB_CORE_MEM_API void memcpy_sse42(LPCVOID From, LPVOID To, UINT64 Count)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
-
   if (!updated_info)
     update_info();
 
@@ -87,14 +75,10 @@ CYTEXLAB_CORE_MEM_API void memcpy_sse42(LPCVOID From, LPVOID To, UINT64 Count)
     memcpy_sse42_asm(From, To, Count);
   else
     get_fail_callback()(1);
-
-  get_stack_pop_func()();
 }
 
 CYTEXLAB_CORE_MEM_API void memcpy_avx(LPCVOID From, LPVOID To, UINT64 Count)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
-
   if (!updated_info)
     update_info();
 
@@ -108,14 +92,10 @@ CYTEXLAB_CORE_MEM_API void memcpy_avx(LPCVOID From, LPVOID To, UINT64 Count)
     memcpy_avx_asm(From, To, Count);
   else
     get_fail_callback()(3);
-
-  get_stack_pop_func()();
 }
 
 CYTEXLAB_CORE_MEM_API void memcpy(LPVOID To, LPCVOID From, UINT64 Count)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
-
   if (!updated_info)
     update_info();
 
@@ -131,14 +111,10 @@ CYTEXLAB_CORE_MEM_API void memcpy(LPVOID To, LPCVOID From, UINT64 Count)
         : "S"(From), "D"(To), "c"(Count)
         : "memory");
   }
-
-  get_stack_pop_func()();
 }
 
 CYTEXLAB_CORE_MEM_API void memset_sse42(LPVOID To, UINT8 Byte, UINT64 Count)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
-
   if (!updated_info)
     update_info();
 
@@ -149,14 +125,10 @@ CYTEXLAB_CORE_MEM_API void memset_sse42(LPVOID To, UINT8 Byte, UINT64 Count)
     memset_sse42_asm(To, Byte, Count);
   else
     get_fail_callback()(1);
-
-  get_stack_pop_func()();
 }
 
 CYTEXLAB_CORE_MEM_API void memset_avx(LPVOID To, UINT8 Byte, UINT64 Count)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
-
   if (!updated_info)
     update_info();
 
@@ -167,14 +139,10 @@ CYTEXLAB_CORE_MEM_API void memset_avx(LPVOID To, UINT8 Byte, UINT64 Count)
     memset_avx_asm(To, Byte, Count);
   else
     get_fail_callback()(3);
-
-  get_stack_pop_func()();
 }
 
 CYTEXLAB_CORE_MEM_API void memset(LPVOID To, UINT8 Byte, UINT64 Count)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
-
   if (!updated_info)
     update_info();
 
@@ -196,13 +164,9 @@ CYTEXLAB_CORE_MEM_API void memset(LPVOID To, UINT8 Byte, UINT64 Count)
         : "r"(Byte)
         : "memory", "cc");
   }
-
-  get_stack_pop_func()();
 }
 
 void memclear(LPVOID To, UINT64 Count)
 {
-  get_stack_push_func()("CytexLab.Platform.Core.Mem", __FILE__, __PRETTY_FUNCTION__, __LINE__);
   memset(To, 0x00, Count);
-  get_stack_pop_func()();
 }
