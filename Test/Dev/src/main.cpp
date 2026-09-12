@@ -20,6 +20,9 @@ public:
     UINT64 out;
     cl::UTF::Utils::StringIntConvert::Result result = cl::UTF::Utils::StringIntConvert::ConvertStringToInt(U"235", &out);
 
+    INT64 out2;
+    cl::UTF::Utils::StringIntConvert::Result result2 = cl::UTF::Utils::StringIntConvert::ConvertStringToInt(U"256", &out2);
+
     App.Exit(0);
   }
 };

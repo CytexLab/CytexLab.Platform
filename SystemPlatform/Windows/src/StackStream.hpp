@@ -21,7 +21,7 @@ private:
   UINT64 count = 0;
 
 public:
-  explicit StackStream(StackItem* Stack, UINT64 Count);
+  StackStream(StackItem* Stack, UINT64 Count);
 
   Stream& operator<<(LPCUINT8) override;
   Stream& operator>>(LPUINT8) override;
