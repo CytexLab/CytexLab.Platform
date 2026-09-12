@@ -44,8 +44,8 @@ namespace cl
 
         CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertStringToInt(LPCECHAR String, LPUINT64 Int);
         CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertStringToInt(LPCECHAR String, LPINT64 Int);
-        // CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertIntToString(LPUINT64 Int, LPECHAR String);
-        // CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertIntToString(LPINT64 Int, LPECHAR String);
+        CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertIntToString(LPCUINT64 Int, LPECHAR String);
+        // CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API static Result ConvertIntToString(LPCINT64 Int, LPECHAR String);
       };
     } // namespace Utils
   } // namespace UTF
