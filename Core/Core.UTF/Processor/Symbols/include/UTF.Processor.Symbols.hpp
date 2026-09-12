@@ -49,6 +49,6 @@ namespace cl
         CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API static Result ConvertU32oU8(LPCECHAR U32_Char, LPCHAR U8_Char);
         CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API static Result ConvertU32oU16(LPCECHAR U32_Char, LPWCHAR U16_Char);
       };
-    };
-  }
-}
+    }; // namespace Processor
+  } // namespace UTF
+} // namespace cl

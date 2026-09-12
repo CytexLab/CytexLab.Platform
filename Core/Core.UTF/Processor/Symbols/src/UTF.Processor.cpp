@@ -217,4 +217,3 @@ CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API cl::UTF::Processor::SymbolProcessor::Res
     return result;
   }
 }
-

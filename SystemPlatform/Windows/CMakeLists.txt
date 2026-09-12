@@ -18,6 +18,6 @@ set(files
     "src/StackStream.hpp"
     "src/StackStream.cpp")
 set(include "include")
-set(deps "CytexLab.Platform.Core" "CytexLab.Platform.Core.Mem" "CytexLab.Platform.Core.Placement" "CytexLab.Platform.Core.Placeholders" "CytexLab.Platform.Core.UTF.Processor.Symbols")
+set(deps "CytexLab.Platform.Core" "CytexLab.Platform.Core.Mem" "CytexLab.Platform.Core.Placement" "CytexLab.Platform.Core.Placeholders" "CytexLab.Platform.Core.UTF.Processor.Symbols" "CytexLab.Platform.Core.UTF.Utils")
 
 platform_add_module("${MAIN_PACKAGE}.Windows" "${files}" "${include}" "${deps}")
