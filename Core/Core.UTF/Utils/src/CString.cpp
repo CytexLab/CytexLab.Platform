@@ -14,6 +14,8 @@
 
 CYTEXLAB_CORE_UTF_UTILS_API void cl::UTF::Utils::StrCat(LPECHAR To, LPCECHAR From)
 {
+  while (*To)
+    To++;
   while (*From)
   {
     *To++ = *From++;
