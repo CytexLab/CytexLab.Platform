@@ -26,7 +26,7 @@ public:
     ECHAR out3[24];
     UINT64 in = 0;
     cl::UTF::Utils::StringIntConvert::Result result3 = cl::UTF::Utils::StringIntConvert::ConvertIntToString(&in, nullptr);
-    
+
     ECHAR out4[24];
     INT64 in2 = -0;
     cl::UTF::Utils::StringIntConvert::Result result4 = cl::UTF::Utils::StringIntConvert::ConvertIntToString(&in2, nullptr);
