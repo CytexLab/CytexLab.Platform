@@ -41,6 +41,9 @@ else()
     message(FATAL_ERROR "Unsupported platform")
 endif()
 
+set(CMAKE_CXX_STANDART 11)
+set(CMAKE_CXX_STANDART_REQUIRED ON)
+
 # ==========================================
 # Paths
 # ==========================================
