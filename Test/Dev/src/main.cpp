@@ -18,18 +18,18 @@ public:
   void Run(cl::SystemPlatform::Application& App) override
   {
     UINT64 out;
-    cl::UTF::Utils::StringIntConvert::Result result = cl::UTF::Utils::StringIntConvert::ConvertStringToInt(U"235", &out);
+    cl::UTF::Utils::StringIntConvert::Result result = cl::UTF::Utils::StringIntConvert::ConvertStringToInt(nullptr, &out);
 
     INT64 out2;
-    cl::UTF::Utils::StringIntConvert::Result result2 = cl::UTF::Utils::StringIntConvert::ConvertStringToInt(U"256", &out2);
+    cl::UTF::Utils::StringIntConvert::Result result2 = cl::UTF::Utils::StringIntConvert::ConvertStringToInt(nullptr, &out2);
 
     ECHAR out3[24];
-    UINT64 in = 256;
-    cl::UTF::Utils::StringIntConvert::Result result3 = cl::UTF::Utils::StringIntConvert::ConvertIntToString(&in, out3);
+    UINT64 in = 0;
+    cl::UTF::Utils::StringIntConvert::Result result3 = cl::UTF::Utils::StringIntConvert::ConvertIntToString(&in, nullptr);
     
     ECHAR out4[24];
-    INT64 in2 = 256;
-    cl::UTF::Utils::StringIntConvert::Result result4 = cl::UTF::Utils::StringIntConvert::ConvertIntToString(&in2, out4);
+    INT64 in2 = -0;
+    cl::UTF::Utils::StringIntConvert::Result result4 = cl::UTF::Utils::StringIntConvert::ConvertIntToString(&in2, nullptr);
 
     App.Exit(0);
   }

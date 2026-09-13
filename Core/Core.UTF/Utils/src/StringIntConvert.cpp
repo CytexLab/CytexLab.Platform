@@ -17,6 +17,8 @@
 #define INT64_MAX 9223372036854775807LL
 #define INT64_MAX_DIV10 INT64_MAX / 10
 #define INT64_MAX_MOD10 INT64_MAX % 10
+#define INT64_MIN_DIV10 INT64_MINU / 10
+#define INT64_MIN_MOD10 INT64_MINU % 10
 #define UINT64_MAX 18446744073709551615ULL
 #define UINT64_MAX_DIV10 UINT64_MAX / 10
 #define UINT64_MAX_MOD10 UINT64_MAX % 10
@@ -105,11 +107,22 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
       result = {FALSE, Error::InvalidNumber};
       return result;
     }
-
-    if (number > INT64_MAX_DIV10 || (number == INT64_MAX_DIV10 && n > INT64_MAX_MOD10))
+    
+    if (isNegative == FALSE)
     {
-      result = {FALSE, Error::BufferOverflow};
-      return result;
+      if (number > INT64_MAX_DIV10 || (number == INT64_MAX_DIV10 && n > INT64_MAX_MOD10))
+      {
+        result = {FALSE, Error::BufferOverflow};
+        return result;
+      }
+    }
+    else if (isNegative == TRUE)
+    {
+      if (number > INT64_MIN_DIV10 || (number == INT64_MIN_MOD10 && n > INT64_MIN_MOD10))
+      {
+        result = {FALSE, Error::BufferOverflow};
+        return result;
+      }
     }
 
     number *= 10;
@@ -138,7 +151,7 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
 
   if (!String || !Int)
   {
-    result = {FALSE, Error::None};
+    result = {FALSE, Error::NullPointer};
     return result;
   }
 
@@ -176,7 +189,7 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
   
   if (!Int || !String)
   {
-    result = {FALSE, Error::None};
+    result = {FALSE, Error::NullPointer};
     return result;
   }
   
