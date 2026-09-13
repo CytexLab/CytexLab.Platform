@@ -26,6 +26,10 @@ public:
     ECHAR out3[24];
     UINT64 in = 256;
     cl::UTF::Utils::StringIntConvert::Result result3 = cl::UTF::Utils::StringIntConvert::ConvertIntToString(&in, out3);
+    
+    ECHAR out4[24];
+    INT64 in2 = 256;
+    cl::UTF::Utils::StringIntConvert::Result result4 = cl::UTF::Utils::StringIntConvert::ConvertIntToString(&in2, out4);
 
     App.Exit(0);
   }

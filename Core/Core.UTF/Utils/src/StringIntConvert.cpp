@@ -145,6 +145,13 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
   ECHAR buf[21];
   UINT8 count = 0;
   UINT64 number = *Int;
+  
+  if (number == 0)
+  {
+    *String++ = U'0';
+    *String = U'\0';
+    return result;
+  }
 
   while (number > 0)
   {
@@ -160,5 +167,55 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
 
   *String = U'\0';
 
+  return result;
+}
+
+CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result cl::UTF::Utils::StringIntConvert::ConvertIntToString(LPCINT64 Int, LPECHAR String)
+{
+  Result result = {TRUE, Error::None};
+  
+  if (!Int || !String)
+  {
+    result = {FALSE, Error::None};
+    return result;
+  }
+  
+  INT64 tmp = *Int;
+  UINT64 number = 0;
+  
+  if (tmp > 0)
+    number = (UINT64)tmp;
+  else
+    number = (UINT64)-tmp;
+  
+  ECHAR buf[21];
+  UINT8 count = 0;
+  
+  if (number == 0)
+  {
+    *String++ = U'0';
+    *String = U'\0';
+    return result;
+  }
+  
+  BOOL isNegative = FALSE;
+  if (*Int < 0)
+    isNegative = TRUE;
+  
+  while (number > 0)
+  {
+    UINT64 n = number % 10;
+    buf[count++] = U'0' + n;
+    number /= 10;
+  }
+  
+  if (isNegative)
+    *String++ = U'-';
+  
+  for (UINT8 i = count; i > 0; i--)
+    *String++ = buf[i - 1];
+  
+  *String = U'\0';
+  
   return result;
 }
