@@ -102,7 +102,7 @@ if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
         -fno-optimize-sibling-calls
         -ggdb3
     )
-    set(CYTEXLAB_DEFINE "Debug")
+    set(CYTEXLAB_DEFINE "CYTEXLAB_DEBUG")
 elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     set(COMPILER_CXX_BUILD_FLAGS
         -O3
