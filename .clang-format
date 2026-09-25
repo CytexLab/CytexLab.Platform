@@ -1,8 +1,8 @@
 UseTab: Never
 IndentWidth: 2
-TabWidth: 2
+TabWidth: 4
 AccessModifierOffset: -2
-ColumnLimit: 0
+ColumnLimit: 120
 PointerAlignment: Left
 SortIncludes: CaseSensitive
 NamespaceIndentation: All

@@ -22,6 +22,8 @@ namespace cl
     public:
       virtual Stream& operator<<(LPCUINT8 Bytes) = 0;
       virtual Stream& operator>>(LPUINT8 Buffer) = 0;
+      virtual Stream& operator<<(const Stream& Other) = 0;
+      virtual Stream& operator>>(Stream& Other) = 0;
     };
   } // namespace SystemPlatform
 } // namespace cl

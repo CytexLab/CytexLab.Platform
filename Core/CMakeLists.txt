@@ -9,10 +9,14 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-set(MAIN_PACKAGE "CytexLab.Platform.Core")
+set(MAIN_PACKAGE "${CYTEXLAB_PROJECT}.Core")
+
+add_library("${MAIN_PACKAGE}.API" INTERFACE)
+target_include_directories("${MAIN_PACKAGE}.API" INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/API)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/current)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placement)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placeholders)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Mem)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.UTF)
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placement)
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Placeholders)
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Mem)
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.UTF)
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Core.Stream)

@@ -22,6 +22,10 @@ namespace cl
     public:
       virtual StringStream& operator<<(LPCECHAR String) = 0;
       virtual StringStream& operator>>(LPECHAR Buffer) = 0;
+      virtual StringStream& operator<<(const Stream& Other) = 0;
+      virtual StringStream& operator>>(Stream& Other) = 0;
+      virtual StringStream& operator<<(const StringStream& Other) = 0;
+      virtual StringStream& operator>>(StringStream& Other) = 0;
     };
   } // namespace SystemPlatform
 } // namespace cl

@@ -1,5 +1,5 @@
 CytexLab Public Community License (CL2P)
-Версия 1.0, 27 июля 2026 г.
+Версия 2.0, 20 сентября2026 г.
 
 Copyright (c) 2026 CytexLab
 Все права защищены.

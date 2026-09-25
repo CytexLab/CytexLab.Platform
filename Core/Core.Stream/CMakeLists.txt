@@ -9,13 +9,8 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-add_library("${MAIN_PACKAGE}" SHARED)
-target_sources("${MAIN_PACKAGE}" PRIVATE
-  "src/Core.cpp"
-)
-target_link_libraries("${MAIN_PACKAGE}" PRIVATE 
-  "CompileFlagsLibrary"
-  "CompileDefine"
-  "LinkFlagsLibrary"
-  "${MAIN_PACKAGE}.API"
-)
+set(files "")
+set(include "include")
+set(deps "")
+
+platform_add_module("${MAIN_PACKAGE}.Stream" "${files}" "${include}" "${deps}")
