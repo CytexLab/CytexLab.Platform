@@ -9,7 +9,7 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
-#define CYTEXLAB_CORE_API __declspec(dllexport)
+#define CYTEXLAB_CORE_API __declspec(dllexport) extern "C"
 
 #include "Platform.hpp"
 
@@ -26,22 +26,10 @@ CYTEXLAB_CORE_API void proc_support(BOOL sse42, BOOL avx)
   support_avx = avx;
 }
 
-CYTEXLAB_CORE_API void set_fail_callback(fail_callback_sign callback)
-{
-  fail_callback = callback;
-}
+CYTEXLAB_CORE_API void set_fail_callback(fail_callback_sign callback) { fail_callback = callback; }
 
-CYTEXLAB_CORE_API fail_callback_sign get_fail_callback()
-{
-  return fail_callback;
-}
+CYTEXLAB_CORE_API fail_callback_sign get_fail_callback() { return fail_callback; }
 
-CYTEXLAB_CORE_API BOOL is_proc_support_sse42()
-{
-  return support_sse42;
-}
+CYTEXLAB_CORE_API BOOL is_proc_support_sse42() { return support_sse42; }
 
-CYTEXLAB_CORE_API BOOL is_proc_support_avx()
-{
-  return support_avx;
-}
+CYTEXLAB_CORE_API BOOL is_proc_support_avx() { return support_avx; }

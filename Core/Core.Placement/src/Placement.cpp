@@ -12,7 +12,4 @@
 #define CYTEXLAB_CORE_PLACEMENT_API_EXPORT
 #include "Placement.hpp"
 
-CYTEXLAB_CORE_PLACEMENT_API LPVOID operator new(UINT64 size, LPVOID mem)
-{
-  return mem;
-}
+CYTEXLAB_CORE_PLACEMENT_API LPVOID operator new(UINT64 size, LPVOID mem) { return mem; }

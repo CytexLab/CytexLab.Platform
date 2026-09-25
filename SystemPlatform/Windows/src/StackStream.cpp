@@ -27,20 +27,15 @@ StackStream::StackStream(StackItem* Stack, UINT64 Count)
   this->count = Count;
 }
 
-cl::SystemPlatform::Stream& StackStream::operator<<(LPCUINT8)
+cl::SystemPlatform::StringStream& StackStream::operator<<(LPCUINT8) { ExitProcess(-8); }
+
+cl::SystemPlatform::StringStream& StackStream::operator>>(LPUINT8 Buffer)
 {
-  ExitProcess(-8);
+  LPECHAR buf = (LPECHAR)Buffer;
+  return *this >> buf;
 }
 
-cl::SystemPlatform::Stream& StackStream::operator>>(LPUINT8)
-{
-  return *this;
-}
-
-cl::SystemPlatform::StringStream& StackStream::operator<<(LPCECHAR)
-{
-  ExitProcess(-8);
-}
+cl::SystemPlatform::StringStream& StackStream::operator<<(LPCECHAR) { ExitProcess(-8); }
 
 cl::SystemPlatform::StringStream& StackStream::operator>>(LPECHAR Buffer)
 {
