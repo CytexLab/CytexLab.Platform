@@ -40,25 +40,13 @@ void update_info()
   updated_info = TRUE;
 }
 
-CYTEXLAB_CORE_MEM_API void memcpy_sse42_set(memcpy_sse42_asm_func func)
-{
-  memcpy_sse42_asm = func;
-}
+CYTEXLAB_CORE_MEM_API void memcpy_sse42_set(memcpy_sse42_asm_func func) { memcpy_sse42_asm = func; }
 
-CYTEXLAB_CORE_MEM_API void memcpy_avx_set(memcpy_avx_asm_func func)
-{
-  memcpy_avx_asm = func;
-}
+CYTEXLAB_CORE_MEM_API void memcpy_avx_set(memcpy_avx_asm_func func) { memcpy_avx_asm = func; }
 
-CYTEXLAB_CORE_MEM_API void memset_sse42_set(memset_sse42_asm_func func)
-{
-  memset_sse42_asm = func;
-}
+CYTEXLAB_CORE_MEM_API void memset_sse42_set(memset_sse42_asm_func func) { memset_sse42_asm = func; }
 
-CYTEXLAB_CORE_MEM_API void memset_avx_set(memset_avx_asm_func func)
-{
-  memset_avx_asm = func;
-}
+CYTEXLAB_CORE_MEM_API void memset_avx_set(memset_avx_asm_func func) { memset_avx_asm = func; }
 
 CYTEXLAB_CORE_MEM_API void memcpy_sse42(LPCVOID From, LPVOID To, UINT64 Count)
 {
@@ -105,11 +93,7 @@ CYTEXLAB_CORE_MEM_API void memcpy(LPVOID To, LPCVOID From, UINT64 Count)
     memcpy_sse42(From, To, Count);
   else
   {
-    asm volatile(
-        "rep movsb\n"
-        :
-        : "S"(From), "D"(To), "c"(Count)
-        : "memory");
+    asm volatile("rep movsb\n" : : "S"(From), "D"(To), "c"(Count) : "memory");
   }
 }
 
@@ -152,21 +136,17 @@ CYTEXLAB_CORE_MEM_API void memset(LPVOID To, UINT8 Byte, UINT64 Count)
     memset_sse42(To, Byte, Count);
   else
   {
-    asm volatile(
-        ".loop:\n"
-        "mov [%0], %2\n"
-        "add %0, 1\n"
-        "sub %1, 1\n"
-        "jz .done\n"
-        "jmp .loop\n"
-        ".done:\n"
-        : "+r"(To), "+r"(Count)
-        : "r"(Byte)
-        : "memory", "cc");
+    asm volatile(".loop:\n"
+                 "mov [%0], %2\n"
+                 "add %0, 1\n"
+                 "sub %1, 1\n"
+                 "jz .done\n"
+                 "jmp .loop\n"
+                 ".done:\n"
+                 : "+r"(To), "+r"(Count)
+                 : "r"(Byte)
+                 : "memory", "cc");
   }
 }
 
-void memclear(LPVOID To, UINT64 Count)
-{
-  memset(To, 0x00, Count);
-}
+void memclear(LPVOID To, UINT64 Count) { memset(To, 0x00, Count); }

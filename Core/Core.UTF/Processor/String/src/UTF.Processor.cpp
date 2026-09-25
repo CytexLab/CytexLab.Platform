@@ -12,20 +12,14 @@
 #define CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API_EXPORT
 #include "UTF.Processor.String.hpp"
 
-CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result cl::UTF::Processor::StringProcessor::GenerateEmptyResult()
+CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result
+cl::UTF::Processor::StringProcessor::GenerateEmptyResult()
 {
-  return {
-      TRUE,
-      Error::None,
-      {TRUE,
-       SymbolProcessor::Error::None,
-       0,
-       0},
-      {{0, 0},
-       {0, 0}}};
+  return {TRUE, Error::None, {TRUE, SymbolProcessor::Error::None, 0, 0}, {{0, 0}, {0, 0}}};
 }
 
-CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result cl::UTF::Processor::StringProcessor::ConvertUTF8oUTF32(LPCCHAR U8_String, LPECHAR U32_String)
+CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result
+cl::UTF::Processor::StringProcessor::ConvertUTF8oUTF32(LPCCHAR U8_String, LPECHAR U32_String)
 {
   Result result = GenerateEmptyResult();
 
@@ -65,7 +59,8 @@ CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Resu
   return result;
 }
 
-CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result cl::UTF::Processor::StringProcessor::ConvertUTF16oUTF32(LPCWCHAR U16_String, LPECHAR U32_String)
+CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result
+cl::UTF::Processor::StringProcessor::ConvertUTF16oUTF32(LPCWCHAR U16_String, LPECHAR U32_String)
 {
   Result result = GenerateEmptyResult();
 
@@ -105,7 +100,8 @@ CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Resu
   return result;
 }
 
-CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result cl::UTF::Processor::StringProcessor::ConvertUTF32oUTF8(LPCECHAR U32_String, LPCHAR U8_String)
+CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result
+cl::UTF::Processor::StringProcessor::ConvertUTF32oUTF8(LPCECHAR U32_String, LPCHAR U8_String)
 {
   Result result = GenerateEmptyResult();
 
@@ -145,7 +141,8 @@ CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Resu
   return result;
 }
 
-CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result cl::UTF::Processor::StringProcessor::ConvertUTF32oUTF16(LPCECHAR U32_String, LPWCHAR U16_String)
+CYTEXLAB_CORE_UTF_PROCESSOR_STRING_API cl::UTF::Processor::StringProcessor::Result
+cl::UTF::Processor::StringProcessor::ConvertUTF32oUTF16(LPCECHAR U32_String, LPWCHAR U16_String)
 {
   Result result = GenerateEmptyResult();
 
