@@ -37,10 +37,7 @@ extern "C" void memset_avx_asm(LPVOID To, UINT8 Byte, UINT64 Count);
 static LPVOID SystemPool;
 static UINT64 Free;
 
-void core_fail_callback(UINT64 Code)
-{
-  ExitProcess(-5);
-}
+void core_fail_callback(UINT64 Code) { ExitProcess(-5); }
 
 LPVOID AllocateSystemPool(UINT64 Size)
 {
@@ -66,10 +63,7 @@ CYTEXLAB_SYSTEMPLATFORM_WINDOWS_API void cl::SystemPlatform::Application::Init()
   UINT32 ebx = 0;
   UINT32 edx = 0;
 
-  asm volatile(
-      "cpuid"
-      : "=c"(ecx), "=a"(eax), "=b"(ebx), "=d"(edx)
-      : "a"(1));
+  asm volatile("cpuid" : "=c"(ecx), "=a"(eax), "=b"(ebx), "=d"(edx) : "a"(1));
 
   support_sse42 = ecx >> 20 & 1;
   support_avx = ecx >> 28 & 1 & (ecx >> 27 & 1);

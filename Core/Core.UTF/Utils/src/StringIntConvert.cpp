@@ -23,7 +23,8 @@
 #define UINT64_MAX_DIV10 UINT64_MAX / 10
 #define UINT64_MAX_MOD10 UINT64_MAX % 10
 
-CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result cl::UTF::Utils::StringIntConvert::ConvertStringToInt(LPCECHAR String, LPUINT64 Int)
+CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result
+cl::UTF::Utils::StringIntConvert::ConvertStringToInt(LPCECHAR String, LPUINT64 Int)
 {
   Result result = {TRUE, Error::None};
 
@@ -72,7 +73,8 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
   return result;
 }
 
-CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result cl::UTF::Utils::StringIntConvert::ConvertStringToInt(LPCECHAR String, LPINT64 Int)
+CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result
+cl::UTF::Utils::StringIntConvert::ConvertStringToInt(LPCECHAR String, LPINT64 Int)
 {
   Result result = {TRUE, Error::None};
 
@@ -145,7 +147,8 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
   return result;
 }
 
-CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result cl::UTF::Utils::StringIntConvert::ConvertIntToString(LPCUINT64 Int, LPECHAR String)
+CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result
+cl::UTF::Utils::StringIntConvert::ConvertIntToString(LPCUINT64 Int, LPECHAR String)
 {
   Result result = {TRUE, Error::None};
 
@@ -183,7 +186,8 @@ CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::R
   return result;
 }
 
-CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result cl::UTF::Utils::StringIntConvert::ConvertIntToString(LPCINT64 Int, LPECHAR String)
+CYTEXLAB_CORE_UTF_UTILS_STRINGINTCONVERT_API cl::UTF::Utils::StringIntConvert::Result
+cl::UTF::Utils::StringIntConvert::ConvertIntToString(LPCINT64 Int, LPECHAR String)
 {
   Result result = {TRUE, Error::None};
 

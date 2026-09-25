@@ -14,17 +14,26 @@
 #include "Stack.hpp"
 #include "StringStream.hpp"
 
+#define MAX_WRITE 128
+
 class StackStream : public cl::SystemPlatform::StringStream
 {
 private:
   StackItem* stack = nullptr;
   UINT64 count = 0;
+  LPCECHAR writes[MAX_WRITE] = {nullptr};
+  UINT64 count_writes = 0;
+  LPECHAR read_buf = nullptr;
 
 public:
   StackStream(StackItem* Stack, UINT64 Count);
 
-  Stream& operator<<(LPCUINT8) override;
-  Stream& operator>>(LPUINT8) override;
+  StringStream& operator<<(LPCUINT8) override;
+  StringStream& operator>>(LPUINT8) override;
   StringStream& operator<<(LPCECHAR) override;
   StringStream& operator>>(LPECHAR) override;
+  // StringStream& operator<<(const Stream& Other) override;
+  // StringStream& operator>>(Stream& Other) override;
+  // StringStream& operator<<(const StringStream& Other) override;
+  // StringStream& operator>>(StringStream& Other) override;
 };
