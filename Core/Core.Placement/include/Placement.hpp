@@ -13,10 +13,18 @@
 
 #include "Platform.hpp"
 
+#ifdef Windows
 #ifdef CYTEXLAB_CORE_PLACEMENT_API_EXPORT
 #define CYTEXLAB_CORE_PLACEMENT_API __declspec(dllexport)
 #else
 #define CYTEXLAB_CORE_PLACEMENT_API __declspec(dllimport)
+#endif
+#elif defined(Linux)
+#ifdef CYTEXLAB_CORE_PLACEMENT_API_EXPORT
+#define CYTEXLAB_CORE_PLACEMENT_API __attribute__((visibility("default")))
+#else
+#define CYTEXLAB_CORE_PLACEMENT_API
+#endif
 #endif
 
 CYTEXLAB_CORE_PLACEMENT_API LPVOID operator new(UINT64 size, LPVOID mem);

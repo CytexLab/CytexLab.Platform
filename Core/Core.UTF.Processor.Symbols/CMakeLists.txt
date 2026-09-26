@@ -9,15 +9,16 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-add_library("${MAIN_PACKAGE}.Mem" SHARED)
-target_sources("${MAIN_PACKAGE}.Mem" PRIVATE
-  src/Mem.cpp
+add_library("${MAIN_PACKAGE}.UTF.Processor.Symbols" SHARED)
+target_sources("${MAIN_PACKAGE}.UTF.Processor.Symbols" PRIVATE
+  src/UTF.Processor.cpp
 )
-target_include_directories("${MAIN_PACKAGE}.Mem" PUBLIC include)
-target_link_libraries("${MAIN_PACKAGE}.Mem" PUBLIC
+target_include_directories("${MAIN_PACKAGE}.UTF.Processor.Symbols" PUBLIC include)
+target_link_libraries("${MAIN_PACKAGE}.UTF.Processor.Symbols" PUBLIC
   CompileFlagsLibrary
   CompileDefine
   LinkFlagsLibrary
+  "${MAIN_PACKAGE}.Mem"
   "${MAIN_PACKAGE}.API"
 )
-set_target_properties("${MAIN_PACKAGE}.Mem" PROPERTIES PREFIX "")
+set_target_properties("${MAIN_PACKAGE}.UTF.Processor.Symbols" PROPERTIES PREFIX "")
