@@ -25,9 +25,15 @@ memcpy_avx_asm_func memcpy_avx_asm = nullptr;
 memset_sse42_asm_func memset_sse42_asm = nullptr;
 memset_avx_asm_func memset_avx_asm = nullptr;
 
-__declspec(dllimport) BOOL is_proc_support_sse42();
-__declspec(dllimport) BOOL is_proc_support_avx();
-__declspec(dllimport) fail_callback_sign get_fail_callback();
+#ifdef Windows
+__declspec(dllimport) extern "C" BOOL is_proc_support_sse42();
+__declspec(dllimport) extern "C" BOOL is_proc_support_avx();
+__declspec(dllimport) extern "C" fail_callback_sign get_fail_callback();
+#elif defined(Linux)
+extern "C" BOOL is_proc_support_sse42();
+extern "C" BOOL is_proc_support_avx();
+extern "C" fail_callback_sign get_fail_callback();
+#endif
 
 static BOOL support_sse42 = FALSE;
 static BOOL support_avx = FALSE;

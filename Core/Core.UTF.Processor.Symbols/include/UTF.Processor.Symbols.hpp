@@ -13,10 +13,18 @@
 
 #include "Platform.hpp"
 
+#ifdef Windows
 #ifdef CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API_EXPORT
 #define CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API __declspec(dllexport)
 #else
 #define CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API __declspec(dllimport)
+#endif
+#elif defined(Linux)
+#ifdef CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API_EXPORT
+#define CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API __attribute__((visibility("default")))
+#else
+#define CYTEXLAB_CORE_UTF_PROCESSOR_SYMBOLS_API
+#endif
 #endif
 
 namespace cl
