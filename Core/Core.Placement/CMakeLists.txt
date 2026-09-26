@@ -9,8 +9,15 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-set(files "src/Placement.cpp")
-set(include "include")
-set(deps "")
-
-platform_add_module("${MAIN_PACKAGE}.Placement" "${files}" "${include}" "${deps}")
+add_library("${MAIN_PACKAGE}.Placement" SHARED)
+target_sources("${MAIN_PACKAGE}.Placement" PRIVATE
+  src/Placement.cpp
+)
+target_include_directories("${MAIN_PACKAGE}.Placement" PUBLIC include)
+target_link_libraries("${MAIN_PACKAGE}.Placement" PUBLIC
+  CompileFlagsLibrary
+  CompileDefine
+  LinkFlagsLibrary
+  "${MAIN_PACKAGE}.API"
+)
+set_target_properties("${MAIN_PACKAGE}.Placement" PROPERTIES PREFIX "")

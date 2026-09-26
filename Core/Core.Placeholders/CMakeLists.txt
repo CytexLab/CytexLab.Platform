@@ -9,8 +9,14 @@
 # Для получения коммерческой лицензии: programminyka@mail.ru
 #
 
-set(files "src/Placeholders.cpp")
-set(include "")
-set(deps "")
-
-platform_add_module("${MAIN_PACKAGE}.Placeholders" "${files}" "" "")
+add_library("${MAIN_PACKAGE}.Placeholders" SHARED)
+target_sources("${MAIN_PACKAGE}.Placeholders" PRIVATE
+  src/Placeholders.cpp
+)
+target_link_libraries("${MAIN_PACKAGE}.Placeholders" PUBLIC
+  CompileFlagsLibrary
+  CompileDefine
+  LinkFlagsLibrary
+  "${MAIN_PACKAGE}.API"
+)
+set_target_properties("${MAIN_PACKAGE}.Placeholders" PROPERTIES PREFIX "")
