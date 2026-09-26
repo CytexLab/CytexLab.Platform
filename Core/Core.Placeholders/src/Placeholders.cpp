@@ -11,6 +11,10 @@
 
 #include "Platform.hpp"
 
+#ifdef Windows
 #define CYTEXLAB_CORE_PLACEHOLDERS_API __declspec(dllexport)
+#elif Linux
+#define CYTEXLAB_CORE_PLACEHOLDERS_API __attribute__((visibility("default")))
+#endif
 
-extern "C" CYTEXLAB_CORE_PLACEHOLDERS_API INT32 __cdecl _purecall(void) { return 0; }
+CYTEXLAB_CORE_PLACEHOLDERS_API extern "C" INT32 __cdecl _purecall(void) { return 0; }

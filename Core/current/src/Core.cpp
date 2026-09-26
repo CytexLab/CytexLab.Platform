@@ -12,9 +12,7 @@
 #ifdef Windows
 #define CYTEXLAB_CORE_API __declspec(dllexport) extern "C"
 #elif defined(Linux)
-#define CYTEXLAB_CORE_API __attribute__((visibility("default")))
-#else
-#define CYTEXLAB_CORE_API
+#define CYTEXLAB_CORE_API __attribute__((visibility("default"))) extern "C"
 #endif
 
 #include "Platform.hpp"
