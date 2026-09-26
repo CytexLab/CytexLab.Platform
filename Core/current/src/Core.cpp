@@ -9,7 +9,13 @@
  * Для получения коммерческой лицензии: programminyka@mail.ru
  */
 
+#ifdef Windows
 #define CYTEXLAB_CORE_API __declspec(dllexport) extern "C"
+#elif defined(Linux)
+#define CYTEXLAB_CORE_API __attribute__((visibility("default")))
+#else
+#define CYTEXLAB_CORE_API
+#endif
 
 #include "Platform.hpp"
 
@@ -18,7 +24,7 @@ typedef void (*fail_callback_sign)(UINT64 code);
 static BOOL support_sse42 = FALSE;
 static BOOL support_avx = FALSE;
 
-fail_callback_sign fail_callback;
+static fail_callback_sign fail_callback = nullptr;
 
 CYTEXLAB_CORE_API void proc_support(BOOL sse42, BOOL avx)
 {

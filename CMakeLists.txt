@@ -93,6 +93,7 @@ set (CYTEXLAB_BASE_C_CXX_FLAGS
   -fno-use-cxa-atexit
   -fno-threadsafe-statics
   -fno-common
+  -fvisibility=hidden
   -masm=intel
   -std=c11
   -std=c++11

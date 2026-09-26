@@ -19,3 +19,4 @@ target_link_libraries("${MAIN_PACKAGE}" PRIVATE
   "LinkFlagsLibrary"
   "${MAIN_PACKAGE}.API"
 )
+set_target_properties("${MAIN_PACKAGE}" PROPERTIES PREFIX "")
